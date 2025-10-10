@@ -1,0 +1,27 @@
+
+
+# ==========================
+# robots.txt for QRMyPro.com
+# Author: Harshil Patel
+# Last Updated: 2025-10-07
+# Purpose: Allow all crawlers, block sensitive paths, and link sitemap
+# ==========================
+
+# Allow all well-behaved crawlers full access
+User-agent: *
+Allow: /
+
+# Disallow admin or system files (optional, only if these exist)
+Disallow: /auth/
+Disallow: /api/
+Disallow: /server/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /uploads/
+Disallow: /qr/
+
+# Crawl-delay (optional, only if you get heavy traffic)
+# Crawl-delay: 5
+
+# Sitemap location (important for SEO)
+Sitemap: https://www.qrmypro.com/sitemap.xml

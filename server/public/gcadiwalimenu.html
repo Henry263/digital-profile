@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="StIdws39kwgToqZw70FsPK4D4FJbcWbHf3RVRDi51Ig" />
+    <meta http-equiv="Content-Security-Policy"
+        content="style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <title>Digital QR Profiler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .logo-menupage {
+            max-width: 160px;
+        }
+
+        img.logo-image-only {
+            width: 100%;
+        }
+
+        .innner-div {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            /* justify-content: normal; */
+            align-items: center;
+        }
+
+        .sponcer-details {
+            /* margin-left: 10px;
+            position: relative;
+            top: 26px;
+            left: -90px; */
+            font-size: 12px;
+            color: #7355af;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #667eea;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+
+        .menu-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .menu-title h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-title p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .menu-section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .section-header {
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            border: 1px solid;
+            border-radius: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .arrow {
+            transition: transform 0.3s;
+            font-size: 1.25rem;
+        }
+
+        .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .section-content.open {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .subsection {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .subsection:last-child {
+            border-bottom: none;
+        }
+
+        .subsection-title {
+            padding: 1rem 1.25rem 0.5rem;
+            font-weight: 600;
+            color: #764ba2;
+            font-size: 1.1rem;
+            border-bottom: 1px solid;
+            border-top: 1px solid;
+        }
+
+        .menu-item {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 500;
+            font-size: 1.4rem;
+            color: #102289;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-description {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-left: 1rem;
+        }
+
+        .beverage-item {
+            padding: 0.75rem 1.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .menu-title h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="innner-div">
+            <div class="logo-menupage">
+                <!-- <div class="logo-icon">QR</div>
+                <span>QRProfile</span> -->
+
+
+                <img src="./image/app-logo.png" alt="QRprofile Logo" class="logo-image-only">
+                <!-- <span class="logo-text">QRprofile</span> -->
+
+            </div>
+            <div class="sponcer-details">(Digital Menu Sponcer)</div>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="menu-title">
+            <h1>GCA DIWALI Menu</h1>
+            <p>Tap any section to view items</p>
+        </div>
+
+        <!-- Alcoholic Beverages Section -->
+        <div class="menu-section">
+            <div class="section-header" >
+                <h2>Alcoholic Beverages</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Classic Mojito</div>
+                        <div class="item-description">White rum,
+
+                            Fresh lime juice,
+
+                            Fresh mint leaves (muddled),
+
+                            Simple syrup (or sugar),
+
+                            Club soda / seltzer,
+
+                            Ice.
+
+                            Garnish: mint sprig + lime wedge</div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Moscow Mule</div>
+                        <div class="item-description">Vodka,
+
+                            Ginger beer,
+
+                            Fresh lime juice,
+
+                            Splash of mango juice (Optional)
+
+                            Ice, mint leaves, lime wedge garnish</div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Mango Lime Margarita (Vodkarita)</div>
+                        <div class="item-description">Vodka OR tequila)
+
+                            Triple sec (orange liqueur)
+
+                            Fresh lime juice
+
+                            Mango puree (Optional)
+
+                            Simple syrup (optional, for sweetness)
+
+                            Salt rim & lime wedge garnish</div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Beer Selection</div>
+                        <div class="item-description">Heinekien</div>
+                        <div class="item-description">Modelo</div>
+                        <div class="item-description">Coors Light</div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Whiskey Bourbon</div>
+                        <div class="item-description">Angel’s Envy Kentucky Straight Bourbon </div>
+                    </div>
+                    <div class="item-price"></div>
+                    <div class="item-info">
+                        <div class="item-name">Whiskey Single Malt</div>
+                        <div class="item-description">Black label</div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Non-Alcoholic Beverages Section -->
+        <div class="menu-section">
+            <div class="section-header" >
+                <h2>Non-Alcoholic Beverages</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Fresh Lemonade</div>
+                        <div class="item-description">Freshly squeezed lemons, mint</div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Coke</div>
+                        <div class="item-description"></div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Sprite</div>
+                        <div class="item-description"></div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+                <div class="menu-item beverage-item">
+                    <div class="item-info">
+                        <div class="item-name">Fresh Juice</div>
+                        <div class="item-description">Orange, apple</div>
+                    </div>
+                    <div class="item-price"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Dinner Menu Section -->
+        <div class="menu-section">
+            <div class="section-header" >
+                <h2>Dinner Menu</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <!-- Appetizers -->
+                <div class="subsection">
+                    <div class="subsection-title">Appetizers</div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Methi Gota</div>
+                            <!-- <div class="item-description">Crispy pastry with spiced potato filling</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Hara Bhara Kabab</div>
+                            <!-- <div class="item-description">Grilled cottage cheese with spices</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Sandwich Dhokla</div>
+                            <!-- <div class="item-description">Spicy tandoori style wings</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Lilva Kachori</div>
+                            <!-- <div class="item-description">Spicy tandoori style wings</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Vagharela Muthiya</div>
+                            <!-- <div class="item-description">Spicy tandoori style wings</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                </div>
+
+                <!-- Main Course -->
+                <div class="subsection">
+                    <div class="subsection-title">Main Course</div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Undhiyu</div>
+                            <!-- <div class="item-description">Tender chicken in creamy tomato sauce</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Sev Tometo</div>
+                            <!-- <div class="item-description">Slow-cooked lamb in aromatic curry</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Bharela Bhinda (Okra)</div>
+                            <!-- <div class="item-description">Cottage cheese in spinach gravy</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Gujarati Kadhi (No sugar)</div>
+                            <!-- <div class="item-description">Fresh fish in coconut-based curry</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                </div>
+
+                <!-- Rice Items -->
+                <div class="subsection">
+                    <div class="subsection-title">Rice Items</div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Royal Pulav</div>
+                            <div class="item-description">** with Peas, Kaju, kismish (draksh), CineMon, Laung</div>
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                </div>
+
+                <!-- Bread -->
+                <div class="subsection">
+                    <div class="subsection-title">Bread</div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Fulka Roti</div>
+                            <div class="item-description">Soft flatbread brushed with butter</div>
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Bajara Rotla</div>
+                            <div class="item-description">Millet Roti</div>
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Puri</div>
+                            <div class="item-description">Whole wheat flatbread deep fried</div>
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                </div>
+
+                <!-- Desssert Items -->
+                <div class="subsection">
+                    <div class="subsection-title">Dessert Items</div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Sitafal Rabdi</div>
+                            <!-- <div class="item-description">** with Peas, Kaju, kismish (draksh), CineMon, Laung</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Mung dal Halwa</div>
+                            <!-- <div class="item-description">** with Peas, Kaju, kismish (draksh), CineMon, Laung</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+                </div>
+
+                <!-- Side Items -->
+                <div class="subsection">
+                    <div class="subsection-title">Side Items</div>
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-name">Masala Chaas, Papad, Salad, Pickle, Green & sweet chutney</div>
+                            <!-- <div class="item-description">** with Peas, Kaju, kismish (draksh), CineMon, Laung</div> -->
+                        </div>
+                        <div class="item-price"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.arrow');
+
+            // Close all other sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                if (section !== content) {
+                    section.classList.remove('open');
+                    section.previousElementSibling.querySelector('.arrow').classList.remove('open');
+                }
+            });
+
+            // Toggle current section
+            content.classList.toggle('open');
+            arrow.classList.toggle('open');
+        }
+
+
+        document.querySelectorAll('.section-header').forEach(function(header) {
+            header.addEventListener('click', function() {
+                toggleSection(this);
+            });
+        });
+
+        // Auto-open first section on load
+        window.addEventListener('load', function () {
+            const firstSection = document.querySelector('.section-header');
+            if (firstSection) {
+                toggleSection(firstSection);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const logo = document.querySelector('.logo-menupage');
+            if (logo) {
+                logo.style.cursor = 'pointer'; // Make it look clickable
+                logo.addEventListener('click', function () {
+                    window.open('https://www.qrmypro.com/', '_blank');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

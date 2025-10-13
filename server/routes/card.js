@@ -1,6 +1,7 @@
 // routes/card.js
 const express = require('express');
 const QRCode = require('qrcode');
+const { createCanvas, loadImage, registerFont } = require('canvas');
 const path = require('path');
 const crypto = require('crypto');
 const JSZip = require('jszip');
@@ -26,7 +27,7 @@ let envVariables = sharedfunctions.readenvironmentconfig();
 
 
 async function findProfileBySlugOrCardId(identifier) {
-  console.log("identifier in findProfileBySlugOrCardId", identifier);
+  // console.log("identifier in findProfileBySlugOrCardId", identifier);
   // Try to find by slug first (user-friendly URL)
   let profile = await Profile.findOne({
     slug: identifier,
@@ -738,6 +739,277 @@ router.get('/:identifier/qr', async (req, res) => {
   }
 });
 
+// Download styled QR card with branding
+// Download styled QR card with branding
+router.get('/:identifier/download-styled-qr', async (req, res) => {
+  try {
+    const { identifier } = req.params;
+    const profile = await findProfileBySlugOrCardId(identifier);
+
+    if (!profile) {
+      return res.status(404).json({
+        success: false,
+        message: 'Card not found'
+      });
+    }
+
+    if (!profile.isPublic) {
+      return res.status(404).json({
+        success: false,
+        message: 'Card is not public'
+      });
+    }
+
+    // Card dimensions - reduced and more responsive
+    const width = 600;
+    const height = 700;
+    
+    // Create canvas
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext('2d');
+
+    
+    // Background gradient (blue gradient like in your image)
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, '#667eea'); // Dark blue
+    gradient.addColorStop(1, '#764ba2'); // Lighter blue
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    // Generate QR code
+    const standaloneUrl = profile.generateStandaloneUrl();
+    const qrCodeDataUrl = await QRCode.toDataURL(standaloneUrl, {
+      width: 300,
+      margin: 2,
+      color: {
+        dark: '#000000',
+        light: '#FFFFFF'
+      }
+    });
+    
+    // Load and draw QR code
+    const qrImage = await loadImage(qrCodeDataUrl);
+    const qrSize = 276;
+    const qrX = (width - qrSize) / 2;
+    const qrY = 100;
+    const qrPadding = 10; // Reduced padding
+    const borderRadius = 4;
+    
+    // White background for QR code with rounded corners
+    ctx.fillStyle = '#FFFFFF';
+    roundRect(ctx, qrX - qrPadding, qrY - qrPadding, qrSize + (qrPadding * 2), qrSize + (qrPadding * 2), borderRadius);
+    ctx.fill();
+    ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
+
+    // Details box section with overlapping profile photo
+    const detailsBoxY = qrY + qrSize + 40;
+    const detailsBoxHeight = 140;
+    const photoSize = 100;
+    
+    // Shadow for details box
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 10;
+    
+    // White details box with rounded corners
+    ctx.fillStyle = '#FFFFFF';
+    roundRect(ctx, 40, detailsBoxY, width - 80, detailsBoxHeight, borderRadius);
+    ctx.fill();
+    
+    // Reset shadow
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+
+    // Profile photo - left aligned, half overlapping the details box
+    const photoX = 60;
+    const photoY = detailsBoxY + (detailsBoxHeight / 2) - (photoSize / 2);
+    
+    if (profile.profilePhoto && profile.profilePhoto.data) {
+      try {
+        const photoBuffer = profile.profilePhoto.data;
+        const photoImage = await loadImage(photoBuffer);
+        
+        // Shadow for photo
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 4;
+        
+        // Draw circular photo
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(photoImage, photoX, photoY, photoSize, photoSize);
+        ctx.restore();
+        
+        // Reset shadow
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        
+        // Border around photo
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+        ctx.stroke();
+      } catch (photoError) {
+        console.log('Could not load profile photo, using initials');
+        drawInitialsCircle(ctx, profile, photoX, photoY, photoSize);
+      }
+    } else if (profile.profileImage && profile.profileImage.url) {
+      try {
+        const photoImage = await loadImage(profile.profileImage.url);
+        
+        // Shadow for photo
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 4;
+        
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(photoImage, photoX, photoY, photoSize, photoSize);
+        ctx.restore();
+        
+        // Reset shadow
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+        ctx.stroke();
+      } catch (photoError) {
+        console.log('Could not load profile image URL, using initials');
+        drawInitialsCircle(ctx, profile, photoX, photoY, photoSize);
+      }
+    } else {
+      // Draw initials circle
+      drawInitialsCircle(ctx, profile, photoX, photoY, photoSize);
+    }
+
+    // Name, role, email, and company - right side of the photo (inside white box)
+    const textX = photoX + photoSize + 30;
+    const textStartY = detailsBoxY + 45;
+    
+    // Name
+    ctx.fillStyle = '#1f2937'; // Dark gray for name
+    ctx.font = 'bold 28px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText(profile.name || 'Name', textX, textStartY);
+
+    // Title/Role section
+    let currentY = textStartY + 32;
+    if (profile.title) {
+      ctx.font = '20px Arial';
+      ctx.fillStyle = '#666'; // Medium gray
+      ctx.fillText(profile.title, textX, currentY);
+      currentY += 28;
+    }
+
+    // Email section with company in brackets
+    if (profile.email) {
+      ctx.font = '18px Arial';
+      ctx.fillStyle = '#666'; // Medium gray
+      let emailText = profile.email;
+      
+      // Add company name in brackets if it exists
+      if (profile.organization) {
+        emailText += ` (${profile.organization})`;
+      }
+      
+      ctx.fillText(emailText, textX, currentY);
+    } else if (profile.organization) {
+      // If no email but has company, show company only
+      ctx.font = '18px Arial';
+      ctx.fillStyle = '#666';
+      ctx.fillText(`(${profile.organization})`, textX, currentY);
+    }
+
+    // Convert canvas to buffer
+    const buffer = canvas.toBuffer('image/png');
+
+    // Set headers for download
+    res.set({
+      'Content-Type': 'image/png',
+      'Content-Disposition': `attachment; filename="qr-card-${profile.name.replace(/\s+/g, '-')}.png"`,
+      'Content-Length': buffer.length
+    });
+
+    res.send(buffer);
+  } catch (error) {
+    console.error('Styled QR card generation error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error generating styled QR card',
+      error: error.message
+    });
+  }
+});
+
+// Helper function to draw rounded rectangle
+function roundRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
+
+// Helper function to draw initials circle
+function drawInitialsCircle(ctx, profile, x, y, size) {
+  // Shadow for photo
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+  ctx.shadowBlur = 10;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 4;
+  
+  // Circle background
+  ctx.fillStyle = '#667eea'; // Purple-blue gradient color
+  ctx.beginPath();
+  ctx.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Border
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  
+  // Reset shadow for text
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+  
+  // Initials text
+  const initials = profile.getInitials ? profile.getInitials() : 
+    (profile.name ? profile.name.substring(0, 2).toUpperCase() : 'U');
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = `bold ${size / 2.5}px Arial`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(initials, x + size / 2, y + size / 2);
+}
+
 // Track social media clicks
 // Keep your existing tracking routes
 router.post('/:cardId/track/:platform', async (req, res) => {
@@ -1003,13 +1275,13 @@ function generateEnhancedVCard(profile) {
   if (profile.title) {
     lines.push(`TITLE:${profile.title}`);
   }
-
-  // Add contact information
-  if (profile.phone) {
-    lines.push(`TEL;TYPE=WORK,VOICE:${profile.phone}`);
-  }
-  if (profile.mobile) {
-    lines.push(`TEL;TYPE=CELL:${profile.mobile}`);
+  if (profile.showPhoneNumber !== false) {
+    if (profile.phone) {
+      lines.push(`TEL;TYPE=WORK,VOICE:${profile.phone}`);
+    }
+    if (profile.mobile) {
+      lines.push(`TEL;TYPE=CELL:${profile.mobile}`);
+    }
   }
   if (profile.email) {
     lines.push(`EMAIL;TYPE=WORK:${profile.email}`);

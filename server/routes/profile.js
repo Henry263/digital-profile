@@ -498,6 +498,7 @@ router.post('/upload-profile-photo', authenticateToken, upload.single('profilePh
     // });
 
     const userId = toObjectId(req.user.userId || req.user._id);
+
     const profile = await Profile.findOne({ userId });
     // console.log("Profile: ", profile);
     if (!profile) {
@@ -538,7 +539,7 @@ router.post('/upload-profile-photo', authenticateToken, upload.single('profilePh
         // });
       } catch (conversionError) {
         console.error('❌ HEIC conversion failed:', conversionError);
-        return res.status(400).json({ 
+        return res.status(500).json({ 
           success: false, 
           message: 'Failed to convert HEIC file. Please try a different format.' 
         });

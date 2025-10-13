@@ -2,6 +2,7 @@
 
 // Initialize avatar on page load
 async function initializeAvatar() {
+    // console.log("initializeAvatar");
     const token = localStorage.getItem('token');
     
     if (!token) {

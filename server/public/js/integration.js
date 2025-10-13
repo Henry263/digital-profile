@@ -24,7 +24,7 @@ let userPublicIP = null;
 
 (async function () {
     userPublicIP = await getRealPublicIP();
-    console.log('User public IP:', userPublicIP);
+    //console.log('User public IP:', userPublicIP);
 })();
 
 
@@ -186,6 +186,12 @@ class SmartLifeCoverAPI {
         return `${this.baseURL}/api/card/${identifier}/qr?size=${size}`;
     }
 
+    async getstyledQRCode(identifier, size = 400) {
+        // console.log("In getQRCode: ", identifier);
+
+        return `${api.baseURL}/api/card/${identifier}/download-styled-qr`;
+    }
+
     async trackSocialClick(cardId, platform) {
         return this.apiRequest(`/api/card/${cardId}/track/${platform}`, {
             method: 'POST'
@@ -217,6 +223,63 @@ async function signupWithGoogle() {
     window.location.href = `${api.baseURL}/auth/google`;
 }
 
+// Show error styling and message
+function showError(fieldId, message) {
+    const field = document.getElementById(fieldId);
+
+    // Add error styling to input
+    field.style.borderColor = '#dc3545';
+    field.style.backgroundColor = '#fff5f5';
+
+    // Check if this is a social media field with the new structure
+    const socialFields = ['instagram', 'facebook', 'twitter', 'linkedin', 'calendly', 'zoom', 'snapchat', 'tiktok', 'youtube', 'whatsapp', 'telegram', 'reddit', 'pinterest'];
+
+    if (socialFields.includes(fieldId)) {
+        // For social media fields, find the .input-error div
+        const socialItem = field.closest('.social-item');
+        const errorContainer = socialItem.querySelector('.input-error');
+
+        if (errorContainer) {
+            errorContainer.innerHTML = `
+                <div class="error-message" style="
+                    color: #dc3545;
+                    font-size: 0.875rem;
+                    margin-top: 0.5rem;
+                    font-weight: 500;
+                    display: block;
+                    width: 100%;
+                ">${message}</div>
+            `;
+        }
+    } else {
+        // For regular form fields, use the original method
+        const formGroup = field.closest('.form-group');
+
+        // Remove existing error message
+        const existingError = formGroup.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+
+        // Add error message directly under the input
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.cssText = `
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+            display: block;
+            width: 100%;
+        `;
+        errorDiv.textContent = message;
+
+        // Insert error message right after the input field
+        field.parentNode.insertBefore(errorDiv, field.nextSibling);
+    }
+}
+
+
 $("#signupWithGoogle-btn").on("click", function () {
     // console.log("signupWithGoogle Button clicked!");
     signupWithGoogle();
@@ -229,6 +292,13 @@ $("#singup-cta-button").on("click", function () {
     // console.log("Button clicked!");
 });
 
+$("#singup-cta-button-uc").on("click", function () {
+    showPage('signup');
+    // console.log("Button clicked!");
+});
+
+
+
 $("#signupBtn").on("click", function () {
     showPage('signup');
     // console.log("Button clicked!");
@@ -237,6 +307,11 @@ $("#signupBtn").on("click", function () {
 $("#faqBtn").on("click", function () {
     showPage('faq');
     // console.log("Button clicked!");
+});
+
+// Use Cases button (NEW)
+$('#usecaseBtn').click(function () {
+    showPage('usecase');
 });
 
 $("#homepage-signup").on("click", function () {
@@ -299,7 +374,8 @@ $("#addToWallet-btn").on("click", function () {
 
 // id="downloadQRCode-btn" onclick="downloadQRCode()"
 $("#downloadQRCode-btn").on("click", function () {
-    downloadQRCode()
+    //downloadQRCode()
+    downloadStyledQRCard();
     // console.log("Button clicked!");
 });
 
@@ -397,7 +473,7 @@ async function logout() {
     try {
         const success = await api.logout();
         if (success) {
-
+            $("#navbarAvatar").css("display", "none");
             showPage('home');
             // Clear the current user
             currentUser = null;
@@ -411,6 +487,13 @@ async function logout() {
 
             // Show success message
             showSuccessMessage('Successfully logged out!');
+
+
+            $("#footer-cta").removeClass('display-none-cta-button')
+            $("#footer-cta").addClass('cta-section')
+
+            $("#singup-cta-button-div-uc").removeClass('display-none-cta-button')
+            $("#singup-cta-button-div-uc").addClass('usecase-cta')
         }
 
     } catch (error) {
@@ -456,6 +539,338 @@ function hideLoadingMessage() {
 }
 // Enhanced saveProfile with better logging
 
+/**
+ * Code to handle the social media handle or url both
+ */
+
+
+
+// ============================================
+// FIXED VERSION WITH DEBUG LOGS
+// ============================================
+
+// Common domain extensions to detect URLs
+const commonTLDs = [
+    'com', 'org', 'net', 'edu', 'gov', 'co', 'io', 'ai', 'app', 'dev',
+    'uk', 'us', 'ca', 'au', 'de', 'fr', 'in', 'me', 'info', 'biz',
+    'ly', 'it', 'es', 'ru', 'jp', 'cn', 'br', 'mx', 'id', 'ph', 'vn',
+    'tv', 'cc', 'ws', 'mobi', 'online', 'site', 'tech', 'store', 'xyz'
+];
+
+// Social Media Platform Configuration
+const socialMediaPlatforms = {
+    instagram: {
+        baseUrl: 'https://instagram.com/',
+        domains: ['instagram.com'],
+        handlePattern: /^@?[\w](?!.*?\.{2})[\w.]{0,28}[\w]$/
+    },
+    facebook: {
+        baseUrl: 'https://facebook.com/',
+        domains: ['facebook.com', 'fb.com'],
+        handlePattern: /^@?[a-zA-Z0-9.]{3,}$/
+    },
+    twitter: {
+        baseUrl: 'https://twitter.com/',
+        domains: ['twitter.com', 'x.com'],
+        handlePattern: /^@?[a-zA-Z0-9_]{1,15}$/
+    },
+    linkedin: {
+        baseUrl: 'https://linkedin.com/in/',
+        domains: ['linkedin.com'],
+        handlePattern: /^[a-zA-Z0-9-]{3,100}$/
+    },
+    youtube: {
+        baseUrl: 'https://youtube.com/@',
+        domains: ['youtube.com', 'youtu.be'],
+        handlePattern: /^@?[a-zA-Z0-9_-]{3,30}$/
+    },
+    tiktok: {
+        baseUrl: 'https://tiktok.com/@',
+        domains: ['tiktok.com'],
+        handlePattern: /^@?[a-zA-Z0-9_.]{2,24}$/
+    },
+    snapchat: {
+        baseUrl: 'https://snapchat.com/add/',
+        domains: ['snapchat.com'],
+        handlePattern: /^[a-zA-Z][a-zA-Z0-9._-]{1,15}$/
+    },
+    whatsapp: {
+        baseUrl: 'https://wa.me/',
+        domains: ['wa.me', 'whatsapp.com'],
+        handlePattern: /^\+?[1-9]\d{1,14}$/
+    },
+    calendly: {
+        baseUrl: 'https://calendly.com/',
+        domains: ['calendly.com'],
+        handlePattern: /^[a-zA-Z0-9-_]{3,30}$/
+    },
+    telegram: {
+        baseUrl: 'https://t.me/',
+        domains: ['t.me', 'telegram.com', 'telegram.me'],
+        handlePattern: /^@?[a-zA-Z0-9_]{5,32}$/
+    },
+    reddit: {
+        baseUrl: 'https://reddit.com/u/',
+        domains: ['reddit.com'],
+        handlePattern: /^(u\/)?[a-zA-Z0-9_-]{3,20}$/
+    },
+    pinterest: {
+        baseUrl: 'https://pinterest.com/',
+        domains: ['pinterest.com'],
+        handlePattern: /^[a-zA-Z0-9_]{3,30}$/
+    },
+    zoom: {
+        baseUrl: '',
+        domains: ['zoom.us', 'zoom.com'],
+        handlePattern: null
+    }
+};
+
+// FIXED: Better URL detection that handles dots in usernames
+function isLikelyUrl(value) {
+    // console.log('🔍 isLikelyUrl checking:', value);
+
+    // Definitely a URL if it has a protocol
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+        // console.log('✅ Has protocol - treating as URL');
+        return true;
+    }
+
+    // Definitely a URL if it has forward slashes
+    if (value.includes('/')) {
+        // console.log('✅ Has slash - treating as URL');
+        return true;
+    }
+
+    // Check if it looks like a domain (has a valid TLD)
+    if (value.includes('.')) {
+        const parts = value.split('.');
+        // console.log('   Split by dot:', parts);
+
+        // If there are multiple dots (like sub.domain.com), it's likely a URL
+        if (parts.length > 2) {
+            // console.log('✅ Multiple dots - treating as URL');
+            return true;
+        }
+
+        // If there are exactly 2 parts (domain.tld), check if the last part is a known TLD
+        if (parts.length === 2) {
+            const lastPart = parts[1].toLowerCase().split('/')[0];
+            // console.log('   Last part:', lastPart);
+
+            // ONLY check against known TLD list - REMOVED the 2-3 char check
+            if (commonTLDs.includes(lastPart)) {
+                // console.log('✅ Known TLD found - treating as URL');
+                return true;
+            } else {
+                // console.log('❌ Not a known TLD - treating as handle');
+                return false;
+            }
+        }
+    }
+
+    // Otherwise, treat as a handle/username
+    // console.log('❌ No URL indicators - treating as handle');
+    return false;
+}
+
+// Helper: Clean handle (remove @ symbol)
+function cleanHandle(handle) {
+    return handle.trim().replace(/^@+/, '');
+}
+
+// Helper: Build full URL from handle
+function buildSocialUrl(platform, value) {
+    const cleanValue = cleanHandle(value);
+    const config = socialMediaPlatforms[platform];
+
+    if (!config) return value;
+
+    // Special handling for WhatsApp (phone numbers)
+    if (platform === 'whatsapp') {
+        const phone = cleanValue.replace(/[^\d+]/g, '');
+        return `${config.baseUrl}${phone}`;
+    }
+
+    // Special handling for Reddit
+    if (platform === 'reddit' && !cleanValue.startsWith('u/')) {
+        return `${config.baseUrl}${cleanValue}`;
+    }
+
+    return `${config.baseUrl}${cleanValue}`;
+}
+
+// Main validation function for social media
+function validateSocialMedia(fieldId, value) {
+    // console.log(`\n🎯 validateSocialMedia called for ${fieldId}:`, value);
+
+    if (!value || value.trim() === '') {
+        // console.log('✅ Empty value - valid');
+        return { valid: true, url: '' };
+    }
+
+    const trimmedValue = value.trim();
+    const config = socialMediaPlatforms[fieldId];
+
+    if (!config) {
+        // console.log('⚠️ Unknown platform - accepting value');
+        return { valid: true, url: trimmedValue };
+    }
+
+    // Check if it's a URL
+    const isUrl = isLikelyUrl(trimmedValue);
+    // console.log(`📌 isUrl result: ${isUrl}`);
+
+    if (isUrl) {
+        // console.log('🌐 Processing as URL...');
+        try {
+            let url = trimmedValue;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            const urlObj = new URL(url);
+            const hasValidDomain = config.domains.some(domain =>
+                urlObj.hostname.includes(domain)
+            );
+
+            if (hasValidDomain) {
+                // console.log('✅ Valid URL with correct domain');
+                return { valid: true, url: url };
+            } else {
+                // console.log('❌ URL has wrong domain');
+                return {
+                    valid: false,
+                    url: '',
+                    error: `Please enter a valid ${fieldId} URL or handle`
+                };
+            }
+        } catch (e) {
+            // console.log('❌ URL parsing failed, trying as handle...');
+
+            // Fall through to handle validation
+            if (config.handlePattern) {
+                const cleaned = cleanHandle(trimmedValue);
+                // console.log('   Testing handle pattern on:', cleaned);
+
+                if (config.handlePattern.test(cleaned)) {
+                    const fullUrl = buildSocialUrl(fieldId, trimmedValue);
+                    // console.log('✅ Valid handle, built URL:', fullUrl);
+                    return { valid: true, url: fullUrl };
+                } else {
+                    // console.log('❌ Handle pattern failed');
+                    return {
+                        valid: false,
+                        url: '',
+                        error: `Please enter a valid ${fieldId} handle or URL`
+                    };
+                }
+            } else {
+                const fullUrl = buildSocialUrl(fieldId, trimmedValue);
+                // console.log('✅ No pattern check, built URL:', fullUrl);
+                return { valid: true, url: fullUrl };
+            }
+        }
+    } else {
+        // console.log('👤 Processing as handle...');
+
+        // It's a handle/username
+        if (config.handlePattern) {
+            const cleaned = cleanHandle(trimmedValue);
+            // console.log('   Testing handle pattern on:', cleaned);
+
+            if (config.handlePattern.test(cleaned)) {
+                const fullUrl = buildSocialUrl(fieldId, trimmedValue);
+                // console.log('✅ Valid handle, built URL:', fullUrl);
+                return { valid: true, url: fullUrl };
+            } else {
+                // console.log('❌ Handle pattern failed');
+                return {
+                    valid: false,
+                    url: '',
+                    error: `Please enter a valid ${fieldId} handle`
+                };
+            }
+        } else {
+            const fullUrl = buildSocialUrl(fieldId, trimmedValue);
+            // console.log('✅ No pattern check, built URL:', fullUrl);
+            return { valid: true, url: fullUrl };
+        }
+    }
+}
+
+// Updated validateURL function
+function validateURL(fieldId, errorMessage) {
+    // console.log(`\n📝 validateURL called for field: ${fieldId}`);
+
+    const field = document.getElementById(fieldId);
+    if (!field) {
+        // console.log('❌ Field not found');
+        return true;
+    }
+
+    const value = field.value.trim();
+    // console.log(`   Value: "${value}"`);
+
+    if (!value) {
+        // console.log('✅ Empty - valid');
+        return true;
+    }
+
+    // For website field, use standard URL validation
+    if (fieldId === 'website') {
+        try {
+            let url = value;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            new URL(url);
+            field.setAttribute('data-final-url', url);
+            // console.log('✅ Valid website URL');
+            return true;
+        } catch (e) {
+            // console.log('❌ Invalid website URL');
+            showError(fieldId, errorMessage);
+            return false;
+        }
+    }
+
+    // For social media fields, use the improved validation
+    const result = validateSocialMedia(fieldId, value);
+    // console.log('   Validation result:', result);
+
+    if (result.valid) {
+        field.setAttribute('data-final-url', result.url);
+        // console.log(`✅ ${fieldId} validation passed`);
+        return true;
+    } else {
+        // console.log(`❌ ${fieldId} validation failed`);
+        showError(fieldId, result.error || errorMessage);
+        return false;
+    }
+}
+
+// Test function - paste this in browser console to test
+function testValidation() {
+    // console.log('\n========== TESTING VALIDATION ==========\n');
+
+    const testCases = [
+        { platform: 'instagram', value: 'jhon.doe' },
+        { platform: 'instagram', value: '@john.smith' },
+        { platform: 'instagram', value: 'test.user' },
+        { platform: 'instagram', value: 'instagram.com/user' },
+        { platform: 'instagram', value: 'https://instagram.com/user' },
+        { platform: 'instagram', value: 'example.com' },
+        { platform: 'instagram', value: 'site.io' }
+    ];
+
+    testCases.forEach(test => {
+        // console.log(`\n--- Testing: ${test.platform} = "${test.value}" ---`);
+        const result = validateSocialMedia(test.platform, test.value);
+        // console.log('Result:', result);
+    });
+}
+
 async function handleProfileSave() {
     try {
         showLoadingMessage('Saving profile and generating QR codes...');
@@ -464,6 +879,20 @@ async function handleProfileSave() {
         if (!form) {
             throw new Error('Profile form not found');
         }
+
+        const socialMediaData = {};
+        const socialFields = ['instagram', 'facebook', 'twitter', 'linkedin', 'calendly', 'zoom',
+            'snapchat', 'tiktok', 'youtube', 'whatsapp', 'telegram', 'reddit', 'pinterest'];
+
+        socialFields.forEach(field => {
+            const input = document.getElementById(field);
+            if (input) {
+                const finalUrl = input.getAttribute('data-final-url');
+                if (finalUrl && finalUrl.trim()) {
+                    socialMediaData[field] = finalUrl;
+                }
+            }
+        });
 
         const formData = new FormData(form);
 
@@ -495,26 +924,26 @@ async function handleProfileSave() {
                 name: locationData?.city?.name || formData.get('city') || '',
                 id: formData.get('cityId') || locationData?.city?.id || ''
             },
-
-            socialMedia: {
-                instagram: formData.get('instagram'),
-                facebook: formData.get('facebook'),
-                twitter: formData.get('twitter'),
-                linkedin: formData.get('linkedin'),
-                calendly: formData.get('calendly'),
-                zoom: formData.get('zoom'),
-                snapchat: formData.get('snapchat'),
-                tiktok: formData.get('tiktok'),
-                youtube: formData.get('youtube'),
-                whatsapp: formData.get('whatsapp'),
-                reddit: formData.get('reddit'),
-                telegram: formData.get('telegram'),
-                pinterest: formData.get('pinterest'),
-            },
+            socialMedia: socialMediaData,
+            // socialMedia: {
+            //     instagram: formData.get('instagram'),
+            //     facebook: formData.get('facebook'),
+            //     twitter: formData.get('twitter'),
+            //     linkedin: formData.get('linkedin'),
+            //     calendly: formData.get('calendly'),
+            //     zoom: formData.get('zoom'),
+            //     snapchat: formData.get('snapchat'),
+            //     tiktok: formData.get('tiktok'),
+            //     youtube: formData.get('youtube'),
+            //     whatsapp: formData.get('whatsapp'),
+            //     reddit: formData.get('reddit'),
+            //     telegram: formData.get('telegram'),
+            //     pinterest: formData.get('pinterest'),
+            // },
             isPublic: $('#isPublic').is(':checked')
         };
 
-        console.log('Profile data being sent:', profileData);
+        // console.log('Profile data being sent:', profileData);
 
         const response = await api.saveProfile(profileData);
 
@@ -529,7 +958,7 @@ async function handleProfileSave() {
             showSuccessMessage(message);
 
             updateDisplayPage();
-
+            $('.profile-photo-section').show()
             setTimeout(() => {
                 showPage('display');
             }, 1500);
@@ -862,6 +1291,7 @@ async function updateDisplayPage() {
                 </div>
             `;
         }
+        $("#navbarAvatar").show();
 
         // Update standalone page
         updateStandalonePage();
@@ -922,6 +1352,40 @@ async function downloadQRCode() {
     }
 }
 
+
+/**
+ * Downloadig styling QR code with picture.
+ */
+async function downloadStyledQRCard() {
+    try {
+        if (userProfile && (userProfile.slug || userProfile.cardId)) {
+            const identifier = userProfile.slug || userProfile.cardId;
+            // const styledQrUrl = `${api.baseURL}/api/card/${identifier}/download-styled-qr`;
+            const styledQrUrl = await api.getstyledQRCode(identifier);
+            // Fetch and download
+            const response = await fetch(styledQrUrl);
+            if (!response.ok) {
+                throw new Error('Download failed');
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${userProfile.name.replace(/\s+/g, '-')}-QR-Card.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            window.URL.revokeObjectURL(url);
+            showSuccessMessage('Styled QR Card downloaded!');
+        }
+    } catch (error) {
+        console.error('Styled QR card download error:', error);
+        showErrorMessage('Failed to download styled QR card');
+    }
+}
 
 /**
  * All the code to download the apple pass on the phone.
@@ -1353,7 +1817,7 @@ async function generatePassViaServer(passData, userData, walletType) {
         // const blob = await response.blob();
         // const url = URL.createObjectURL(blob);
         const url = window.location.origin + endpoint;
-        console.log("url for google wallet", endpoint);
+        // console.log("url for google wallet", endpoint);
         if (walletType === 'apple' && isIOS()) {
             return;
         } else if (walletType === 'google' && isAndroid()) {
@@ -2256,7 +2720,7 @@ $(document).ready(function () {
         socialFields.forEach(field => {
             const value = document.getElementById(field).value.trim();
             if (value) { // Only validate if value is present
-                isValid = validateURL(field, `Please enter a valid ${field} URL`) && isValid;
+                isValid = validateURL(field, `Please enter a valid ${field} URLlll`) && isValid;
             }
         });
 
@@ -2305,134 +2769,79 @@ $(document).ready(function () {
     }
 
     // Validate URLs
-    function validateURL(fieldId, errorMessage) {
-        const field = document.getElementById(fieldId);
-        const value = field.value.trim();
+    // function validateURL(fieldId, errorMessage) {
+    //     const field = document.getElementById(fieldId);
+    //     const value = field.value.trim();
 
-        if (!value) return true; // Optional field - no error if empty
+    //     if (!value) return true; // Optional field - no error if empty
 
-        try {
-            // Add protocol if missing
-            let url = value;
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
-            }
+    //     try {
+    //         // Add protocol if missing
+    //         let url = value;
+    //         if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    //             url = 'https://' + url;
+    //         }
 
-            new URL(url);
+    //         new URL(url);
 
-            // Additional validation for social media URLs
-            if (fieldId === 'instagram' && !url.includes('instagram.com')) {
-                showError(fieldId, 'Please enter a valid Instagram URL');
-                return false;
-            }
-            if (fieldId === 'facebook' && !url.includes('facebook.com') && !url.includes('fb.com')) {
-                showError(fieldId, 'Please enter a valid Facebook URL');
-                return false;
-            }
-            if (fieldId === 'twitter' && !url.includes('twitter.com') && !url.includes('x.com')) {
-                showError(fieldId, 'Please enter a valid Twitter/X URL');
-                return false;
-            }
-            if (fieldId === 'linkedin' && !url.includes('linkedin.com')) {
-                showError(fieldId, 'Please enter a valid LinkedIn URL');
-                return false;
-            }
-            if (fieldId === 'youtube' && !url.includes('youtube.com') && !url.includes('youtu.be')) {
-                showError(fieldId, 'Please enter a valid YouTube URL');
-                return false;
-            }
-            if (fieldId === 'tiktok' && !url.includes('tiktok.com')) {
-                showError(fieldId, 'Please enter a valid TikTok URL');
-                return false;
-            }
-            if (fieldId === 'snapchat' && !url.includes('snapchat.com')) {
-                showError(fieldId, 'Please enter a valid Snapchat URL');
-                return false;
-            }
-            if (fieldId === 'whatsapp' && !url.includes('wa.me') && !url.includes('whatsapp.com')) {
-                showError(fieldId, 'Please enter a valid WhatsApp URL');
-                return false;
-            }
-            if (fieldId === 'calendly' && !url.includes('calendly.com')) {
-                showError(fieldId, 'Please enter a valid Calendly URL');
-                return false;
-            }
-            if (fieldId === 'reddit' && !url.includes('reddit.com')) {
-                showError(fieldId, 'Please enter a valid reddit URL');
-                return false;
-            }
-            if (fieldId === 'telegram' && !url.includes('telegram.com')) {
-                showError(fieldId, 'Please enter a valid telegram URL');
-                return false;
-            }
-            if (fieldId === 'pinterest' && !url.includes('pinterest.com')) {
-                showError(fieldId, 'Please enter a valid pinterest URL');
-                return false;
-            }
+    //         // Additional validation for social media URLs
+    //         if (fieldId === 'instagram' && !url.includes('instagram.com')) {
+    //             showError(fieldId, 'Please enter a valid Instagram URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'facebook' && !url.includes('facebook.com') && !url.includes('fb.com')) {
+    //             showError(fieldId, 'Please enter a valid Facebook URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'twitter' && !url.includes('twitter.com') && !url.includes('x.com')) {
+    //             showError(fieldId, 'Please enter a valid Twitter/X URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'linkedin' && !url.includes('linkedin.com')) {
+    //             showError(fieldId, 'Please enter a valid LinkedIn URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'youtube' && !url.includes('youtube.com') && !url.includes('youtu.be')) {
+    //             showError(fieldId, 'Please enter a valid YouTube URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'tiktok' && !url.includes('tiktok.com')) {
+    //             showError(fieldId, 'Please enter a valid TikTok URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'snapchat' && !url.includes('snapchat.com')) {
+    //             showError(fieldId, 'Please enter a valid Snapchat URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'whatsapp' && !url.includes('wa.me') && !url.includes('whatsapp.com')) {
+    //             showError(fieldId, 'Please enter a valid WhatsApp URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'calendly' && !url.includes('calendly.com')) {
+    //             showError(fieldId, 'Please enter a valid Calendly URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'reddit' && !url.includes('reddit.com')) {
+    //             showError(fieldId, 'Please enter a valid reddit URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'telegram' && !url.includes('telegram.com')) {
+    //             showError(fieldId, 'Please enter a valid telegram URL');
+    //             return false;
+    //         }
+    //         if (fieldId === 'pinterest' && !url.includes('pinterest.com')) {
+    //             showError(fieldId, 'Please enter a valid pinterest URL');
+    //             return false;
+    //         }
 
 
-            return true;
-        } catch (e) {
-            showError(fieldId, errorMessage);
-            return false;
-        }
-    }
+    //         return true;
+    //     } catch (e) {
+    //         showError(fieldId, errorMessage);
+    //         return false;
+    //     }
+    // }
 
-    // Show error styling and message
-    function showError(fieldId, message) {
-        const field = document.getElementById(fieldId);
-
-        // Add error styling to input
-        field.style.borderColor = '#dc3545';
-        field.style.backgroundColor = '#fff5f5';
-
-        // Check if this is a social media field with the new structure
-        const socialFields = ['instagram', 'facebook', 'twitter', 'linkedin', 'calendly', 'zoom', 'snapchat', 'tiktok', 'youtube', 'whatsapp', 'telegram', 'reddit', 'pinterest'];
-
-        if (socialFields.includes(fieldId)) {
-            // For social media fields, find the .input-error div
-            const socialItem = field.closest('.social-item');
-            const errorContainer = socialItem.querySelector('.input-error');
-
-            if (errorContainer) {
-                errorContainer.innerHTML = `
-                <div class="error-message" style="
-                    color: #dc3545;
-                    font-size: 0.875rem;
-                    margin-top: 0.5rem;
-                    font-weight: 500;
-                    display: block;
-                    width: 100%;
-                ">${message}</div>
-            `;
-            }
-        } else {
-            // For regular form fields, use the original method
-            const formGroup = field.closest('.form-group');
-
-            // Remove existing error message
-            const existingError = formGroup.querySelector('.error-message');
-            if (existingError) {
-                existingError.remove();
-            }
-
-            // Add error message directly under the input
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.style.cssText = `
-            color: #dc3545;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            font-weight: 500;
-            display: block;
-            width: 100%;
-        `;
-            errorDiv.textContent = message;
-
-            // Insert error message right after the input field
-            field.parentNode.insertBefore(errorDiv, field.nextSibling);
-        }
-    }
 
     // Clear all error styling and messages
     function clearAllErrors() {
@@ -2518,7 +2927,7 @@ $(document).ready(function () {
                 default:
                     // Social media fields - optional, only validate if has value
                     if (socialFields.includes(fieldId) && fieldValue) {
-                        fieldValid = validateURL(fieldId, `Please enter a valid ${fieldId} URL`);
+                        fieldValid = validateURL(fieldId, `Please enter a valid ${fieldId} URLaaaaa`);
                     }
             }
 
@@ -3088,7 +3497,7 @@ function updateNavbarAvatar(profile) {
 
     // Make it clickable to go to profile
     navbarAvatar.off('click').on('click', function () {
-        window.location.href = '/profile';
+       // window.location.href = '/profile';
     });
 }
 
@@ -3177,7 +3586,7 @@ async function uploadProfilePhoto(file) {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
-
+        console.log("Profile response: ", response);
         if (response.success) {
             alert('Profile photo uploaded successfully!');
             $('#deletePhotoBtn').show();
@@ -3304,6 +3713,12 @@ async function handleURLParams() {
             if (pagename == 'faq') {
                 showPage('faq')
             }
+            if (pagename == 'usecase') {
+                showPage('usecase')
+            }
+            if (pagename == 'scenario') {
+                showPage('usecase')
+            }
             if (pagename == 'signup') {
                 const user = await getUserStatus();
 
@@ -3344,6 +3759,7 @@ async function handleURLParams() {
 
         return params;
     } else {
+        showPage('home');
         console.log('No URL parameters found');
         return null;
     }
@@ -3378,6 +3794,7 @@ history.replaceState = function () {
     handleURLParams();
 };
 
+$("#navbarAvatar").css("display", "none");
 // Initialize application
 /**
  * Main function where application is starting.
@@ -3419,17 +3836,24 @@ document.addEventListener('DOMContentLoaded', async function () {
                         const profileResponse = await api.getProfile();
 
                         if (profileResponse.success && profileResponse.profile) {
+                            $('.profile-photo-section').show();
                             // console.log('✅ User has active profile, showing My Card');
                             await loadProfileData();
                             // Set email field to read-only with user's email
                             setUserEmail(currentUser.email);
+                            $("#navbarAvatar").show();
                             showPage('display'); // Show My Card page
                             $("#footer-cta").addClass('display-none-cta-button')
                             $("#footer-cta").removeClass('cta-section')
+
+                            $("#singup-cta-button-div-uc").addClass('display-none-cta-button')
+                            $("#singup-cta-button-div-uc").removeClass('usecase-cta')
+
                             handleURLParams();
                         } else {
                             console.log('📝 No active profile found, showing Profile creation');
                             // Set email field to read-only with user's email
+                            $('.profile-photo-section').hide();
                             setUserEmail(currentUser.email);
                             showPage('profile'); // Show Profile creation/editing page
                         }
@@ -3437,17 +3861,32 @@ document.addEventListener('DOMContentLoaded', async function () {
                 } catch (error) {
                     console.error('❌ User initialization error:', error);
                     currentUser = null;
-                    showPage('home');
+                    //showPage('home');
+                    handleURLParams()
                 }
             } else {
                 console.log('❌ User not authenticated, showing home page');
                 currentUser = null;
-                showPage('home');
+                //showPage('home');
+                handleURLParams()
+
+                $("#footer-cta").removeClass('display-none-cta-button')
+                $("#footer-cta").addClass('cta-section')
+
+                $("#singup-cta-button-div-uc").removeClass('display-none-cta-button')
+                $("#singup-cta-button-div-uc").addClass('usecase-cta')
             }
         } catch (error) {
             console.error('❌ Auth check error:', error);
             currentUser = null;
-            showPage('home');
+            //showPage('home');
+            handleURLParams()
+
+            $("#footer-cta").removeClass('display-none-cta-button')
+            $("#footer-cta").addClass('cta-section')
+
+            $("#singup-cta-button-div-uc").removeClass('display-none-cta-button')
+            $("#singup-cta-button-div-uc").addClass('usecase-cta')
         }
 
         updateAuthUI();
@@ -3470,7 +3909,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         } else if (urlParams.get('error')) {
             console.log('❌ OAuth error detected:', urlParams.get('error'));
             showErrorMessage('Login failed. Please try again.');
-            showPage('home');
+            //showPage('home');
+            handleURLParams()
+
+            $("#footer-cta").removeClass('display-none-cta-button')
+            $("#footer-cta").addClass('cta-section')
+
+            $("#singup-cta-button-div-uc").removeClass('display-none-cta-button')
+            $("#singup-cta-button-div-uc").addClass('usecase-cta')
         }
     }
 

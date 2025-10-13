@@ -26,7 +26,7 @@
     <meta name="twitter:image" content="https://www.qrmypro.com/image/app-logo.png">
     <meta name="twitter:site" content="@QRMyPro"> <!-- optional -->
     <meta name="twitter:creator" content="@QRMyPro"> <!-- optional -->
-    
+
     <meta name="google-site-verification" content="StIdws39kwgToqZw70FsPK4D4FJbcWbHf3RVRDi51Ig" />
     <meta http-equiv="Content-Security-Policy"
         content="style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;">
@@ -157,7 +157,8 @@
     <link rel="stylesheet" href="css/faq.css">
     <link rel="stylesheet" href="css/homepage.css">
     <link rel="stylesheet" href="css/profile-photo-section.css">
-    
+    <link rel="stylesheet" href="css/usecases.css">
+
 
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css"> -->
@@ -193,9 +194,10 @@
             <button class="btn btn-primary hidden" id="signupBtn">Sign Up</button>
             <button class="btn btn-primary" id="profileBtn">Profile</button>
             <button class="btn btn-primary" id="displayBtn">My Card</button>
+            <button class="btn btn-primary" id="usecaseBtn">Use Cases</button> <!-- NEW -->
             <button class="btn btn-primary" id="faqBtn">FAQs</button>
             <button class="btn btn-primary" id="logoutBtn">Logout</button>
-            <div class="navbar-avatar" id="navbarAvatar" ></div>
+            <div class="navbar-avatar" id="navbarAvatar"></div>
         </div>
     </nav>
 
@@ -294,7 +296,7 @@
                             <div class="step-number">3</div>
                             <div class="step-content">
                                 <div class="step-image-wrapper">
-                                    <img src="./image/step3.png" alt="Share Profile" class="step-image">
+                                    <img src="./image/sample-design-card.png" alt="Share Profile" class="step-image">
                                 </div>
                                 <div class="step-info">
                                     <h3 class="step-title">Share & Connect Instantly</h3>
@@ -417,14 +419,15 @@
                                     </div>
                                     <img id="profilePhotoImg" style="display: none;">
                                 </div>
-                                
+
                                 <div class="photo-actions">
                                     <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
                                     <button type="button" class="btn btn-secondary" id="uploadPhotoBtn">
                                         <i class="fas fa-upload"></i>
                                         Upload Photo
                                     </button>
-                                    <button type="button" class="btn btn-danger" id="deletePhotoBtn" style="display: none;">
+                                    <button type="button" class="btn btn-danger" id="deletePhotoBtn"
+                                        style="display: none;">
                                         <i class="fas fa-trash-alt"></i>
                                         Remove
                                     </button>
@@ -995,6 +998,216 @@
 
 
         </div>
+
+        <!-- Add this new page section after your faqPage div, inside the container -->
+
+        <!-- Use Cases Page -->
+        <div id="usecasePage" class="page">
+            <div class="usecase-header">
+                <h1>Real-World Use Cases</h1>
+                <p class="usecase-subtitle">See how professionals use QRMyPro to grow their network and business</p>
+            </div>
+
+            <div class="usecases-grid">
+
+                <!-- Use Case 1: Networking Events -->
+                <div class="usecase-card">
+                    <div class="usecase-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="usecase-title">Networking Events</h3>
+                    <p class="usecase-description">
+                        Stop fumbling with paper cards at conferences and meetups. Share your digital profile
+                        instantly with a QR code scan. Track who scanned your card and follow up effortlessly.
+                    </p>
+                    <div class="usecase-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">5x</div>
+                            <div class="stat-label">Faster Exchange</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Eco-Friendly</div>
+                        </div>
+                    </div>
+                    <div class="usecase-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Instant contact sharing</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>No app required to view</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Analytics on scans</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Use Case 2: Real Estate Agents -->
+                <div class="usecase-card">
+                    <div class="usecase-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="usecase-title">Real Estate Professionals</h3>
+                    <p class="usecase-description">
+                        Add QR codes to property listings, yard signs, and open house materials. Potential buyers
+                        can instantly access your contact info, schedule viewings, and see your listings.
+                    </p>
+                    <div class="usecase-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">40%</div>
+                            <div class="stat-label">More Leads</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Availability</div>
+                        </div>
+                    </div>
+                    <div class="usecase-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Link to listings</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Virtual tour integration</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Direct scheduling</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Use Case 3: Sales & Marketing -->
+                <div class="usecase-card">
+                    <div class="usecase-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="usecase-title">Sales & Marketing Teams</h3>
+                    <p class="usecase-description">
+                        Empower your sales team with dynamic digital cards that update in real-time. Track engagement,
+                        measure ROI, and never run out of business cards again.
+                    </p>
+                    <div class="usecase-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">60%</div>
+                            <div class="stat-label">Cost Savings</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3x</div>
+                            <div class="stat-label">Follow-up Rate</div>
+                        </div>
+                    </div>
+                    <div class="usecase-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Team management</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Analytics dashboard</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>CRM integration ready</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Use Case 4: Freelancers & Creators -->
+                <div class="usecase-card">
+                    <div class="usecase-icon">
+                        <i class="fas fa-paintbrush"></i>
+                    </div>
+                    <h3 class="usecase-title">Freelancers & Content Creators</h3>
+                    <p class="usecase-description">
+                        Showcase your portfolio, social media, and booking links all in one place. Perfect for
+                        photographers, designers, consultants, and influencers building their personal brand.
+                    </p>
+                    <div class="usecase-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">All-in-1</div>
+                            <div class="stat-label">Link Hub</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-label">Updates</div>
+                        </div>
+                    </div>
+                    <div class="usecase-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Portfolio showcase</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Social media hub</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Booking calendar link</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add this 5th card to your usecases-grid, after the Freelancers card -->
+
+                <!-- Use Case 5: Celebrities & Social Media Professionals -->
+                <div class="usecase-card">
+                    <div class="usecase-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="usecase-title">Celebrities & Social Media Influencers</h3>
+                    <p class="usecase-description">
+                        Centralize all your social platforms, merch stores, and booking links in one scannable QR code.
+                        Perfect for meet & greets, events, merchandise, and connecting with fans instantly.
+                    </p>
+                    <div class="usecase-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">10x</div>
+                            <div class="stat-label">Fan Engagement</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1M+</div>
+                            <div class="stat-label">Potential Reach</div>
+                        </div>
+                    </div>
+                    <div class="usecase-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>All social links in one place</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Merch & booking integration</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Fan engagement tracking</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Verified profile badge</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CTA Section -->
+            <div class="usecase-cta" id="singup-cta-button-div-uc">
+                <h2>Ready to Transform Your Networking?</h2>
+                <p>Join thousands of professionals already using QRMyPro</p>
+                <button class="cta-button" id="singup-cta-button-uc" >
+                    <i class="fas fa-rocket"></i>
+                    Create Your Digital Card Now
+                </button>
+            </div>
+        </div>
     </div>
     <!-- Load JS from /js -->
 
@@ -1266,8 +1479,8 @@
         </div>
     </div>
     <!-- <script src="/js/main.js"></script> -->
-    <script src="/js/integration.js"></script>
-    <script src="/js/countries-autocomplete.js"></script>
+    <script src="/js/integration.min.js"></script>
+    <script src="/js/countries-autocomplete.min.js"></script>
 
 
 </body>

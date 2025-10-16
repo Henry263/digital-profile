@@ -2,7 +2,7 @@
 .how-it-works-section {
     background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%);
     padding: 4rem 1rem;
-    margin: 3rem 0;
+    margin: 1rem 0;
     border: 1px solid;
     border-radius: 10px;
 }
@@ -13,7 +13,7 @@
 }
 .howto-section-title{
     color: #6974dc !important;
-    font-size: 1.6rem !important;
+    font-size: 1.4rem !important;
 }
 
 .section-header {
@@ -33,7 +33,7 @@
 }
 
 .section-subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #555;
     max-width: 800px;
     margin: 0 auto;
@@ -99,7 +99,7 @@
 }
 
 .step-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #6974dc;
     margin-bottom: 1rem;
     font-weight: 500;
@@ -206,7 +206,7 @@
 
 @media (min-width: 1024px) {
     .how-it-works-section {
-        padding: 5rem 2rem;
+        padding: 3rem 2rem;
     }
 
     .step-title {

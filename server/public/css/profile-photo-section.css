@@ -97,6 +97,13 @@
     align-items: center;
 }
 
+@media (max-width: 765px) {
+    .nav-buttons {
+       
+        gap: 0.4rem;
+       
+    }  
+}
 /* Card Template Avatar/Photo */
 .profile-avatar {
     width: 80px;

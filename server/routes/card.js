@@ -741,6 +741,7 @@ router.get('/:identifier/qr', async (req, res) => {
 
 // Download styled QR card with branding
 // Download styled QR card with branding
+
 router.get('/:identifier/download-styled-qr', async (req, res) => {
   try {
     const { identifier } = req.params;
@@ -760,23 +761,23 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
       });
     }
 
-    // Card dimensions - reduced and more responsive
-    const width = 600;
-    const height = 700;
+    // Card dimensions - INCREASED WIDTH
+    const width = 850;
+    const height = 750; // Increased height slightly
     
     // Create canvas
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
 
     
-    // Background gradient (blue gradient like in your image)
+    // Background gradient (blue gradient)
     const gradient = ctx.createLinearGradient(0, 0, 0, height);
-    gradient.addColorStop(0, '#667eea'); // Dark blue
-    gradient.addColorStop(1, '#764ba2'); // Lighter blue
+    gradient.addColorStop(0, '#667eea');
+    gradient.addColorStop(1, '#764ba2');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    // Generate QR code
+    // Generate QR code - SAME SIZE
     const standaloneUrl = profile.generateStandaloneUrl();
     const qrCodeDataUrl = await QRCode.toDataURL(standaloneUrl, {
       width: 300,
@@ -792,7 +793,7 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
     const qrSize = 276;
     const qrX = (width - qrSize) / 2;
     const qrY = 100;
-    const qrPadding = 10; // Reduced padding
+    const qrPadding = 10;
     const borderRadius = 4;
     
     // White background for QR code with rounded corners
@@ -801,10 +802,12 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
     ctx.fill();
     ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
 
-    // Details box section with overlapping profile photo
-    const detailsBoxY = qrY + qrSize + 40;
-    const detailsBoxHeight = 140;
-    const photoSize = 100;
+    // Details box section - INCREASED HEIGHT and positioned for overlapping photo
+    const detailsBoxY = qrY + qrSize + 80; // More space for overlapping photo
+    const detailsBoxHeight = 200; // INCREASED from 140
+    const photoSize = 120; // Slightly larger photo
+    const detailsBoxPadding = 40;
+    const detailsBoxWidth = width - (detailsBoxPadding * 2);
     
     // Shadow for details box
     ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
@@ -814,7 +817,7 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
     
     // White details box with rounded corners
     ctx.fillStyle = '#FFFFFF';
-    roundRect(ctx, 40, detailsBoxY, width - 80, detailsBoxHeight, borderRadius);
+    roundRect(ctx, detailsBoxPadding, detailsBoxY, detailsBoxWidth, detailsBoxHeight, borderRadius);
     ctx.fill();
     
     // Reset shadow
@@ -823,9 +826,9 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
 
-    // Profile photo - left aligned, half overlapping the details box
-    const photoX = 60;
-    const photoY = detailsBoxY + (detailsBoxHeight / 2) - (photoSize / 2);
+    // Profile photo - CENTERED HORIZONTALLY and OVERLAPPING the white box
+    const photoX = (width - photoSize) / 2; // Centered
+    const photoY = detailsBoxY - (photoSize / 2); // Half above, half below the box edge
     
     if (profile.profilePhoto && profile.profilePhoto.data) {
       try {
@@ -833,10 +836,10 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
         const photoImage = await loadImage(photoBuffer);
         
         // Shadow for photo
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
-        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        ctx.shadowBlur = 15;
         ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 4;
+        ctx.shadowOffsetY = 5;
         
         // Draw circular photo
         ctx.save();
@@ -855,7 +858,7 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
         
         // Border around photo
         ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
         ctx.stroke();
@@ -868,10 +871,10 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
         const photoImage = await loadImage(profile.profileImage.url);
         
         // Shadow for photo
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
-        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        ctx.shadowBlur = 15;
         ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 4;
+        ctx.shadowOffsetY = 5;
         
         ctx.save();
         ctx.beginPath();
@@ -888,7 +891,7 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
         ctx.shadowOffsetY = 0;
         
         ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
         ctx.stroke();
@@ -897,46 +900,79 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
         drawInitialsCircle(ctx, profile, photoX, photoY, photoSize);
       }
     } else {
-      // Draw initials circle
-      drawInitialsCircle(ctx, profile, photoX, photoY, photoSize);
-    }
-
-    // Name, role, email, and company - right side of the photo (inside white box)
-    const textX = photoX + photoSize + 30;
-    const textStartY = detailsBoxY + 45;
-    
-    // Name
-    ctx.fillStyle = '#1f2937'; // Dark gray for name
-    ctx.font = 'bold 28px Arial';
-    ctx.textAlign = 'left';
-    ctx.fillText(profile.name || 'Name', textX, textStartY);
-
-    // Title/Role section
-    let currentY = textStartY + 32;
-    if (profile.title) {
-      ctx.font = '20px Arial';
-      ctx.fillStyle = '#666'; // Medium gray
-      ctx.fillText(profile.title, textX, currentY);
-      currentY += 28;
-    }
-
-    // Email section with company in brackets
-    if (profile.email) {
-      ctx.font = '18px Arial';
-      ctx.fillStyle = '#666'; // Medium gray
-      let emailText = profile.email;
+      // Draw initials circle with shadow
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+      ctx.shadowBlur = 15;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 5;
       
-      // Add company name in brackets if it exists
-      if (profile.organization) {
-        emailText += ` (${profile.organization})`;
+      drawInitialsCircle(ctx, profile, photoX, photoY, photoSize);
+      
+      // Reset shadow
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+    }
+
+    // ============ TEXT RENDERING - CENTERED LAYOUT ============
+    
+    // Text starts below the photo
+    const textStartY = photoY + photoSize + 30; // Start below photo with spacing
+    const maxTextWidth = detailsBoxWidth - 80; // Padding on both sides
+    
+    // Helper function: Dynamic font sizing (NO WRAPPING)
+    function getDynamicFontSize(text, baseSize, minSize, maxWidth, fontWeight = '') {
+      let fontSize = baseSize;
+      ctx.font = `${fontWeight} ${fontSize}px Arial`;
+      
+      // Reduce font size until text fits or minimum is reached
+      while (ctx.measureText(text).width > maxWidth && fontSize > minSize) {
+        fontSize -= 1;
+        ctx.font = `${fontWeight} ${fontSize}px Arial`;
       }
       
-      ctx.fillText(emailText, textX, currentY);
-    } else if (profile.organization) {
-      // If no email but has company, show company only
-      ctx.font = '18px Arial';
-      ctx.fillStyle = '#666';
-      ctx.fillText(`(${profile.organization})`, textX, currentY);
+      return fontSize;
+    }
+
+    // CENTER ALIGN ALL TEXT
+    ctx.textAlign = 'center';
+    const centerX = width / 2; // Center of the canvas
+
+    // Draw NAME with dynamic font sizing (min 12px)
+    const name = profile.name || 'Name';
+    const nameFontSize = getDynamicFontSize(name, 32, 12, maxTextWidth, 'bold');
+    ctx.font = `bold ${nameFontSize}px Arial`;
+    ctx.fillStyle = '#1f2937'; // Dark gray for name
+    ctx.fillText(name, centerX, textStartY);
+
+    // Calculate next Y position
+    let currentY = textStartY + 28;
+
+    // Draw TITLE/ROLE (if exists) - min 10px
+    if (profile.title) {
+      const titleFontSize = getDynamicFontSize(profile.title, 20, 10, maxTextWidth);
+      ctx.font = `${titleFontSize}px Arial`;
+      ctx.fillStyle = '#666'; // Medium gray
+      ctx.fillText(profile.title, centerX, currentY);
+      currentY += 24;
+    }
+
+    // Draw EMAIL (separate row) - min 10px
+    if (profile.email) {
+      const emailFontSize = getDynamicFontSize(profile.email, 18, 10, maxTextWidth);
+      ctx.font = `${emailFontSize}px Arial`;
+      ctx.fillStyle = '#666'; // Medium gray
+      ctx.fillText(profile.email, centerX, currentY);
+      currentY += 22;
+    }
+
+    // Draw ORGANIZATION (separate row) - min 10px
+    if (profile.organization) {
+      const orgFontSize = getDynamicFontSize(profile.organization, 18, 10, maxTextWidth);
+      ctx.font = `${orgFontSize}px Arial`;
+      ctx.fillStyle = '#666'; // Medium gray
+      ctx.fillText(profile.organization, centerX, currentY);
     }
 
     // Convert canvas to buffer
@@ -959,7 +995,6 @@ router.get('/:identifier/download-styled-qr', async (req, res) => {
     });
   }
 });
-
 // Helper function to draw rounded rectangle
 function roundRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();

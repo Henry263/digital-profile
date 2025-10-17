@@ -11,6 +11,7 @@ async function initializeAvatar() {
     }
 
     try {
+        console.log("Initialize avata")
         const response = await $.ajax({
             url: '/api/profile',
             method: 'GET',
@@ -55,7 +56,7 @@ function displayNavbarAvatar(profile) {
 
 // Call on every page load
 $(document).ready(function() {
-    initializeAvatar();
+    // initializeAvatar();
 });
 
 // Refresh avatar when returning to page (e.g., after updating profile)

@@ -27,6 +27,7 @@ router.get('/', authenticateToken, async (req, res) => {
       // Create empty wallet if it doesn't exist
       wallet = new Wallet({
         userId: userId,
+       
         cards: []
       });
       await wallet.save();
@@ -72,10 +73,13 @@ router.post('/add/:cardId', authenticateToken, async (req, res) => {
         cards: []
       });
     }
-    
+    const initials = profile.getInitials ? profile.getInitials() : 
+      (profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'NA');
     // Prepare card data - match the schema exactly
+    let hasProfilePhoto = !!(profile.profilePhoto && profile.profilePhoto.data && profile.profilePhoto.data.length > 0);
+    
     const cardData = {
-      profileId: profile._id,
+      profileId: new mongoose.Types.ObjectId(profile._id),
       cardId: profile.cardId,
       name: profile.name,
       email: profile.email,
@@ -84,12 +88,14 @@ router.post('/add/:cardId', authenticateToken, async (req, res) => {
       slug: profile.slug || '',
       title: profile.title || '',
       organization: profile.organization || '',
+      initials: initials,
+      hasProfilePhoto:hasProfilePhoto,
       profileImage: {
         url: profile.profileImage?.url || ''
       },
       qrCodeUrl: `/card/${profile.slug || profile.cardId}/qr`
     };
-    
+   
     // Add card to wallet
     const result = wallet.addCard(cardData);
     

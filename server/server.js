@@ -19,6 +19,7 @@ const cardRoutes = require('./routes/card');
 const contactRoutes = require('./routes/contact');
 const suggestionRoutes = require('./routes/suggestion');
 const shortUrlRoutes = require('./routes/shortUrlRoutes');
+const walletRoutes = require('./routes/wallet');
 
 const sharedfunctions = require('./services/sharedfunctions')
 let envVariables = sharedfunctions.readenvironmentconfig();
@@ -90,6 +91,8 @@ const PORT = process.env.PORT || 3030;
 app.use(express.json());
 app.use(cookieParser()); 
 app.set('trust proxy', true);
+// ADD THIS: Handle preflight requests
+
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: {
@@ -172,31 +175,46 @@ app.get("/favicon.ico", (req, res) => {
 app.get("/about", (req, res) => {
   res.redirect('/?page=home');
     // Or just send file and read ?page=home from URL in JS
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 app.get("/faq", (req, res) => {
   res.redirect('/?page=faq');
     // Or just send file and read ?page=home from URL in JS
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 app.get("/signup", (req, res) => {
   res.redirect('/?page=signup');
     // Or just send file and read ?page=home from URL in JS
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get("/login", (req, res) => {
   res.redirect('/?page=login');
     // Or just send file and read ?page=home from URL in JS
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get("/profile", (req, res) => {
   res.redirect('/?page=profile');
     // Or just send file and read ?page=home from URL in JS
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get("/usecase", (req, res) => {
+  res.redirect('/?page=usecase');
+    // Or just send file and read ?page=home from URL in JS
+    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+app.get("/scenario", (req, res) => {
+  res.redirect('/?page=usecase');
+    // Or just send file and read ?page=home from URL in JS
+    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+app.get("/wallet", (req, res) => {
+  res.redirect('/?page=wallet');
+    // Or just send file and read ?page=home from URL in JS
+    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.get("/robots.txt", (req, res) => {
   res.sendFile(path.join(__dirname, "robots.txt"));
@@ -213,6 +231,7 @@ app.use('/api/profile/generate-custom-qr', qrLimiter);
 
 app.use('/api/contact', contactRoutes);
 app.use('/api/suggestions', suggestionRoutes);
+app.use('/api/wallet', walletRoutes);
 // CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
@@ -226,8 +245,18 @@ const corsOptions = {
     'http://qrmypro.com/', 
     'http://qrmypro.com', 
     'http://www.qrmypro.com/',
-    'http://www.qrmypro.com']
-    : ['http://localhost:3030', 'http://localhost:8080', 
+    'http://www.qrmypro.com', 'capacitor://localhost',
+    'ionic://localhost',
+    'http://localhost',
+    'https://localhost',
+    'capacitor://*',
+    'ionic://*'
+  ]
+    : ['http://localhost:3030', 'http://localhost:8080',
+    'capacitor://localhost',
+        'ionic://localhost',
+        'http://localhost',
+        'https://localhost', 
     'https://qrmypro.com/', 
     'https://qrmypro.com', 
     'https://www.qrmypro.com/',
@@ -237,7 +266,17 @@ const corsOptions = {
     'http://www.qrmypro.com/',
     'http://www.qrmypro.com'],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'Cookie',
+    'X-Requested-With',
+    'Accept',
+    'Origin'
+  ],
+  exposedHeaders: ['Set-Cookie']
 };
 app.use(cors(corsOptions));
 
@@ -252,8 +291,15 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
+    httpOnly: true,
+    // IMPORTANT: Change sameSite for mobile app
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    // Allow cookies across subdomains
+    domain: process.env.NODE_ENV === 'production' ? '.qrmypro.com' : undefined
+  },
+  proxy: true, // Trust proxy
+  name: 'qrmypro.sid' // Custom session name
 }));
 
 app.use((req, res, next) => {

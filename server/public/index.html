@@ -159,6 +159,8 @@
     <link rel="stylesheet" href="css/profile-photo-section.css">
     <link rel="stylesheet" href="css/usecases.css">
     <link rel="stylesheet" href="css/wallet.css">
+    <link rel="stylesheet" href="css/card-template/card-template.css">
+    
 
 
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
@@ -579,7 +581,7 @@
                     <div>
                         <h3 style="margin-bottom: 1rem;font-weight: 300;letter-spacing: 0.4px;">Social Media Links</h3>
 
-                        <div class="social-links">
+                        <div class="social-links-profile">
                             <div class="social-item">
                                 <div class="icon-input">
                                     <div class="social-icon"><i class="fab fa-instagram"></i></div>
@@ -747,30 +749,129 @@
                 <!-- Main Card Content -->
                 <div class="main-card">
                     <!-- Header with profile info -->
-                    <div class="card-header">
+                    <div class="card-header ">
                         <div class="profile-info">
-                            <h1 id="displayName">John Doe</h1>
+                            <!-- <h1 id="displayName">John Doe</h1>
                             <h2 id="displayTitle">Software Engineer</h2>
-                            <p id="displayOrganization">Tech Company Inc.</p>
+                            <p id="displayOrganization">Tech Company Inc.</p> -->
+
+                           <div class="heading-display-profile">Users will see this profile look on their screen when they can this QR code.</div>
+                            <div class=" display-card-container">
+                        
+                                <!-- Profile Section -->
+                                <div class="profile-section">
+                        
+                                    <div class="profile-header">
+                                        <div class="app-logo">
+                                            <img id="profile-page-logo" src="/image/app-logo.png" alt="QRprofile Logo" class="logo-image">
+                                            <!-- <span class="logo-text">QRprofile</span> -->
+                                        </div>
+                                        <!-- <div class="profile-avatar">{{initials}}</div> -->
+                                        <!-- Profile Avatar/Photo -->
+                                        <div class="profile-avatar" id="displaycardAvatar">
+                                            <!-- {{#if hasProfilePhoto}}
+                                            <img src="/api/profile/photo/{{profileId}}" alt="{{name}}">
+                                            {{else}}
+                                            <span>{{initials}}</span>
+                                            {{/if}} -->
+                                        </div>
+                                    </div>
+                                    <div class="display-profile-content">
+                                        <!-- <div class="profile-avatar">{{initials}}</div> -->
+                                        <h1 class="display-profile-name"></h1>
+                                        <div class="display-profile-title"></div>
+                                        <div class="display-profile-organization"></div>
+                                        <div class="display-views-counter">
+                                            📊 views
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <!-- Action Buttons -->
+                                <div class="actions-section">
+                                    <a href="javascript:void(0)" class="action-btn">
+                                        <i class="fas fa-save"></i> <span>Save Contact</span>
+                                    </a>
+                                    <!-- <a href="javascript:window.open(window.location.origin, '_blank')" class="action-btn create-profile-btn">
+                                        <i class="fas fa-qrcode"></i> <span>Create my QRProfile</span>
+                                    </a> -->
+                                    <button class="action-btn addToWalletBtn" id="addToWalletBtn" >
+                                        <i class="fas fa-wallet"></i> Add to QRWallet
+                                    </button>
+                                </div>
+                        
+                                <!-- Social Media Links -->
+                                <div class="social-section" id="socialSection" >
+                                    <h3 class="section-title">Connect With Me</h3>
+                                    <div class="social-links" id="socialLinksdisplay">
+                                        <!-- Social links will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                        
+                                <!-- Contact Information -->
+                                <div class="contact-section" id="displaycontactSection">
+                                    <!-- Contact items will be populated by JavaScript -->
+                                </div>
+                        
+                                <!-- Address -->
+                                <div class="address-section" id="addressSection" style="display: none;">
+                                    <h3 class="section-title">📍 Location</h3>
+                                    <div class="address-text">{{address}}</div>
+                                </div>
+                        
+                                <!-- Action Buttons -->
+                                <div class="actions-section">
+                                    <a href="javascript:void(0)" class="action-btn">
+                                        <i class="fas fa-save"></i> <span>Save Contact</span>
+                                    </a>
+                                    
+                                    <!-- <button class="action-btn addToWalletBtn" id="addToWalletBtn_" >
+                                        <i class="fas fa-wallet"></i> Add to QRWallet
+                                    </button> -->
+                                </div>
+                        
+                                <!-- Notes -->
+                                <div class="notes-section" id="notesSection" style="display: none;">
+                                    <h3 class="section-title">📝 About</h3>
+                                    <div class="notes-text">{{notes}}</div>
+                                </div>
+                        
+                                <div id="resolution-message"
+                                    style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;">
+                                    <div
+                                        style="background: white; padding: 2rem; border-radius: 20px; text-align: center; max-width: 90%; box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 40px;">
+                                        <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+                                        <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">Screen Too Small</h2>
+                                        <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.5;">
+                                            This application requires a minimum screen width of 400px for the best experience.
+                                            Please rotate your device or use a larger screen.
+                                        </p>
+                                        <p style="color: #999; font-size: 0.9rem;">
+                                            Current width: 341px | Required: 400px minimum
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="qr-container">
                             <div id="generatedQR" class="qr-display">
                                 <!-- QR code will be inserted here -->
                             </div>
-                            <p class="qr-label">Scan to connect</p>
+                            <!-- <p class="qr-label">Scan to connect</p> -->
                         </div>
                     </div>
 
                     <!-- Social Media -->
-                    <div class="social-section">
+                    <!-- <div class="social-section">
                         <h3 class="section-title">Connect on Social</h3>
                         <div id="socialLinksDisplay" class="social-grid">
-                            <!-- Social links will be populated here -->
+                           Social links will be populated here
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Download buttons -->
-                    <div class="card-actions">
+                    <!-- <div class="card-actions">
                         <button class="action-btn secondary" id="downloadVCard-btn">
                             <i class="fas fa-download"></i>
                             Save Contact
@@ -783,10 +884,10 @@
                             <i class="fas fa-mobile-alt"></i>
                             Add to Wallet
                         </button>
-                    </div>
+                    </div> -->
 
                     <!-- Contact Methods -->
-                    <div class="contact-methods">
+                    <!-- <div class="contact-methods">
                         <a href="tel:4805820174" class="contact-method" id="displayPhoneLink">
                             <div class="method-icon"><i class="fas fa-phone"></i></div>
                             <div class="method-info">
@@ -818,16 +919,16 @@
                                 <span class="method-value" id="displayWebsiteText">example.com</span>
                             </div>
                         </a>
-                    </div>
+                    </div> -->
 
                     <!-- Address if available -->
-                    <div class="address-section" id="addressSection" style="display: none;">
+                    <!-- <div class="address-section" id="addressSection" style="display: none;">
                         <div class="section-icon">📍</div>
                         <div class="section-content">
                             <h3>Location</h3>
                             <p id="displayAddress">123 Main St, City, State</p>
                         </div>
-                    </div>
+                    </div> -->
 
 
 
@@ -1514,7 +1615,9 @@
     </div>
     <!-- <script src="/js/main.js"></script> -->
     <!-- <script src="/js/integration.js"></script> -->
-    <script type="module" src="/dist/app.min.js"></script>
+    <!-- <script type="module" src="/dist/app.min.js"></script> -->
+    <script type="module" src="/js/app.js"></script>
+   
     <!-- <script src="/js/countries-autocomplete.min.js"></script> -->
     <!-- <script type="module" src="/js/wallet.js"></script> -->
 

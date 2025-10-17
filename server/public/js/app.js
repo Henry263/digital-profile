@@ -67,10 +67,15 @@ function initializeEventHandlers() {
     $("#downloadVCard-btn").on("click", downloadVCard);
     $("#shareCard-btn").on("click", copyStandaloneUrl);
     $("#addToWallet-btn").on("click", addToWallet);
-    $("#downloadQRCode-btn").on("click", downloadStyledQRCard);
+
+    // Button which are available on my card page.
+    $("#downloadQRCode-btn").on("click", downloadQRCode);
     
     // Dynamic buttons (delegated)
-    $(document).on("click", "#downloadQRCode-btn-dynamic", downloadStyledQRCard);
+    // $(document).on("click", "#downloadQRCode-btn-dynamic", downloadStyledQRCard);
+    $(document).on("click", "#downloadQRCode-btn-dynamic", downloadQRCode);
+    $(document).on("click", "#downloadonlyQRCode-btn-dynamic", downloadStyledQRCard);
+    
     $(document).on("click", "#downloadVCard-btn-dynamic", downloadVCard);
     $(document).on("click", ".copy-url-btn", copyStandaloneUrl);
 

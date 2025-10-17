@@ -441,9 +441,9 @@ function populateSocialMedia() {
 }
 
 function renderCardPhoto(cardData) {
-    // console.log("contactData.cardId: ", contactData.cardId);
+    // console.log("contactData.cardId: ", contactData.cardId); photo/c/${data.cardId}
     const photoHtml = contactData.hasProfilePhoto
-        ? `<img src="/api/profile/photo/card/${contactData.cardId}" alt="${contactData.initials}">`
+        ? `<img src="/api/profile/photo/c/${contactData.cardId}" alt="${contactData.initials}">`
         : `<span>${contactData.initials}</span>`;
 
     $(".profile-avatar").html(photoHtml);

@@ -1,5 +1,6 @@
 // public/js/wallet.js
 import { showSuccessMessage, showErrorMessage } from './ui/notifications.js';
+import { api } from './core/api-client.js';
 // Wallet API functions
 const walletAPI = {
     // Get all cards in wallet
@@ -85,6 +86,8 @@ function attachWalletCardListeners() {
             const cardName = btn.getAttribute("data-cardname");
             // console.log("Remove clicked - cardId:", cardId, "cardName:", cardName);
             await removeFromWallet(cardId, cardName);
+
+
         }
     });
 }
@@ -119,6 +122,7 @@ async function loadWalletCards() {
     attachWalletCardListeners();
 }
 
+
 // Create HTML for a single wallet card (KEEPING YOUR FORMAT)
 function createWalletCardHTML(card) {
     const initials = getInitials(card.name);
@@ -128,36 +132,37 @@ function createWalletCardHTML(card) {
         day: "numeric",
     });
 
+    console.log("card image url:", card.profileImage.url);
     // Determine if card has profile photo
-    const avatarHTML =
-        card.profileImage && card.profileImage.url
-            ? `<img src="${card.profileImage.url}" alt="${escapeHtml(card.name)}">`
-            : `<span>${initials}</span>`;
+    
+    let avatarHTML;
+    
+    if (card.hasProfilePhoto) {
+        // Card has a profile photo - show image with fallback to initials on error
+        const profilePhotoUrl = `${api.baseURL}/api/profile/photo/c/${card.cardId}`;
+        avatarHTML = `<img src="${profilePhotoUrl}" 
+                           alt="${escapeHtml(card.name)}" 
+                           crossorigin="anonymous"
+                           onerror="this.style.display='none'; this.parentElement.innerHTML='<span>${initials}</span>';">`;
+    } else {
+        // No profile photo - show initials directly
+        avatarHTML = `<span>${initials}</span>`;
+    }
 
     // Extract company/organization name (if available from profileId)
-    const companyName = card.organization || "QRMyPro";
+    const companyName = card.organization || "";
 
     // Extract title (if available)
     const title = card.title || "";
-    /**
-     * removed due to duplicate entry.
-     */
-    // <div class="wallet-card-company">${escapeHtml(companyName)}</div>
-
-    // <!-- QR Code at Top -->
-    // <div class="wallet-card-qr-top">
-    //     <div class="wallet-qr-top-container">
-    //         <img src="/card/${escapeHtml(card.slug)}/qr" alt="QR Code for ${escapeHtml(card.name)}">
-    //     </div>
-    // </div>
+    
 
     return `
-        <div class="digital-wallet-card" data-card-id="${escapeHtml(card.slug)}">
+        <div class="digital-wallet-card" data-card-id="${escapeHtml(card.slug)}" data-cardid="${escapeHtml(card.cardId)}">
       
             
             <!-- Colored Header Section -->
             <div class="wallet-card-header-section">
-                <div class="wallet-card-brand-name">${escapeHtml(companyName)}</div>
+                <div class="wallet-card-brand-name">${escapeHtml(card.organization)}</div>
                 <div class="wallet-qr-top-container">
                     <img src="/card/${escapeHtml(card.slug)}/qr" alt="QR Code for ${escapeHtml(card.name)}">
                 </div>
@@ -169,9 +174,13 @@ function createWalletCardHTML(card) {
             
             <!-- Content Section -->
             <div class="wallet-card-content">
+                <div class="empty-div"></div>
+                <div class="actual-content">
                 <div class="wallet-card-name">${escapeHtml(card.name)}</div>
                 ${title ? `<div class="wallet-card-title">${escapeHtml(title)}</div>` : ""}
                 <div class="wallet-card-email"><a href="mailto:${escapeHtml(card.email)}" class="wallet-display-email" title="Email">${escapeHtml(card.email)}</a></div>
+          
+                </div>
             </div>
             
             <!-- Contact Icons -->
@@ -235,6 +244,8 @@ async function removeFromWallet(cardId, cardName) {
 
     if (result.success) {
         showSuccessMessage("Card removed from wallet");
+        const cardIdtoremove = cardId;
+        $(`[data-cardid="${cardIdtoremove}"]`).remove();
         // Remove card from DOM with animation
         const cardElement = document.querySelector(`[data-card-id="${cardId}"]`);
         if (cardElement) {

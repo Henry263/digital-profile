@@ -594,12 +594,12 @@ router.get('/photo/:profileId', async (req, res) => {
 });
 
 // Get profile photo by cardId (for public card view)
-router.get('/photo/card/:cardId', async (req, res) => {
+router.get('/photo/c/:cardId', async (req, res) => {
   try {
     const profile = await Profile.findOne({ cardId: req.params.cardId });
     
     if (!profile || !profile.profilePhoto || !profile.profilePhoto.data) {
-      return res.status(404).json({ success: false, message: 'Profile photo not found' });
+      return res.status(502).json({ success: false, message: 'Profile photo not found', initials: profile.getInitials ? profile.getInitials() : getInitials(profile.name) });
     }
 
     res.set('Content-Type', profile.profilePhoto.contentType);

@@ -327,6 +327,59 @@ router.get('/:identifier', async (req, res) => {
   }
 });
 
+router.get('/:identifier/wallet-card-data', async (req, res) => {
+  try {
+    const { identifier } = req.params;
+    const profile = await findProfileBySlugOrCardId(identifier);
+
+    if (!profile) {
+      return res.status(404).json({
+        success: false,
+        message: 'Card not found'
+      });
+    }
+
+    if (!profile.isPublic) {
+      return res.status(404).json({
+        success: false,
+        message: 'Card is not public'
+      });
+    }
+
+    // Get initials
+    const initials = profile.getInitials ? profile.getInitials() : 
+      (profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'NA');
+
+    // Prepare wallet card data
+    const walletCardData = {
+      cardId: profile.cardId,
+      slug: profile.slug,
+      name: profile.name,
+      title: profile.title || '',
+      organization: profile.organization || '',
+      email: profile.email || '',
+      phone: profile.phone || '',
+      mobile: profile.mobile || '',
+      initials: initials,
+      qrUrl: `/card/${profile.slug || profile.cardId}/qr`,
+      cardUrl: `/card/${profile.slug || profile.cardId}`,
+      standaloneUrl: profile.generateStandaloneUrl(),
+      hasProfilePhoto: !!(profile.profilePhoto && profile.profilePhoto.data)
+    };
+
+    res.json({
+      success: true,
+      data: walletCardData
+    });
+  } catch (error) {
+    console.error('Wallet card data error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching wallet card data',
+      error: error.message
+    });
+  }
+});
 
 // Generate vCard for download
 // Enhanced vCard generation with notes and URL

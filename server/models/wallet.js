@@ -39,6 +39,14 @@ const walletCardSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  initials: {           
+    type: String,
+    default: 'NA'
+  },
+  hasProfilePhoto: {   
+    type: Boolean,
+    default: false
+  },
   profileImage: {
     url: {
       type: String,
@@ -81,7 +89,7 @@ const walletSchema = new mongoose.Schema({
 walletSchema.methods.addCard = function(cardData) {
   // Check if card already exists
   const existingCard = this.cards.find(
-    card => card.cardId === cardData.cardId
+    card => card.cardId === cardData.cardId || card.profileId.toString() === cardData.profileId.toString()
   );
   
   if (existingCard) {

@@ -11,10 +11,10 @@ export function updateProfileDisplay(profile) {
     const avatarInitials = $("#avatarInitials");
     const profilePhotoImg = $("#profilePhotoImg");
     const deleteBtn = $("#deletePhotoBtn");
-
+    
     if (profile.hasProfilePhoto) {
         // Show photo
-        profilePhotoImg.attr("src", `/api/profile/photo/${profile._id}`);
+        profilePhotoImg.attr("src", `/api/profile/photo/c/${profile.cardId}`);
         profilePhotoImg.show();
         avatarDisplay.hide();
         deleteBtn.show();
@@ -39,7 +39,7 @@ export function updateNavbarAvatar(profile) {
     navbarAvatar.empty();
 
     if (profile.hasProfilePhoto) {
-        navbarAvatar.html(`<img src="/api/profile/photo/${profile._id}" alt="Profile">`);
+        navbarAvatar.html(`<img src="/api/profile/photo/c/${profile.cardId}" alt="Profile">`);
     } else {
         navbarAvatar.text(profile.initials);
     }

@@ -238,21 +238,48 @@ function getsixdigitcode(){
   const uniqueCode = Math.random().toString(36).substring(2, 8).toLowerCase();
   return uniqueCode;
 }
+
+// Helper function to interweave/mix name and unique code
+function mixNameAndCode(name, code) {
+  // Remove spaces and special characters from name
+  const cleanName = name.toLowerCase()
+    .replace(/[^\w]/g, '')  // Keep only alphanumeric
+    .replace(/\s+/g, '');    // Remove spaces
+  
+  let result = '';
+  const maxLength = Math.max(cleanName.length, code.length);
+  
+  // Interweave characters from name and code alternately
+  for (let i = 0; i < maxLength; i++) {
+    if (i < cleanName.length) {
+      result += cleanName[i];
+    }
+    if (i < code.length) {
+      result += code[i];
+    }
+  }
+  
+  return result;
+}
 profileSchema.methods.generateSlug = async function (name) {
   if (!name) return null;
 
-  // Generate base slug
-  let baseSlug = name.toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_]+/g, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-|-$/g, '');
+  // // Generate base slug
+  // let baseSlug = name.toLowerCase()
+  //   .replace(/[^\w\s-]/g, '')
+  //   .replace(/[\s_]+/g, '-')
+  //   .replace(/-{2,}/g, '-')
+  //   .replace(/^-|-$/g, '');
 
-  if (!baseSlug) return null;
+  // if (!baseSlug) return null;
+
+  
+  const uniqueCode = getsixdigitcode();
+  
+  // Mix name and code together (interweave)
+  let slug = mixNameAndCode(name, uniqueCode);
 
   const Profile = this.constructor;
-  let slug = baseSlug;
-
   // Check if slug exists
   const existing = await Profile.findOne({ 
     slug: slug,
@@ -262,7 +289,7 @@ profileSchema.methods.generateSlug = async function (name) {
   if (existing) {
     // Slug exists, add 6-character unique code
     const uniqueCode = getsixdigitcode()
-    slug = `${baseSlug}-${uniqueCode}`;
+    slug = mixNameAndCode(name, uniqueCode);
     
     // Double-check the new slug is unique
     const existingWithCode = await Profile.findOne({ 
@@ -273,7 +300,7 @@ profileSchema.methods.generateSlug = async function (name) {
     if (existingWithCode) {
       // Very rare collision, use timestamp
       let reuniqueCode = getsixdigitcode()
-      slug = `${baseSlug}-${reuniqueCode}`;
+      slug = mixNameAndCode(name, reuniqueCode);
     }
   }
 
@@ -297,22 +324,31 @@ profileSchema.methods.getInitials = function() {
 
 // Pre-save hook to generate slug
 profileSchema.pre('save', async function (next) {
-  if (this.isNew || this.isModified('name')) {
-    let baseSlug = await this.generateSlug(this.name);
+  // if (this.isNew || this.isModified('name')) {
+  //   let baseSlug = await this.generateSlug(this.name);
 
-    if (baseSlug) {
-      let slug = baseSlug;
-      let counter = 1;
+  //   if (baseSlug) {
+  //     let slug = baseSlug;
+  //     let counter = 1;
 
-      // Check for uniqueness and add number if needed
-      while (await this.constructor.findOne({ slug: slug, _id: { $ne: this._id } })) {
-        slug = `${baseSlug}-${counter}`;
-        counter++;
-      }
+  //     // Check for uniqueness and add number if needed
+  //     while (await this.constructor.findOne({ slug: slug, _id: { $ne: this._id } })) {
+  //       slug = `${baseSlug}-${counter}`;
+  //       counter++;
+  //     }
 
-      this.slug = slug;
+  //     this.slug = slug;
+  //   }
+  // }
+  // next();
+  // Only generate slug for NEW profiles, never change existing slugs
+  if (this.isNew && !this.slug) {  // ✅ ONLY on creation
+    const generatedSlug = await this.generateSlug(this.name);
+    if (generatedSlug) {
+      this.slug = generatedSlug;
     }
   }
+  // If name is modified on existing profile, slug remains unchanged
   next();
 });
 

@@ -23,41 +23,6 @@ const router = express.Router();
 
 const { toObjectId } = require('../utils/dbHelpers');
 
-// function toObjectIdm(id) {
-//   const mongoose = require('mongoose');
-//   return mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : id;
-// }
-
-// Configure multer for file uploads
-// const storage = multer.diskStorage({
-//   destination: async (req, file, cb) => {
-//     console.log("req.user: ", req.user);
-//     const uploadDir = path.join(__dirname, '../uploads/profilephotos', req.user.userId.toString());
-//     try {
-//       await fs.mkdir(uploadDir, { recursive: true });
-//       cb(null, uploadDir);
-//     } catch (error) {
-//       cb(error);
-//     }
-//   },
-//   filename: (req, file, cb) => {
-//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-//     cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-//   }
-// });
-
-// const upload = multer({
-//   storage: storage,
-//   limits: { fileSize: 5 * 1024 * 1024 },
-//   fileFilter: (req, file, cb) => {
-//     const allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-//     if (allowedMimes.includes(file.mimetype)) {
-//       cb(null, true);
-//     } else {
-//       cb(new Error('Invalid file type. Only images are allowed.'));
-//     }
-//   }
-// });
 
 // Simple memory storage configuration
 const storage = multer.memoryStorage();
@@ -138,7 +103,8 @@ router.get('/', authenticateToken, async (req, res) => {
 
     const userId = toObjectId(req.user.userId || req.user._id);
     let profile = await Profile.findOne({ userId });
-
+    //let profile = await Profile.findOne({ "email": req.user.email});
+    // console.log("userId: ", userId)
     if (!profile) {
       console.log('❌ No profile found for user');
       return res.json({
@@ -263,9 +229,9 @@ router.post('/', authenticateToken, async (req, res) => {
 
       // Check if critical info changed (affects QR code)
       const criticalFieldsChanged = (
-        profile.name !== name ||
-        profile.email !== email ||
-        profile.website !== website
+       
+        profile.email !== email 
+     
       );
 
       if (criticalFieldsChanged) {
@@ -286,7 +252,7 @@ router.post('/', authenticateToken, async (req, res) => {
       // profile.theme = theme || profile.theme;
       // profile.isPublic = isPublic !== undefined ? isPublic : profile.isPublic;
       // profile.showPhoneNumber = showPhoneNumber !== undefined ? showPhoneNumber : profile.showPhoneNumber;  // Add this
-
+     
       profile.name = name || profile.name;
       profile.title = title !== undefined ? title : profile.title;
       profile.organization = organization !== undefined ? organization : profile.organization;
@@ -299,6 +265,7 @@ router.post('/', authenticateToken, async (req, res) => {
       profile.theme = theme || profile.theme;
       profile.isPublic = isPublic !== undefined ? isPublic : profile.isPublic;
       profile.showPhoneNumber = showPhoneNumber !== undefined ? showPhoneNumber : profile.showPhoneNumber;
+     
       // Update location fields
       if (country) {
         profile.country = {
@@ -419,7 +386,7 @@ router.post('/', authenticateToken, async (req, res) => {
     const baseURL = envVariables.BASE_URL;
     // const standaloneUrl = `${process.env.BASE_URL}/card/${profile.cardId}`;
     const standaloneUrl = `${baseURL}/card/${profile.cardId}`;
-
+    const hasPhoto = profile.hasProfilePhoto();
     // Prepare response
     const responseData = {
       success: true,
@@ -449,7 +416,9 @@ router.post('/', authenticateToken, async (req, res) => {
         uploadedQR: profile.uploadedQR,
         qrSettings: profile.qrSettings,
         createdAt: profile.createdAt,
-        updatedAt: profile.updatedAt
+        updatedAt: profile.updatedAt,
+        hasProfilePhoto : hasPhoto,
+        initials: profile.getInitials ? profile.getInitials() : getInitials(profile.name)
       },
       qrCodes: profile.qrCodes || [],
       primaryQR: primaryQR,
@@ -663,7 +632,7 @@ router.post('/regenerate-qr', authenticateToken, async (req, res) => {
     }
 
     let newQRCodes = [];
-
+  
     if (generateAll) {
       // Generate all formats
       newQRCodes = await QRService.generateMultipleFormats(profile);
@@ -700,6 +669,7 @@ router.post('/regenerate-qr', authenticateToken, async (req, res) => {
 // Get specific QR code by type
 router.get('/qr/:type', authenticateToken, async (req, res) => {
   try {
+    console.log("inside-creating-qr0code");
     const { type } = req.params;
     const { download = false } = req.query;
 
@@ -723,6 +693,7 @@ router.get('/qr/:type', authenticateToken, async (req, res) => {
     }
 
     if (download) {
+      console.log("Inside generate qrcode");
       // Serve the QR code file for download
       // console.log("Download qr code condition");
       const filePath = path.join(__dirname, '../uploads/qr-codes', qrCode.filename);
@@ -789,6 +760,7 @@ router.post('/generate-custom-qr', authenticateToken, async (req, res) => {
       });
       customQR.type = 'trackable';
     } else {
+      console.log("1");
       customQR = await QRService.generateProfileQR(profile, qrOptions);
       customQR.type = 'custom';
     }

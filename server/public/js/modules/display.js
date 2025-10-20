@@ -5,7 +5,7 @@ import { api } from "../core/api-client.js";
 import { getUserProfile } from "../core/auth.js";
 import { SOCIAL_ICONS, VALID_SOCIAL_FIELDS } from "../core/config.js";
 import { showSuccessMessage, showErrorMessage } from "../ui/notifications.js";
-
+import { updateProfileDisplay, updateNavbarAvatar } from './avatar.js';
 
 function renderCardPhoto(userProfile) {
     // console.log("contactData.cardId: ", contactData.cardId); photo/c/${data.cardId}
@@ -34,7 +34,7 @@ function displaypopulateContacts(userprofile) {
     let contactHtml = "";
     let phonedivhtml = "";
     let contentdivhtml = "";
-    if (userprofile.phone && contactData.phone.trim()) {
+    if (userprofile.phone && userprofile.phone.trim()) {
         phonedivhtml += `
         <a href="tel:${userprofile.phone}" class="contact-item contact-phone" onclick="trackContact('phone')">
             <div class="contact-icon"><i class="fas fa-phone"></i></div>
@@ -157,11 +157,13 @@ function displaypopulateContacts(userprofile) {
 
 export async function updateDisplayPage() {
     const userProfile = getUserProfile();
+    console.log("userprofile: ", userProfile);
     if (!userProfile) return;
 
     try {
         renderCardPhoto(userProfile)
         displaypopulateContacts(userProfile)
+        updateNavbarAvatar(userProfile)
         // Weare going to replace with actual card
         // const socialContainer = document.getElementById("socialLinksDisplay");
         // socialContainer.innerHTML = "";

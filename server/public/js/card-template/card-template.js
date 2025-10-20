@@ -55,13 +55,15 @@ async function handleAddToWallet(btnElement) {
             // Show success message
             setTimeout(() => {
                 alert("Card added to your wallet! You can view it in the Wallet tab.");
-            }, 500);
+            }, 300);
 
             setTimeout(() => {
                 $btn.html(originalText); // Use .html()
                 $btn.css("background", ""); // Use .css()
                 $btn.prop("disabled", false); // Use .prop()
-            }, 3000);
+            }, 1000);
+            window.open('/wallet', '_blank');
+
         } else {
             throw new Error(data.message || "Failed to add card");
         }

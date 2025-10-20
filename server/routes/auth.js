@@ -181,7 +181,7 @@ function authenticateToken(req, res, next) {
     try {
       const decoded = jwt.verify(headerToken, process.env.JWT_SECRET);
       req.user = decoded;
-      console.log('User authenticated via Bearer token:', decoded.email || decoded._id);
+      // console.log('User authenticated via Bearer token:', decoded.email || decoded._id);
       return next();
     } catch (error) {
       console.error('Bearer token verification failed:', error.message);

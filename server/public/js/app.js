@@ -262,6 +262,9 @@ async function initializeApplication() {
 
 // Initialize on DOM ready
 document.addEventListener("DOMContentLoaded", async function() {
+
+    $("#navbarAvatar").hide();
+                            $("#navbarAvatarDesktop").hide();
     // Initialize all modules
     initializeEventHandlers();
     initializeModals();

@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Wallet = require('../models/Wallet');
+const Wallet = require('../models/wallet');
 const Profile = require('../models/Profile');
 const { authenticateToken } = require('./auth');
 

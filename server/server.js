@@ -358,6 +358,7 @@ app.get('/qr/:cardId', async (req, res) => {
     QRMiddleware.trackQRUsage('direct_access')(req, res, () => {});
     
     const QRService = require('./services/qrService');
+    // console.log("2");
     const qrBuffer = await QRService.generateProfileQR(profile, {
       size: parseInt(size)
     });

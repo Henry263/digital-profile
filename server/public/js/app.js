@@ -3,6 +3,8 @@
 
 // Core imports
 import { api } from './core/api-client.js';
+
+
 import { 
     setCurrentUser, 
     setUserProfile,
@@ -176,11 +178,11 @@ async function initializeApplication() {
     if (!isStandalone) {
         try {
             const isAuthenticated = await api.checkAuthStatus();
-
+            console.log("isAuthenticated: ", isAuthenticated);
             if (isAuthenticated) {
                 try {
                     const user = await api.getCurrentUser();
-
+                    console.log("user: ", user);
                     if (user.success) {
                         setCurrentUser(user.user);
                         updateAuthUI();
@@ -339,6 +341,20 @@ function hideResolutionMessage() {
     const msg = document.getElementById("resolution-message");
     if (msg) msg.remove();
 }
+
+// Update Authentication UI
+
+  
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(event) {
+    const userMenu = document.querySelector('.user-menu');
+    const dropdown = document.getElementById('userDropdown');
+    
+    if (dropdown && userMenu && !userMenu.contains(event.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
 
 // Make key functions globally accessible
 window.showPage = showPage;

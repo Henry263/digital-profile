@@ -923,6 +923,8 @@ body {
 }
 
 .form-group input,
+.form-group-signup input,
+.form-group-signin input,
 .form-group textarea {
   width: 100%;
   padding: 0.75rem;
@@ -933,6 +935,8 @@ body {
 }
 
 .form-group input:focus,
+.form-group-signup input:focus,
+.form-group-signin input:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: #667eea;
@@ -1104,17 +1108,175 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  margin: 1rem auto;
+  margin: 1rem 0px;
   transition: background 0.3s;
   width: 100%;
-  max-width: 300px;
+  /* max-width: 300px; */
 }
 
+div#emailSignupPage {
+  margin-top: 20px;
+  /* display: flex
+; */
+  /* gap: 10px; */
+  /* flex-direction: column; */
+}
+.auth-header {
+  margin: 10px 0px;
+}
+form#emailSignupForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.form-group-signup, .form-group-signin {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+.password-input-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
 .google-btn:hover {
   background: transparent;
   color: white;
   border: 1px solid white;
   border-radius: 8px;
+}
+button#signinBtn {
+  margin: 10px 0px;
+  font-size: 14px;
+  width: 100%;
+  background: white;
+  color: #667eea;
+  padding: 10px;
+  border-radius: 10px;
+}
+a.forgot-link {
+  text-decoration: none;
+  color: white;
+}
+.verification-icon h2 {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.form-options-signin {
+  display: flex;
+  margin-bottom: 20px;
+  /* color: white; */
+  /* text-decoration: none; */
+}
+.form-group.form-group-forgot-password {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0px;
+}
+button#forgotBtn {
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background: white;
+  color: #667eea;
+}
+div#signinbackbtn {
+  margin: 10px 0px;
+}
+.auth-header-forgot-password {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.verification-icon {
+  display: flex;
+  gap: 5px;
+  /* font-size: 12px; */
+}
+
+.toggle-password {
+    /* position: absolute; */
+    right: 12px;
+    top: 50%;
+    /* transform: translateX(-130%); */
+    border: none;
+    /* transform: translateY(2px); */
+    color: #7258b4;
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.3s ease;
+    border: 1px solid;
+    border-radius: 50%;
+    width: 40px;
+    height: 38px;
+    margin: 0px 5px;
+    background: white;
+}
+
+.toggle-password:hover {
+  color: #667eea;
+}
+
+  /* Password Requirements */
+  .password-requirements {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0 0;
+  }
+  
+  .password-requirements li {
+    font-size: 12px;
+    color: #ffffff;
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+  }
+  
+  .password-requirements li i {
+    font-size: 6px;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .password-requirements li.valid {
+    color: #6afba7;
+  }
+  
+  .password-requirements li.valid i {
+    color: #6afba7;
+  }
+  button#createaccountBtn, #verifyBtn, #resendverification {
+    background: white;
+    color: #667eea;
+    border: 1px solid;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0px;
+    transition: background 0.3s;
+    width: 100%;
+}
+.resend-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.verifyemail-div{
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Mobile Responsiveness */
@@ -1253,6 +1415,8 @@ body {
   }
 
   .form-group input,
+  .form-group-signup input,
+  .form-group-signin input,
   .form-group textarea {
     font-size: 16px;
     /* Prevents zoom on iOS */

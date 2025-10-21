@@ -10,7 +10,7 @@ const { authenticateToken } = require('./auth');
 
 
 const Profile = require('../models/Profile');
-const User = require('../models/User');
+//const User = require('../models/User');
 const Analytics = require('../models/Analytics');
 const QRService = require('../services/qrService');
 
@@ -99,10 +99,15 @@ function getInitials(name) {
 // GET Profile - Read QR codes from DB, generate only if missing
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    // console.log(`📋 Getting profile for user: ${req.user.email}`);
+    console.log(`📋 Getting profile for user: ${req.user.email}`);
+    console.log(`📋 Getting profile for req.user.userId: ${req.user.userId}`);
+    console.log(`📋 Getting profile for req.user._id: ${req.user._id}`);
 
-    const userId = toObjectId(req.user.userId || req.user._id);
-    let profile = await Profile.findOne({ userId });
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    const userId = req.user.email;
+    console.log(`📋 Getting profile for user: ${userId}`);
+
+    let profile = await Profile.findOne({ email: req.user.email });
     //let profile = await Profile.findOne({ "email": req.user.email});
     // console.log("userId: ", userId)
     if (!profile) {
@@ -379,7 +384,7 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 
     // Update user reference
-    await User.findByIdAndUpdate(req.user._id, { profile: profile._id });
+    // await User.findByIdAndUpdate(req.user._id, { profile: profile._id });
 
     // Find primary QR
     const primaryQR = profile.qrCodes ? profile.qrCodes.find(qr => qr.type === 'standard') : null;

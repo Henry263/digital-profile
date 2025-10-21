@@ -1,6 +1,7 @@
 // models/Profile.js
 const mongoose = require('mongoose');
 const multer = require('multer');
+const bcrypt = require('bcryptjs'); 
 
 const sharedfunctions = require('../services/sharedfunctions')
 let envVariables = sharedfunctions.readenvironmentconfig();
@@ -45,9 +46,45 @@ const profileSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: false,
     unique: true,
     index: true
+  },
+  googleId: {
+    type: String,
+    sparse: true,
+    index: true
+  },
+  password: {
+    type: String,
+    select: false
+  },
+  authProvider: {
+    type: String,
+    enum: ['google', 'email'],
+    default: 'email'
+  },
+  isEmailVerified: {
+    type: Boolean,
+    default: false
+  },
+  verificationCode: {
+    type: String,
+    default: null  // ✅ Explicit default
+  },
+  verificationCodeExpires: {
+    type: Date,
+    default: null  // ✅ Explicit default
+  },
+  resetPasswordToken: {
+    type: String,
+    select: false,
+    default: null
+  },
+  resetPasswordExpires: {
+    type: Date,
+    select: false,
+    default: null
   },
   cardId: {
     type: String,
@@ -90,7 +127,9 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
     lowercase: true,
-    trim: true
+    trim: true,
+    unique: true,
+    index: true
   },
   website: {
     type: String,
@@ -234,6 +273,97 @@ const profileSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// ============== AUTH METHODS ==============
+
+// Hash password before saving
+// profileSchema.pre('save', async function(next) {
+//   // Only hash password if it's modified and exists
+//   if (!this.isModified('password') || !this.password) {
+//     return next();
+//   }
+  
+//   try {
+//     const salt = await bcrypt.genSalt(12);
+//     this.password = await bcrypt.hash(this.password, salt);
+//     next();
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// ============== SINGLE COMBINED PRE-SAVE HOOK ==============
+// Replace ALL pre('save') hooks with this one
+profileSchema.pre('save', async function(next) {
+  try {
+    // 1. Update timestamp
+    this.updatedAt = Date.now();
+    
+    // 2. Generate cardId if not exists
+    if (!this.cardId) {
+      this.cardId = uuidv4();
+    }
+    
+    // 3. Generate slug for NEW profiles only
+    if (this.isNew && !this.slug) {
+      const generatedSlug = await this.generateSlug(this.name);
+      if (generatedSlug) {
+        this.slug = generatedSlug;
+      }
+    }
+    
+    // 4. Hash password only if modified and exists
+    // if (this.isModified('password') && this.password) {
+    //   const salt = await bcrypt.genSalt(12);
+    //   this.password = await bcrypt.hash(this.password, salt);
+    // }
+    
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Method to compare passwords
+profileSchema.methods.comparePassword = async function(candidatePassword) {
+  try {
+    // Need to get password field explicitly since select: false
+    const profile = await this.constructor.findById(this._id).select('+password');
+    if (!profile || !profile.password) {
+      return false;
+    }
+    return await bcrypt.compare(candidatePassword, profile.password);
+  } catch (error) {
+    console.error('Password compare error:', error);
+    return false;
+  }
+};
+
+// Method to generate verification code
+profileSchema.methods.generateVerificationCode = function() {
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  this.verificationCode = code;
+  this.verificationCodeExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
+
+  this.markModified('verificationCode');
+  this.markModified('verificationCodeExpires');
+
+  return code;
+};
+
+// Method to generate password reset token
+profileSchema.methods.generateResetToken = function() {
+  const crypto = require('crypto');
+  const token = crypto.randomBytes(32).toString('hex');
+  this.resetPasswordToken = crypto.createHash('sha256').update(token).digest('hex');
+  this.resetPasswordExpires = Date.now() + 30 * 60 * 60 * 1000; // 30 minutes
+
+  this.markModified('resetPasswordToken');
+  this.markModified('resetPasswordExpires');
+
+  return token;
+};
+
+
 function getsixdigitcode(){
   const uniqueCode = Math.random().toString(36).substring(2, 8).toLowerCase();
   return uniqueCode;
@@ -323,43 +453,29 @@ profileSchema.methods.getInitials = function() {
 };
 
 // Pre-save hook to generate slug
-profileSchema.pre('save', async function (next) {
-  // if (this.isNew || this.isModified('name')) {
-  //   let baseSlug = await this.generateSlug(this.name);
-
-  //   if (baseSlug) {
-  //     let slug = baseSlug;
-  //     let counter = 1;
-
-  //     // Check for uniqueness and add number if needed
-  //     while (await this.constructor.findOne({ slug: slug, _id: { $ne: this._id } })) {
-  //       slug = `${baseSlug}-${counter}`;
-  //       counter++;
-  //     }
-
-  //     this.slug = slug;
-  //   }
-  // }
-  // next();
-  // Only generate slug for NEW profiles, never change existing slugs
-  if (this.isNew && !this.slug) {  // ✅ ONLY on creation
-    const generatedSlug = await this.generateSlug(this.name);
-    if (generatedSlug) {
-      this.slug = generatedSlug;
-    }
-  }
-  // If name is modified on existing profile, slug remains unchanged
-  next();
-});
+// profileSchema.pre('save', async function (next) {
+  
+//   // Only generate slug for NEW profiles, never change existing slugs
+//   if (this.isNew && !this.slug) {  // ✅ ONLY on creation
+//     const generatedSlug = await this.generateSlug(this.name);
+//     if (generatedSlug) {
+//       this.slug = generatedSlug;
+//     }
+//   }
+//   // If name is modified on existing profile, slug remains unchanged
+//   next();
+// });
 
 // Generate unique cardId before saving
-profileSchema.pre('save', function (next) {
-  if (!this.cardId) {
-    this.cardId = uuidv4();
-  }
-  this.updatedAt = Date.now();
-  next();
-});
+// profileSchema.pre('save', function (next) {
+//   if (!this.cardId) {
+//     this.cardId = uuidv4();
+//   }
+//   this.updatedAt = Date.now();
+//   next();
+// });
+
+
 
 // Generate standalone URL
 profileSchema.methods.generateStandaloneUrl = function () {

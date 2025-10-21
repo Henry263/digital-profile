@@ -160,7 +160,8 @@
     <link rel="stylesheet" href="css/usecases.css">
     <link rel="stylesheet" href="css/wallet.css">
     <link rel="stylesheet" href="css/card-template/card-template.css">
-    
+    <!-- <link rel="stylesheet" href="css/auth.css"> -->
+
 
 
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
@@ -172,13 +173,13 @@
 
 <body>
     <!-- Navigation -->
-   
+
 
     <nav class="navbar">
         <div class="logo">
             <img src="./image/app-logo.png" alt="QRprofile Logo" class="logo-image-only">
         </div>
-        
+
         <!-- Mobile Right Section: Avatar + Hamburger -->
         <div class="mobile-nav-right">
             <div class="navbar-avatar" id="navbarAvatar"></div>
@@ -188,13 +189,14 @@
                 <span></span>
             </button>
         </div>
-        
+
         <!-- Desktop Nav Buttons (hidden on mobile) -->
         <div class="nav-buttons desktop-nav">
             <button class="btn homebutton btn-primary">Home</button>
             <button class="btn hidden btn-primary" id="loginBtn">Login</button>
             <button class="btn btn-primary hidden" id="signupBtn">Sign Up</button>
             <button class="btn btn-primary" id="profileBtn">Profile</button>
+           
             <button class="btn btn-primary" id="displayBtn">My Card</button>
             <button class="btn btn-primary" id="walletBtn">QRWallet</button>
             <button class="btn btn-primary" id="usecaseBtn">Use Cases</button>
@@ -202,13 +204,14 @@
             <button class="btn btn-primary" id="logoutBtn">Logout</button>
             <div class="navbar-avatar desktop-avatar" id="navbarAvatarDesktop"></div>
         </div>
-        
+
         <!-- Mobile Menu (slides from right) -->
         <div class="mobile-menu" id="mobileMenu">
             <button class="btn homebutton btn-primary mobile-menu-btn">Home</button>
             <button class="btn hidden btn-primary mobile-menu-btn" id="loginBtnMobile">Login</button>
             <button class="btn btn-primary hidden mobile-menu-btn" id="signupBtnMobile">Sign Up</button>
             <button class="btn btn-primary mobile-menu-btn" id="profileBtnMobile">Profile</button>
+            
             <button class="btn btn-primary mobile-menu-btn" id="displayBtnMobile">My Card</button>
             <button class="btn btn-primary mobile-menu-btn" id="walletBtnMobile">QRWallet</button>
             <button class="btn btn-primary mobile-menu-btn" id="usecaseBtnMobile">Use Cases</button>
@@ -380,38 +383,306 @@
                     </svg>
                     Sign in with Google
                 </button>
+                 <!-- EMAIL LOGIN PAGE -->
+            <div id="emailLoginPage" class="" style="">
+                <div class="auth-container">
+                    <div class="auth-card">
+                       
+                        <form id="emailLoginForm" class="auth-form">
+                            <div class="form-group-signin">
+                                <label for="loginEmail">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                                <input type="email" id="loginEmail" name="email" placeholder="you@example.com"
+                                    required />
+                                <span class="error-message" id="loginEmailError"></span>
+                            </div>
+
+                            <div class="form-group-signin">
+                                <label for="loginPassword">
+                                    <i class="fas fa-lock"></i> Password
+                                </label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="loginPassword" name="password"
+                                        placeholder="Enter your password" required />
+                                    <button type="button" class="toggle-password" data-passtype='loginPassword'>
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <span class="error-message" id="loginPasswordError"></span>
+                            </div>
+
+                            <div class="form-options-signin">
+                                <!-- <label class="checkbox-label">
+                                    <input type="checkbox" name="remember" />
+                                    <span>Remember me</span>
+                                </label> -->
+                                <a href="javascript:void(0)"  class="forgot-link">
+                                    Forgot password?    
+                                </a>
+                                
+                            </div>
+
+                            <button type="button" class="btn btn-primary" id="signinBtn">
+                                <i class="fas fa-sign-in-alt"></i> Sign In
+                            </button>
+                        </form>
+
+                       
+                    </div>
+                </div>
+            </div>
                 <p style="margin-top: 1rem;color: white;">
                     Don't have an account?
-                    <a href="#" class="signupbutton">Sign up
+                    <a href="javascript:void(0)" class="signupbutton">Sign up
                         here</a>
                 </p>
             </div>
+
+
+           
         </div>
 
+         <!-- FORGOT PASSWORD PAGE -->
+         <div id="forgotPasswordPage" class="page" >
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header-forgot-password">
+                        <div class="verification-icon">
+                            <i class="fas fa-key"></i>
+                            <h2>Reset Password</h2>
+                        </div>
+                        
+                        <p>Enter your email to receive a reset link</p>
+                    </div>
+
+                    <form id="forgotPasswordForm" class="auth-form">
+                        <div class="form-group form-group-forgot-password">
+                            <label for="forgotEmail">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" id="forgotEmail" name="email" placeholder="you@example.com"
+                                required />
+                            <span class="error-message" id="forgotEmailError"></span>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="forgotBtn">
+                            <i class="fas fa-paper-plane"></i> Send Reset Link
+                        </button>
+                    </form>
+
+                    <div class="auth-footer auth-footer-forgot-password" id="signinbackbtn">
+                        <!-- <a href="#" onclick="showPage('emailLoginPage'); return false;"> -->
+                            <i class="fas fa-arrow-left"></i> Back to Sign In
+                        <!-- </a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESET PASSWORD PAGE -->
+        <div id="resetPasswordPage" class="page" >
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h2>Create New Password</h2>
+                        <p>Choose a strong password</p>
+                    </div>
+
+                    <form id="resetPasswordForm" class="auth-form">
+                        <input type="hidden" id="resetToken" name="token" />
+
+                        <div class="form-group">
+                            <label for="newPassword">
+                                <i class="fas fa-lock"></i> New Password
+                            </label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="newPassword" name="password"
+                                    placeholder="Create a new password" required minlength="8" />
+                                <button type="button" class="toggle-password" data-passtype='newPassword'>
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <span class="error-message" id="newPasswordError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">
+                                <i class="fas fa-lock"></i> Confirm Password
+                            </label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="confirmPassword" name="confirmPassword"
+                                    placeholder="Confirm your password" required />
+                                <button type="button" class="toggle-password" data-passtype='confirmPassword'>
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <span class="error-message" id="confirmPasswordError"></span>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="resetBtn">
+                            <i class="fas fa-check"></i> Reset Password
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- EMAIL VERIFICATION PAGE -->
+       
+        <div id="emailVerificationPage" class="page">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header verifyemail-div">
+                        <div class="verification-icon">
+                            <i class="fas fa-envelope-open-text"></i>
+                            <h2>Verify Your Email</h2>
+                        </div>
+                        <div class="verificaiton-emailid-div">
+                            <p>We've sent a 6-digit code to</p>
+                        <p class="highlight-email" id="verificationEmail"></p>
+                        </div>
+                        
+                    </div>
+
+                    <form id="emailVerificationForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="verificationCode">
+                                <i class="fas fa-key"></i> Verification Code
+                            </label>
+                            <input type="text" id="verificationCode" name="code" placeholder="000000" maxlength="6"
+                                pattern="[0-9]{6}" required class="code-input" />
+                            <span class="error-message" id="codeError"></span>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="verifyBtn">
+                            <i class="fas fa-check"></i> Verify Email
+                        </button>
+                    </form>
+
+                    <div class="resend-section">
+                        <p>Didn't receive the code?</p>
+                        <button class="btn-link" id="resendverification">
+                            <i class="fas fa-redo"></i> Resend Code
+                        </button>
+                    </div>
+
+                    <div class="auth-footer" id="backsignupbtn">
+                        <!-- <a href="#" onclick="showPage('emailSignupPage'); return false;"> -->
+                            <i class="fas fa-arrow-left"></i> Back to Sign Up
+                        <!-- </a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Signup Page -->
         <div id="signupPage" class="page">
             <div style="max-width: 400px; margin: 0 auto; text-align: center;">
                 <h2 style="margin-bottom: 2rem;color: white;font-weight: 400;">Create Account</h2>
-                <button class="google-btn" id="signupWithGoogle-btn">
-                    <!-- <span>🔍</span> -->
-                    <svg width="18" height="18" viewBox="0 0 24 24">
-                        <path fill="#4285F4"
-                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                        <path fill="#34A853"
-                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                        <path fill="#FBBC05"
-                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                        <path fill="#EA4335"
-                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                    </svg>
-                    Sign up with Google
-                </button>
-                <p style="margin-top: 1rem;color: white;">
-                    Already have an account?
-                    <a href="#" class="loginbutton" style="color: #667eea; text-decoration: none;">Login
-                        here</a>
-                </p>
+                <div class="google-signup-div">
+                    <button class="google-btn" id="signupWithGoogle-btn">
+                        <!-- <span>🔍</span> -->
+                        <svg width="18" height="18" viewBox="0 0 24 24">
+                            <path fill="#4285F4"
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                            <path fill="#34A853"
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                            <path fill="#FBBC05"
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                            <path fill="#EA4335"
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                        </svg>
+                        Sign up with Google
+                    </button>
+                    <p style="margin-top: 1rem;color: white;">
+                        Already have an account?
+                        <a href="javascript:void(0)" class="loginbutton" style="color: #667eea; text-decoration: none;">Login
+                            here</a>
+                    </p>
+                </div>
+                 <!-- EMAIL SIGNUP PAGE -->
+                <div id="emailSignupPage" class="" style="">
+                    <div class="auth-container">
+                        <div class="auth-card">
+                            <div class="auth-header">
+                              
+                                <p>Sign up with your email</p>
+                            </div>
+
+                            <form id="emailSignupForm" class="auth-form">
+                                <div class="form-group-signup">
+                                    <label for="signupName">
+                                        <i class="fas fa-user"></i> Full Name
+                                    </label>
+                                    <input type="text" id="signupName" name="name" placeholder="John Doe" required
+                                        minlength="2" />
+                                    <span class="error-message" id="nameError"></span>
+                                </div>
+
+                                <div class="form-group-signup">
+                                    <label for="signupEmail">
+                                        <i class="fas fa-envelope"></i> Email
+                                    </label>
+                                    <input type="email" id="signupEmail" name="email" placeholder="you@example.com"
+                                        required />
+                                    <span class="error-message" id="emailError"></span>
+                                    <span class="info-message">
+                                        <i class="fas fa-info-circle"></i>
+                                        Gmail users will be redirected to Google Sign-In
+                                    </span>
+                                </div>
+
+                                <div class="form-group-signup">
+                                    <label for="signupPassword">
+                                        <i class="fas fa-lock"></i> Password
+                                    </label>
+                                    <div class="password-input-wrapper">
+                                        <input type="password" id="signupPassword" name="password"
+                                            placeholder="Create a strong password" required minlength="8" />
+                                        <button type="button" class="toggle-password" data-passtype='signupPassword'>
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="password-strength" id="passwordStrength">
+                                        <div class="strength-bar">
+                                            <div class="strength-bar-fill" id="strengthBarFill"></div>
+                                        </div>
+                                        <span class="strength-text" id="strengthText">Password strength</span>
+                                    </div>
+                                    <ul class="password-requirements">
+                                        <li id="req-length">
+                                            <i class="fas fa-circle"></i> At least 8 characters
+                                        </li>
+                                        <li id="req-uppercase">
+                                            <i class="fas fa-circle"></i> One uppercase letter
+                                        </li>
+                                        <li id="req-lowercase">
+                                            <i class="fas fa-circle"></i> One lowercase letter
+                                        </li>
+                                        <li id="req-number">
+                                            <i class="fas fa-circle"></i> One number
+                                        </li>
+                                        <li id="req-special">
+                                            <i class="fas fa-circle"></i> One special character (@$!%*?&#)
+                                        </li>
+                                    </ul>
+                                    <span class="error-message" id="passwordError"></span>
+                                </div>
+                                <button type="submit" class="btn-primary" id="createaccountBtn">
+                                    <i class="fas fa-user-plus"></i> Create Account
+                                  </button>
+                               
+                            </form>
+
+                           
+                        </div>
+                    </div>
+                </div>
             </div>
+            
+
+          
+            
         </div>
 
         <!-- Profile Page -->
@@ -755,15 +1026,17 @@
                             <h2 id="displayTitle">Software Engineer</h2>
                             <p id="displayOrganization">Tech Company Inc.</p> -->
 
-                           <div class="heading-display-profile">Users will see this profile look on their screen when they can this QR code.</div>
+                            <div class="heading-display-profile">Users will see this profile look on their screen when
+                                they can this QR code.</div>
                             <div class=" display-card-container">
-                        
+
                                 <!-- Profile Section -->
                                 <div class="profile-section">
-                        
+
                                     <div class="profile-header">
                                         <div class="app-logo">
-                                            <img id="profile-page-logo" src="/image/app-logo.png" alt="QRprofile Logo" class="logo-image">
+                                            <img id="profile-page-logo" src="/image/app-logo.png" alt="QRprofile Logo"
+                                                class="logo-image">
                                             <!-- <span class="logo-text">QRprofile</span> -->
                                         </div>
                                         <!-- <div class="profile-avatar">{{initials}}</div> -->
@@ -786,7 +1059,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        
+
                                 <!-- Action Buttons -->
                                 <div class="actions-section">
                                     <a href="javascript:void(0)" class="action-btn">
@@ -795,55 +1068,57 @@
                                     <!-- <a href="javascript:window.open(window.location.origin, '_blank')" class="action-btn create-profile-btn">
                                         <i class="fas fa-qrcode"></i> <span>Create my QRProfile</span>
                                     </a> -->
-                                    <button class="action-btn addToWalletBtn" id="addToWalletBtn" >
+                                    <button class="action-btn addToWalletBtn" id="addToWalletBtn">
                                         <i class="fas fa-wallet"></i> Add to QRWallet
                                     </button>
                                 </div>
-                        
+
                                 <!-- Social Media Links -->
-                                <div class="social-section" id="socialSection" >
+                                <div class="social-section" id="socialSection">
                                     <h3 class="section-title">Connect With Me</h3>
                                     <div class="social-links" id="socialLinksdisplay">
                                         <!-- Social links will be populated by JavaScript -->
                                     </div>
                                 </div>
-                        
+
                                 <!-- Contact Information -->
                                 <div class="contact-section" id="displaycontactSection">
                                     <!-- Contact items will be populated by JavaScript -->
                                 </div>
-                        
+
                                 <!-- Address -->
                                 <div class="address-section" id="addressSection" style="display: none;">
                                     <h3 class="section-title">📍 Location</h3>
                                     <div class="address-text">{{address}}</div>
                                 </div>
-                        
+
                                 <!-- Action Buttons -->
                                 <div class="actions-section">
                                     <a href="javascript:void(0)" class="action-btn">
                                         <i class="fas fa-save"></i> <span>Save Contact</span>
                                     </a>
-                                    
+
                                     <!-- <button class="action-btn addToWalletBtn" id="addToWalletBtn_" >
                                         <i class="fas fa-wallet"></i> Add to QRWallet
                                     </button> -->
                                 </div>
-                        
+
                                 <!-- Notes -->
                                 <div class="notes-section" id="notesSection" style="display: none;">
                                     <h3 class="section-title">📝 About</h3>
                                     <div class="notes-text">{{notes}}</div>
                                 </div>
-                        
+
                                 <div id="resolution-message"
                                     style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;">
                                     <div
                                         style="background: white; padding: 2rem; border-radius: 20px; text-align: center; max-width: 90%; box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 40px;">
                                         <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
-                                        <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">Screen Too Small</h2>
+                                        <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">Screen Too
+                                            Small</h2>
                                         <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.5;">
-                                            This application requires a minimum screen width of 400px for the best experience.
+                                            This application requires a minimum screen width of 400px for the best
+                                            experience.
                                             Please rotate your device or use a larger screen.
                                         </p>
                                         <p style="color: #999; font-size: 0.9rem;">
@@ -852,7 +1127,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="qr-container">
                             <div id="generatedQR" class="qr-display">
@@ -959,11 +1234,11 @@
                     <h1><i class="fas fa-wallet"></i> My Digital Wallet</h1>
                     <p>Your saved business cards</p>
                 </div>
-                
+
                 <div id="walletCardsContainer" class="wallet-cards-grid">
                     <!-- Wallet cards will be dynamically loaded here -->
                 </div>
-                
+
                 <div id="emptyWalletMessage" class="empty-wallet" style="display: none;">
                     <i class="fas fa-wallet" style="font-size: 4rem; opacity: 0.3; margin-bottom: 1rem;"></i>
                     <h3>Your wallet is empty</h3>
@@ -1337,7 +1612,7 @@
             <div class="usecase-cta" id="singup-cta-button-div-uc">
                 <h2>Ready to Transform Your Networking?</h2>
                 <p>Join thousands of professionals already using QRMyPro</p>
-                <button class="cta-button" id="singup-cta-button-uc" >
+                <button class="cta-button" id="singup-cta-button-uc">
                     <i class="fas fa-rocket"></i>
                     Create Your Digital Card Now
                 </button>
@@ -1617,7 +1892,7 @@
     <!-- <script src="/js/integration.js"></script> -->
     <!-- <script type="module" src="/dist/app.min.js"></script> -->
     <script type="module" src="/js/app.js"></script>
-   
+
     <!-- <script src="/js/countries-autocomplete.min.js"></script> -->
     <!-- <script type="module" src="/js/wallet.js"></script> -->
 

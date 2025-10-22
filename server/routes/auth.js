@@ -504,7 +504,7 @@ router.post('/login', [
     });
 
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error:', error.message);
     res.status(500).json({
       success: false,
       message: 'Error during login'
@@ -550,17 +550,19 @@ router.post('/forgot-password', [
   }
 });
 
+
+// In server/routes/auth.js
+
 // 6. RESET PASSWORD
 router.post('/reset-password', [
-  body('token').notEmpty(),
-  ...passwordValidation
+  body('token').notEmpty()
 ], async (req, res) => {
   try {
     const { token, password } = req.body;
 
     const crypto = require('crypto');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-
+    console.log("Hased token: ", hashedToken);
     const profile = await Profile.findOne({
       resetPasswordToken: hashedToken,
       resetPasswordExpires: { $gt: Date.now() }
@@ -655,6 +657,93 @@ function authenticateToken(req, res, next) {
     success: false,
     message: 'Authentication required'
   });
+}
+
+// Add this NEW endpoint in auth.js - UNIFIED USER + PROFILE
+router.get('/user-profile', authenticateToken, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ email: req.user.email });
+
+    if (!profile) {
+      return res.status(404).json({
+        success: false,
+        message: 'Profile not found',
+        authenticated: true,
+        user: {
+          email: req.user.email,
+          hasProfile: false
+        }
+      });
+    }
+
+    // Check if photo exists
+    const hasPhoto = profile.hasProfilePhoto();
+
+    // Return unified response with both user and profile data
+    res.json({
+      success: true,
+      authenticated: true,
+      user: {
+        id: profile._id,
+        name: profile.name,
+        email: profile.email,
+        avatar: profile.avatar,
+        hasProfile: true
+      },
+      profile: {
+        _id: profile._id,
+        cardId: profile.cardId,
+        name: profile.name,
+        title: profile.title,
+        organization: profile.organization,
+        phone: profile.phone,
+        mobile: profile.mobile,
+        email: profile.email,
+        website: profile.website,
+        address: profile.address,
+        notes: profile.notes,
+        showPhoneNumber: profile.showPhoneNumber,
+        country: profile.country || { name: '', code: '' },
+        state: profile.state || { name: '', id: '', code: '' },
+        city: profile.city || { name: '', id: '' },
+        socialMedia: profile.socialMedia,
+        theme: profile.theme,
+        isPublic: profile.isPublic,
+        views: profile.views,
+        lastViewed: profile.lastViewed,
+        qrCodes: profile.qrCodes || [],
+        uploadedQR: profile.uploadedQR,
+        qrSettings: profile.qrSettings,
+        createdAt: profile.createdAt,
+        updatedAt: profile.updatedAt,
+        slug: profile.slug,
+        hasProfilePhoto: hasPhoto,
+        initials: profile.getInitials ? profile.getInitials() : getInitials(profile.name)
+      },
+      qrCodes: profile.qrCodes || [],
+      primaryQR: profile.qrCodes ? profile.qrCodes.find(qr => qr.type === 'standard') : null,
+      standaloneUrl: profile.generateStandaloneUrl(),
+      profileshortUrl: await profile.getOrCreateShortUrl()
+    });
+
+  } catch (error) {
+    console.error('Get user-profile error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching user and profile',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// Helper function
+function getInitials(name) {
+  if (!name) return 'U';
+  const names = name.trim().split(' ');
+  if (names.length >= 2) {
+    return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+  }
+  return name.substring(0, 2).toUpperCase();
 }
 
 router.get('/me', authenticateToken, async (req, res) => {

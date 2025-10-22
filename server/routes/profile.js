@@ -223,9 +223,10 @@ router.post('/', authenticateToken, async (req, res) => {
 
     // console.log(`💾 Saving profile for user: ${JSON.stringify(req.user)}`, { name, title, organization });
 
-    const userId = toObjectId(req.user.userId || req.user._id);
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    const userId = req.user.email
     // console.log("userId: ", userId);
-    let profile = await Profile.findOne({ userId });
+    let profile = await Profile.findOne({ email: userId });
     let isNewProfile = false;
     let shouldRegenerateQR = false;
 
@@ -471,9 +472,10 @@ router.post('/upload-profile-photo', authenticateToken, upload.single('profilePh
     //   bufferLength: req.file.buffer.length // NOW THIS EXISTS!
     // });
 
-    const userId = toObjectId(req.user.userId || req.user._id);
-
-    const profile = await Profile.findOne({ userId });
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    
+    // const profile = await Profile.findOne({ userId });
+    let profile = await Profile.findOne({ email: req.user.email });
     // console.log("Profile: ", profile);
     if (!profile) {
       return res.status(404).json({ success: false, message: 'Profile not found' });
@@ -529,7 +531,7 @@ router.post('/upload-profile-photo', authenticateToken, upload.single('profilePh
     profile.markModified('profilePhoto');
     await profile.save();
     // console.log("userId: ", userId);
-    const savedProfile = await Profile.findOne({ userId });
+    // const savedProfile = await Profile.findOne({ userId });
     // console.log("savedProfile: ", savedProfile);
     // console.log('✅ Saved successfully:', {
     //   hasData: !!(savedProfile.profilePhoto && savedProfile.profilePhoto.data),
@@ -589,8 +591,9 @@ router.get('/photo/c/:cardId', async (req, res) => {
 // Delete profile photo
 router.delete('/delete-profile-photo', authenticateToken, async (req, res) => {
   try {
-    const userId = toObjectId(req.user.userId || req.user._id);
-    const profile = await Profile.findOne({ userId });
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    // const profile = await Profile.findOne({ userId });
+    let profile = await Profile.findOne({ email: req.user.email });
 
     if (!profile) {
       return res.status(404).json({ success: false, message: 'Profile not found' });
@@ -618,9 +621,9 @@ router.delete('/delete-profile-photo', authenticateToken, async (req, res) => {
 router.post('/regenerate-qr', authenticateToken, async (req, res) => {
   try {
     const { qrOptions = {}, generateAll = true } = req.body;
-    const userId = toObjectId(req.user.userId || req.user._id);
-    let profile = await Profile.findOne({ userId });
-
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    // let profile = await Profile.findOne({ userId });
+    let profile = await Profile.findOne({ email: req.user.email });
     // const profile = await Profile.findOne({ userId: req.user._id });
     if (!profile) {
       return res.status(404).json({
@@ -678,8 +681,9 @@ router.get('/qr/:type', authenticateToken, async (req, res) => {
     const { type } = req.params;
     const { download = false } = req.query;
 
-    const userId = toObjectId(req.user.userId || req.user._id);
-    let profile = await Profile.findOne({ userId });
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    // let profile = await Profile.findOne({ userId });
+    let profile = await Profile.findOne({ email: req.user.email });
     // const profile = await Profile.findOne({ userId: req.user._id });
 
     if (!profile) {
@@ -739,9 +743,9 @@ router.post('/generate-custom-qr', authenticateToken, async (req, res) => {
       saveToProfile = true
     } = req.body;
 
-    const userId = toObjectId(req.user.userId || req.user._id);
-    let profile = await Profile.findOne({ userId });
-
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    // let profile = await Profile.findOne({ userId });
+    let profile = await Profile.findOne({ email: req.user.email });
     // const profile = await Profile.findOne({ userId: req.user._id });
     if (!profile) {
       return res.status(404).json({
@@ -943,10 +947,10 @@ router.post('/bulk-qr-operations', authenticateToken, async (req, res) => {
 router.get('/qr-analytics', authenticateToken, async (req, res) => {
   try {
 
-    const userId = toObjectId(req.user.userId || req.user._id);
-    let profile = await Profile.findOne({ userId });
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    // let profile = await Profile.findOne({ userId });
     // const profile = await Profile.findOne({ userId: req.user._id });
-
+    let profile = await Profile.findOne({ email: req.user.email });
     if (!profile) {
       return res.status(404).json({
         success: false,
@@ -1051,10 +1055,10 @@ router.delete('/', authenticateToken, async (req, res) => {
 // Get profile analytics (existing endpoint updated)
 router.get('/analytics', authenticateToken, async (req, res) => {
   try {
-    const userId = toObjectId(req.user.userId || req.user._id);
-    let profile = await Profile.findOne({ userId });
+    // const userId = toObjectId(req.user.userId || req.user._id);
+    // let profile = await Profile.findOne({ userId });
     // const profile = await Profile.findOne({ userId: req.user._id });
-
+    let profile = await Profile.findOne({ email: req.user.email });
     if (!profile) {
       return res.status(404).json({
         success: false,

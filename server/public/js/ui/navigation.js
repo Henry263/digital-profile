@@ -8,7 +8,7 @@ import { showErrorMessage } from './notifications.js';
 
 export async function showPage(pageId) {
     const currentUser = getCurrentUser();
-    
+
     // Check for standalone mode
     const isStandalone = await checkStandaloneMode();
     if (isStandalone) {
@@ -79,12 +79,13 @@ export async function handleURLParams() {
     if (urlParams.has("page")) {
         const { getUserStatus } = await import('../core/auth.js');
         const pagename = urlParams.get("page");
-        
+
         const pageMap = {
             home: "home",
             faq: "faq",
             usecase: "usecase",
-            scenario: "usecase"
+            scenario: "usecase",
+            resetPassword: "resetPassword"
         };
 
         if (pageMap[pagename]) {
@@ -96,14 +97,17 @@ export async function handleURLParams() {
         const authPages = ["signup", "login", "profile", "wallet"];
         if (authPages.includes(pagename)) {
             const user = await getUserStatus();
-            
+
             if (user && user.authenticated) {
                 showPage(pagename === "signup" || pagename === "login" ? "display" : pagename);
             } else {
                 showPage(pagename === "profile" || pagename === "wallet" ? "login" : pagename);
             }
         }
+
     }
 
     return params;
 }
+
+ 

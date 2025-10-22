@@ -8,11 +8,11 @@
     <meta name="description"
         content="Create your free digital profile with QRMyPro — connect your website, LinkedIn, and all social links under one digital card or QR code. Simple, fast, and 100% free.">
     <meta name="keywords"
-        content="free digital profile, qr card creator, qr business card, digital visiting card, link in bio qr, qrmypro">
+        content="free digital QR profile, digital profile, QRprofile, qr card creator, qr business card, digital visiting card, digital business card, link in bio qr, qrmypro">
     <!-- Open Graph / Facebook Meta Tags -->
-    <meta property="og:title" content="QRMyPro — Free Digital Profile">
+    <meta property="og:title" content="QRProfile — Free Digital Profile & More">
     <meta property="og:description"
-        content="Create QR codes, manage links, and access free digital tools with QRMyPro.">
+        content="Create QR codes and digital profile, manage, share links and profile QR codes and access free digital tools with QRMyPro.com">
     <meta property="og:image" content="https://www.qrmypro.com/image/app-logo.png">
     <meta property="og:url" content="https://www.qrmypro.com">
     <meta property="og:type" content="website">
@@ -466,7 +466,7 @@
                             <span class="error-message" id="forgotEmailError"></span>
                         </div>
 
-                        <button type="submit" class="btn-primary" id="forgotBtn">
+                        <button type="button" class="btn-primary" id="forgotBtn">
                             <i class="fas fa-paper-plane"></i> Send Reset Link
                         </button>
                     </form>
@@ -520,9 +520,34 @@
                             <span class="error-message" id="confirmPasswordError"></span>
                         </div>
 
-                        <button type="submit" class="btn-primary" id="resetBtn">
+                        <button type="button" class="btn-primary" id="resetBtn">
                             <i class="fas fa-check"></i> Reset Password
                         </button>
+
+                        <div class="password-strength" id="passwordStrengthnewpass">
+                            <div class="strength-bar-newpass">
+                                <div class="strength-bar-fill-newpass" id="strengthBarFillnewpass"></div>
+                            </div>
+                            <span class="strength-text" id="strengthTextnewpass">Password strength</span>
+                        </div>
+                        <ul class="password-requirements">
+                            <li id="req-newpass-length">
+                                <i class="fas fa-circle"></i> At least 8 characters
+                            </li>
+                            <li id="req-newpass-uppercase">
+                                <i class="fas fa-circle"></i> One uppercase letter
+                            </li>
+                            <li id="req-newpass-lowercase">
+                                <i class="fas fa-circle"></i> One lowercase letter
+                            </li>
+                            <li id="req-newpass-number">
+                                <i class="fas fa-circle"></i> One number
+                            </li>
+                            <li id="req-newpass-special">
+                                <i class="fas fa-circle"></i> One special character (@$!%*?&#)
+                            </li>
+                        </ul>
+                        <span class="error-message" id="passwordErrornewpass"></span>
                     </form>
                 </div>
             </div>
@@ -1890,8 +1915,8 @@
     </div>
     <!-- <script src="/js/main.js"></script> -->
     <!-- <script src="/js/integration.js"></script> -->
-    <!-- <script type="module" src="/dist/app.min.js"></script> -->
-    <script type="module" src="/js/app.js"></script>
+    <script type="module" src="/dist/app.min.js"></script>
+    <!-- <script type="module" src="/js/app.js"></script> -->
 
     <!-- <script src="/js/countries-autocomplete.min.js"></script> -->
     <!-- <script type="module" src="/js/wallet.js"></script> -->

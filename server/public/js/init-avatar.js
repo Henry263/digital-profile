@@ -38,11 +38,13 @@ function displayNavbarAvatar(profile) {
 
     if (profile.hasProfilePhoto) {
         // Display profile photo
+        const profilePhotoUrl = `${api.baseURL}/api/profile/photo/c/${profile.cardId}`;
+       
         navbarAvatar.html(`
-            <img src="/api/profile/photo/${profile._id}" 
-                 alt="${profile.name || profile.username}" 
-                 onerror="this.style.display='none'; this.parentElement.textContent='${profile.initials}';">
-        `);
+        <img src="${profilePhotoUrl}" 
+             alt="${profile.name || profile.username}" 
+             onerror="this.style.display='none'; this.parentElement.textContent='${profile.initials}';">
+    `);
     } else {
         // Display initials
         navbarAvatar.text(profile.initials);

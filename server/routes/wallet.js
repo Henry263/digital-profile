@@ -9,48 +9,103 @@ const { authenticateToken } = require('./auth');
 // Helper function to get userId as ObjectId
 function getUserId(user) {
   const userId = user.userId || user._id;
-  // Convert to ObjectId if it's a string
   return mongoose.Types.ObjectId.isValid(userId) && typeof userId === 'string'
     ? new mongoose.Types.ObjectId(userId)
     : userId;
 }
 
-// Get user's wallet
+// ============================================
+// GET USER'S WALLET - OPTIMIZED VERSION
+// ============================================
 router.get('/', authenticateToken, async (req, res) => {
   try {
     const userId = getUserId(req.user);
+    const userEmail = req.user.email;
     
-    let wallet = await Wallet.findOne({ userId: userId })
-      .populate('cards.profileId', 'name email phone profileImage title organization');
+    console.log(`📦 Fetching wallet for userId: ${userId}, email: ${userEmail}`);
     
-    if (!wallet) {
-      // Create empty wallet if it doesn't exist
-      wallet = new Wallet({
-        userId: userId,
-       
-        cards: []
-      });
-      await wallet.save();
-    }
+    // Use findOneAndUpdate with upsert for atomic operation
+    // This prevents race conditions and duplicate key errors
+    const wallet = await Wallet.findOneAndUpdate(
+      { userId: userId },
+      {
+        $setOnInsert: {
+          userId: userId,
+          email: userEmail,  // ✅ Add email on creation
+          cards: [],
+          createdAt: new Date()
+        },
+        $set: {
+          updatedAt: new Date()
+        }
+      },
+      {
+        new: true,           // Return the updated document
+        upsert: true,        // Create if doesn't exist
+        runValidators: true, // Run schema validators
+        setDefaultsOnInsert: true
+      }
+    ).populate('cards.profileId', 'name email phone profileImage title organization');
     
+    console.log(`✅ Wallet retrieved successfully, cards count: ${wallet.cards.length}`);
+    
+    const walletObject = wallet.toObject();
+    walletObject.cards = walletObject.cards.map(card => {
+      const { profileId, ...cardWithoutProfileId } = card;
+      return cardWithoutProfileId;
+    });
+
     res.json({
       success: true,
-      wallet: wallet
+      wallet: walletObject
     });
+    
   } catch (error) {
-    console.error('Error fetching wallet:', error);
+    console.error('❌ Error fetching wallet:', error);
+    
+    // Handle duplicate key error gracefully
+    if (error.code === 11000) {
+      console.log('⚠️ Duplicate key detected, fetching existing wallet...');
+      try {
+        const userId = getUserId(req.user);
+        const existingWallet = await Wallet.findOne({ userId: userId })
+          .populate('cards.profileId', 'name email phone profileImage title organization');
+        
+        if (existingWallet) {
+          // Update email if missing
+          if (!existingWallet.email) {
+            existingWallet.email = req.user.email;
+            await existingWallet.save();
+          }
+          
+          return res.json({
+            success: true,
+            wallet: existingWallet
+          });
+        }
+      } catch (retryError) {
+        console.error('❌ Error on retry:', retryError);
+      }
+    }
+    
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch wallet'
+      message: 'Failed to fetch wallet',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });
 
-// Add card to wallet
+// ============================================
+// ADD CARD TO WALLET - OPTIMIZED VERSION
+// ============================================
 router.post('/add/:cardId', authenticateToken, async (req, res) => {
   try {
     const { cardId } = req.params;
     const userId = getUserId(req.user);
+    const userEmail = req.user.email;
+    
+    console.log(`➕ Adding card ${cardId} to wallet for user: ${userEmail}`);
     
     // Find the profile by cardId or slug
     const profile = await Profile.findOne({
@@ -64,18 +119,53 @@ router.post('/add/:cardId', authenticateToken, async (req, res) => {
       });
     }
     
-    // Find or create wallet
-    let wallet = await Wallet.findOne({ userId: userId });
+    console.log(`✅ Profile found: ${profile.name}`);
     
-    if (!wallet) {
-      wallet = new Wallet({
-        userId: userId,
-        cards: []
+    // Get or create wallet atomically
+    let wallet = await Wallet.findOneAndUpdate(
+      { userId: userId },
+      {
+        $setOnInsert: {
+          userId: userId,
+          email: userEmail,  // ✅ Add email on creation
+          cards: [],
+          createdAt: new Date()
+        },
+        $set: {
+          updatedAt: new Date()
+        }
+      },
+      {
+        new: true,
+        upsert: true,
+        runValidators: true,
+        setDefaultsOnInsert: true
+      }
+    );
+    
+    // Update email if missing (for existing wallets)
+    if (!wallet.email) {
+      wallet.email = userEmail;
+    }
+    
+    // Check if card already exists
+    const existingCard = wallet.cards.find(
+      card => card.cardId === cardId || 
+              card.profileId.toString() === profile._id.toString()
+    );
+    
+    if (existingCard) {
+      console.log(`⚠️ Card already exists in wallet`);
+      return res.status(400).json({
+        success: false,
+        message: 'Card already in wallet'
       });
     }
+    
+    // Prepare card data
     const initials = profile.getInitials ? profile.getInitials() : 
       (profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'NA');
-    // Prepare card data - match the schema exactly
+    
     let hasProfilePhoto = !!(profile.profilePhoto && profile.profilePhoto.data && profile.profilePhoto.data.length > 0);
     
     const cardData = {
@@ -89,41 +179,54 @@ router.post('/add/:cardId', authenticateToken, async (req, res) => {
       title: profile.title || '',
       organization: profile.organization || '',
       initials: initials,
-      hasProfilePhoto:hasProfilePhoto,
+      hasProfilePhoto: hasProfilePhoto,
       profileImage: {
         url: profile.profileImage?.url || ''
       },
-      qrCodeUrl: `/card/${profile.slug || profile.cardId}/qr`
+      qrCodeUrl: `/card/${profile.slug || profile.cardId}/qr`,
+      addedAt: new Date()
     };
-   
+    
     // Add card to wallet
-    const result = wallet.addCard(cardData);
-    
-    if (!result.success) {
-      return res.status(400).json(result);
-    }
-    
+    wallet.cards.push(cardData);
     await wallet.save();
+    
+    console.log(`✅ Card added successfully, total cards: ${wallet.cards.length}`);
     
     res.json({
       success: true,
       message: 'Card added to wallet successfully',
       wallet: wallet
     });
+    
   } catch (error) {
-    console.error('Error adding card to wallet:', error);
+    console.error('❌ Error adding card to wallet:', error);
+    
+    // Handle duplicate key error
+    if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: 'Wallet operation conflict. Please try again.'
+      });
+    }
+    
     res.status(500).json({
       success: false,
-      message: 'Failed to add card to wallet'
+      message: 'Failed to add card to wallet',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });
 
-// Remove card from wallet
+// ============================================
+// REMOVE CARD FROM WALLET
+// ============================================
 router.delete('/remove/:cardId', authenticateToken, async (req, res) => {
   try {
     const { cardId } = req.params;
     const userId = getUserId(req.user);
+    
+    console.log(`🗑️ Removing card ${cardId} from wallet`);
     
     const wallet = await Wallet.findOne({ userId: userId });
     
@@ -142,13 +245,15 @@ router.delete('/remove/:cardId', authenticateToken, async (req, res) => {
     
     await wallet.save();
     
+    console.log(`✅ Card removed, remaining cards: ${wallet.cards.length}`);
+    
     res.json({
       success: true,
       message: 'Card removed from wallet successfully',
       wallet: wallet
     });
   } catch (error) {
-    console.error('Error removing card from wallet:', error);
+    console.error('❌ Error removing card from wallet:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to remove card from wallet'
@@ -156,7 +261,9 @@ router.delete('/remove/:cardId', authenticateToken, async (req, res) => {
   }
 });
 
-// Check if card is in wallet
+// ============================================
+// CHECK IF CARD IS IN WALLET
+// ============================================
 router.get('/check/:cardId', authenticateToken, async (req, res) => {
   try {
     const { cardId } = req.params;
@@ -171,14 +278,16 @@ router.get('/check/:cardId', authenticateToken, async (req, res) => {
       });
     }
     
-    const cardInWallet = wallet.cards.some(card => card.cardId === cardId);
+    const cardInWallet = wallet.cards.some(
+      card => card.cardId === cardId || card.slug === cardId
+    );
     
     res.json({
       success: true,
       inWallet: cardInWallet
     });
   } catch (error) {
-    console.error('Error checking wallet:', error);
+    console.error('❌ Error checking wallet:', error);
     res.status(500).json({
       success: false,
       message: 'Failed to check wallet'

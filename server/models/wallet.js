@@ -61,7 +61,7 @@ const walletCardSchema = new mongoose.Schema({
     default: Date.now
   }
 }, {
-  _id: false  // ← DISABLE auto _id on subdocuments
+  _id: false
 });
 
 const walletSchema = new mongoose.Schema({
@@ -69,7 +69,14 @@ const walletSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    unique: true,
+    unique: true,  // Keep this for one wallet per user
+    index: true
+  },
+  email: {  // ✅ ADD THIS NEW FIELD
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true,
     index: true
   },
   cards: [walletCardSchema],
@@ -85,11 +92,13 @@ const walletSchema = new mongoose.Schema({
   timestamps: true
 });
 
+
 // Method to add a card to wallet
 walletSchema.methods.addCard = function(cardData) {
   // Check if card already exists
   const existingCard = this.cards.find(
-    card => card.cardId === cardData.cardId || card.profileId.toString() === cardData.profileId.toString()
+    card => card.cardId === cardData.cardId || 
+            card.profileId.toString() === cardData.profileId.toString()
   );
   
   if (existingCard) {

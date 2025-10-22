@@ -5,24 +5,24 @@
 import { api } from './core/api-client.js';
 
 
-import { 
-    setCurrentUser, 
+import {
+    setCurrentUser,
     setUserProfile,
     getCurrentUser,
-    loginWithGoogle, 
-    signupWithGoogle, 
+    loginWithGoogle,
+    signupWithGoogle,
     logout,
     updateAuthUI,
-    updateAuthUImobilebuttons 
+    updateAuthUImobilebuttons
 } from './core/auth.js';
 
 // Module imports
 import { handleProfileSave, loadProfileData, handleQRUpload } from './modules/profile.js';
-import { 
-    updateDisplayPage, 
-    downloadVCard, 
-    downloadQRCode, 
-    downloadStyledQRCard 
+import {
+    updateDisplayPage,
+    downloadVCard,
+    downloadQRCode,
+    downloadStyledQRCard
 } from './modules/display.js';
 import { addToWallet } from './modules/wallet.js';
 import { validateForm, initializeFormValidation } from './modules/form-validation.js';
@@ -72,19 +72,19 @@ function initializeEventHandlers() {
 
     // Button which are available on my card page.
     $("#downloadQRCode-btn").on("click", downloadQRCode);
-    
+
     // Dynamic buttons (delegated)
     // $(document).on("click", "#downloadQRCode-btn-dynamic", downloadStyledQRCard);
     $(document).on("click", "#downloadQRCode-btn-dynamic", downloadQRCode);
     $(document).on("click", "#downloadonlyQRCode-btn-dynamic", downloadStyledQRCard);
-    
+
     $(document).on("click", "#downloadVCard-btn-dynamic", downloadVCard);
     $(document).on("click", ".copy-url-btn", copyStandaloneUrl);
 
     // Profile form
-    $(".save-btn").on("click", function(e) {
+    $(".save-btn").on("click", function (e) {
         e.preventDefault();
-        
+
         if (validateForm()) {
             handleProfileSave();
         } else {
@@ -94,14 +94,14 @@ function initializeEventHandlers() {
     });
 
     // Mobile menu toggle
-    $("#hamburgerMenu").on("click", function() {
+    $("#hamburgerMenu").on("click", function () {
         $(this).toggleClass("active");
         $("#mobileMenu").toggleClass("active");
         $("body").toggleClass("menu-open");
     });
 
     // Close mobile menu when clicking outside
-    $(document).on("click", function(event) {
+    $(document).on("click", function (event) {
         if (!$(event.target).closest(".mobile-menu, .hamburger-menu").length) {
             $("#hamburgerMenu").removeClass("active");
             $("#mobileMenu").removeClass("active");
@@ -110,46 +110,46 @@ function initializeEventHandlers() {
     });
 
     // Mobile menu buttons - ALL buttons
-    $(".mobile-menu-btn.homebutton").on("click", function() {
+    $(".mobile-menu-btn.homebutton").on("click", function () {
         $(".homebutton").first().click();
         closeMobileMenu();
     });
-    
+
     $("#loginBtnMobile").on("click", () => {
         $("#loginBtn").click();
         closeMobileMenu();
     });
-    
+
     $("#signupBtnMobile").on("click", () => {
         $("#signupBtn").click();
         closeMobileMenu();
     });
-    
+
     $("#profileBtnMobile").on("click", () => {
         $("#profileBtn").click();
         closeMobileMenu();
     });
-    
+
     $("#displayBtnMobile").on("click", () => {
         $("#displayBtn").click();
         closeMobileMenu();
     });
-    
+
     $("#walletBtnMobile").on("click", () => {
         $("#walletBtn").click();
         closeMobileMenu();
     });
-    
+
     $("#usecaseBtnMobile").on("click", () => {
         $("#usecaseBtn").click();
         closeMobileMenu();
     });
-    
+
     $("#faqBtnMobile").on("click", () => {
         $("#faqBtn").click();
         closeMobileMenu();
     });
-    
+
     $("#logoutBtnMobile").on("click", () => {
         $("#logoutBtn").click();
         closeMobileMenu();
@@ -177,52 +177,119 @@ async function initializeApplication() {
 
     if (!isStandalone) {
         try {
-            const isAuthenticated = await api.checkAuthStatus();
-            console.log("isAuthenticated: ", isAuthenticated);
-            if (isAuthenticated) {
-                try {
-                    const user = await api.getCurrentUser();
-                    console.log("user: ", user);
-                    if (user.success) {
-                        setCurrentUser(user.user);
-                        updateAuthUI();
-                        updateAuthUImobilebuttons();
+            const response = await api.getUserWithProfile();
 
-                        const profileResponse = await api.getProfile();
+            if (response.success && response.authenticated) {
+                // console.log('✅ User authenticated', response.user);
 
-                        if (profileResponse.success && profileResponse.profile) {
-                            $(".profile-photo-section").show();
-                            await loadProfileData();
-                            setUserEmail(user.user.email);
-                            $("#navbarAvatar").show();
-                            $("#navbarAvatarDesktop").show();
-                            showPage("display");
-                            $("#footer-cta").addClass("display-none-cta-button");
-                            $("#singup-cta-button-div-uc").addClass("display-none-cta-button");
+                // Set user data
+                // currentUser = response.user;
+                setCurrentUser(response.user);
+                
+               
+                // Set profile data if exists
+                if (response.profile) {
+                    // userProfile = response.profile;
+                    setUserProfile(response.profile);
+                    // console.log('✅ Profile loaded');
+                    setUserEmail(response.profile.email);
+                    $("#navbarAvatar").show();
+                    $("#navbarAvatarDesktop").show();
+                    showPage("display");
+                    $("#footer-cta").addClass("display-none-cta-button");
+                    $("#singup-cta-button-div-uc").addClass("display-none-cta-button");
 
-                            // Handle pending wallet card if available
-                            if (typeof handlePendingWalletCard === 'function') {
-                                await handlePendingWalletCard();
-                            }
-
-                            handleURLParams();
-                        } else {
-                            $(".profile-photo-section").hide();
-                            setUserEmail(user.user.email);
-                            showPage("profile");
-                        }
+                    // Handle pending wallet card if available
+                    if (typeof handlePendingWalletCard === 'function') {
+                        await handlePendingWalletCard();
                     }
-                } catch (error) {
-                    console.error("User initialization error:", error);
-                    setCurrentUser(null);
+
                     handleURLParams();
+                } else {
+                    showPage("profile");
                 }
+
+                // Update UI
+                updateAuthUI();
+                updateAuthUImobilebuttons();
+
+                // Show appropriate page
+                const urlParams = new URLSearchParams(window.location.search);
+                const requestedPage = urlParams.get('page');
+
+                if (requestedPage) {
+                    showPage(requestedPage);
+                } else if (response.profile) {
+                    showPage('display'); // or whatever your default page is
+                } else {
+                    showPage('profile'); // No profile, show profile creation
+                }
+
+                // Handle OAuth callback success
+                if (urlParams.get('auth') === 'success') {
+                    showSuccessMessage('Successfully logged in!');
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+
             } else {
-                setCurrentUser(null);
-                handleURLParams();
-                $("#footer-cta").removeClass("display-none-cta-button");
-                $("#singup-cta-button-div-uc").removeClass("display-none-cta-button");
+                // Not authenticated
+                console.log('ℹ️ User not authenticated');
+                currentUser = null;
+                userProfile = null;
+                updateAuthUI();
+                showPage('home');
             }
+
+            // console.log('✅ Application initialized');
+            // ============
+            // Old Code
+
+            // const isAuthenticated = await api.checkAuthStatus();
+            // console.log("isAuthenticated: ", isAuthenticated);
+            // if (isAuthenticated) {
+            //     try {
+            //         const user = await api.getCurrentUser();
+            //         console.log("user: ", user);
+            //         if (user.success) {
+            //             setCurrentUser(user.user);
+            //             updateAuthUI();
+            //             updateAuthUImobilebuttons();
+
+            //             const profileResponse = await api.getProfile();
+
+            //             if (profileResponse.success && profileResponse.profile) {
+            //                 $(".profile-photo-section").show();
+            //                 await loadProfileData();
+            //                 setUserEmail(user.user.email);
+            //                 $("#navbarAvatar").show();
+            //                 $("#navbarAvatarDesktop").show();
+            //                 showPage("display");
+            //                 $("#footer-cta").addClass("display-none-cta-button");
+            //                 $("#singup-cta-button-div-uc").addClass("display-none-cta-button");
+
+            //                 // Handle pending wallet card if available
+            //                 if (typeof handlePendingWalletCard === 'function') {
+            //                     await handlePendingWalletCard();
+            //                 }
+
+            //                 handleURLParams();
+            //             } else {
+            //                 $(".profile-photo-section").hide();
+            //                 setUserEmail(user.user.email);
+            //                 showPage("profile");
+            //             }
+            //         }
+            //     } catch (error) {
+            //         console.error("User initialization error:", error);
+            //         setCurrentUser(null);
+            //         handleURLParams();
+            //     }
+            // } else {
+            //     setCurrentUser(null);
+            //     handleURLParams();
+            //     $("#footer-cta").removeClass("display-none-cta-button");
+            //     $("#singup-cta-button-div-uc").removeClass("display-none-cta-button");
+            // }
         } catch (error) {
             console.error("Auth check error:", error);
             setCurrentUser(null);
@@ -263,10 +330,10 @@ async function initializeApplication() {
 }
 
 // Initialize on DOM ready
-document.addEventListener("DOMContentLoaded", async function() {
+document.addEventListener("DOMContentLoaded", async function () {
 
     $("#navbarAvatar").hide();
-                            $("#navbarAvatarDesktop").hide();
+    $("#navbarAvatarDesktop").hide();
     // Initialize all modules
     initializeEventHandlers();
     initializeModals();
@@ -274,18 +341,29 @@ document.addEventListener("DOMContentLoaded", async function() {
     initializeContactForm();
     initializeAvatarHandlers();
     initializeFormValidation();
-    
+
     // Initialize main application
     await initializeApplication();
-    
+
     // Setup screen size check
     checkScreenWidth();
     window.addEventListener("resize", checkScreenWidth);
-    
+
     // Setup URL change handlers
     $(window).on("popstate", handleURLParams);
     $(window).on("hashchange", handleURLParams);
 });
+
+// Modified DOMContentLoaded handler
+document.addEventListener('DOMContentLoaded', async function() {
+    // Check if this is a standalone card view first
+    const isStandalone = await checkStandaloneMode();
+    
+    if (!isStandalone) {
+      // Normal application mode - single initialization call
+      await initializeApplication();
+    }
+  });
 
 function checkScreenWidth() {
     const navbar = document.querySelector(".navbar");
@@ -344,17 +422,17 @@ function hideResolutionMessage() {
 
 // Update Authentication UI
 
-  
-  
-  // Close dropdown when clicking outside
-  document.addEventListener('click', function(event) {
+
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function (event) {
     const userMenu = document.querySelector('.user-menu');
     const dropdown = document.getElementById('userDropdown');
-    
+
     if (dropdown && userMenu && !userMenu.contains(event.target)) {
-      dropdown.style.display = 'none';
+        dropdown.style.display = 'none';
     }
-  });
+});
 
 // Make key functions globally accessible
 window.showPage = showPage;

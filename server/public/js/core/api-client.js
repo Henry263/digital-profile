@@ -30,6 +30,10 @@ export class SmartLifeCoverAPI {
         this.token = this.getToken();
     }
 
+    async getUserWithProfile() {
+        return this.apiRequest('/auth/user-profile');
+      }
+
     getToken() {
         return localStorage.getItem("authToken") || null;
     }
@@ -81,7 +85,13 @@ export class SmartLifeCoverAPI {
     }
 
     async getCurrentUser() {
-        return this.apiRequest("/auth/me");
+        // return this.apiRequest("/auth/me");
+        try {
+            return this.apiRequest('/auth/user-profile'); 
+        } catch (error) {
+            console.error("Get getCurrentUser error:", error);
+            return { success: false, error: error.message };
+        }
     }
 
     async logout() {

@@ -310,6 +310,54 @@ function checkPasswordStrength(password) {
   return requirements;
 }
 
+function checkPasswordStrengthnewpassword(password) {
+  let strength = 0;
+  const requirements = {
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[@$!%*?&#]/.test(password)
+  };
+
+  // Update requirements UI
+  Object.keys(requirements).forEach(key => {
+    const element = document.getElementById(`req-newpass-${key}`);
+    if (element) {
+      if (requirements[key]) {
+        element.classList.add('valid');
+        strength++;
+      } else {
+        element.classList.remove('valid');
+      }
+    }
+  });
+
+  // Update strength bar
+  const strengthBarFill = document.getElementById('strengthBarFillnewpass');
+  const strengthText = document.getElementById('strengthTextnewpass');
+
+  if (strengthBarFill && strengthText) {
+    strengthBarFill.className = 'strength-bar-fill-newpass';
+
+    if (strength <= 2) {
+      strengthBarFill.classList.add('weak');
+      strengthText.textContent = 'Weak password';
+      strengthText.style.color = '#e74c3c';
+    } else if (strength <= 4) {
+      strengthBarFill.classList.add('medium');
+      strengthText.textContent = 'Medium password';
+      strengthText.style.color = '#f39c12';
+    } else {
+      strengthBarFill.classList.add('strong');
+      strengthText.textContent = 'Strong password';
+      strengthText.style.color = '#27ae60';
+    }
+  }
+
+  return requirements;
+}
+
 // Toggle Password Visibility
 // function togglePassword(inputId) {
 //   const input = document.getElementById(inputId);
@@ -350,6 +398,31 @@ $(document).on('click', '.forgot-link', function () {
   showPage('forgotPassword')
 });
 
+$(document).on('click', '#forgotBtn', async function () {
+  console.log("forgot password email link");
+  const forgetpasswordForm = document.getElementById('forgotPasswordForm');
+  const formData = new FormData(forgetpasswordForm);
+  const email = formData.get('email').trim().toLowerCase();
+  console.log("Email data from form: ", email)
+  try {
+    const result = await authAPI.forgotPassword(email);
+
+    if (result && result.success) {
+      showSuccessMessage("Check your email.")
+      showPage("login");
+    } else {
+      showErrorMessage("Error while sending reset link");
+      showPage("login");
+    }
+  } catch (error) {
+    console.log("There is an error while sending reset password link: ", error.message);
+    showErrorMessage("Error while sending reset link: " + error.message);
+    showPage("login");
+  }
+
+});
+
+
 $(document).on('click', '.toggle-password', function () {
   const button = $(this);
   const inputId = button.data('passtype'); // jQuery automatically reads data-passtype
@@ -362,6 +435,107 @@ $(document).on('click', '.toggle-password', function () {
   } else {
     input.attr('type', 'password');
     icon.removeClass('fa-eye-slash').addClass('fa-eye');
+  }
+});
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop().split(';').shift();
+  }
+  return null;
+}
+function clearloginform() {
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPassword').value = '';
+}
+
+function clearResetpasswordform() {
+  document.getElementById('newPassword').value = '';
+  document.getElementById('confirmPassword').value = '';
+}
+
+
+function clearsignupform() {
+  document.getElementById('signupName').value = '';
+  document.getElementById('signupEmail').value = '';
+  document.getElementById('signupPassword').value = '';
+}
+
+$(document).on('click', '#resetBtn', async function () {
+  try {
+    const confirmpasswordInput = document.getElementById('confirmPassword');
+    const newpasswordInput = document.getElementById('newPassword');
+
+    const confirmPassword = confirmpasswordInput.value.trim();
+    const newPassword = newpasswordInput.value.trim();
+
+    if (confirmPassword === newPassword) {
+
+      if (newPassword && confirmPassword) {
+        const resetToken = getCookie('passResetToken');
+        if (resetToken) {
+          const response = await authAPI.resetPassword(resetToken, confirmPassword);
+
+          console.log("final output token", response);
+          if (response && response.success) {
+            showSuccessMessage("Password Reset Successfully");
+            showPage("login")
+            clearResetpasswordform();
+          } else {
+            showErrorMessage("Network Error", response);
+            showPage("login")
+          }
+        } else {
+          showErrorMessage("Token is expired sp request again.");
+          showPage("login")
+        }
+
+      } else {
+        showErrorMessage("Empty Values")
+      }
+
+    } else {
+      showErrorMessage("Password and confirm password are not matching")
+    }
+  } catch (err) {
+    console.log("On click reset password button", err.message);
+  }
+});
+
+// Reset and create new password flow
+document.addEventListener('DOMContentLoaded', async function () {
+  try {
+    const resetpasswordForm = document.getElementById('resetPasswordForm');
+    if (resetpasswordForm) {
+      const confirmpasswordInput = document.getElementById('confirmPassword');
+      const newpasswordInput = document.getElementById('newPassword');
+      let allValid;
+      if (confirmpasswordInput) {
+        confirmpasswordInput.addEventListener('input', (e) => {
+          const requirements = checkPasswordStrengthnewpassword(e.target.value);
+          allValid = Object.values(requirements).every(v => v === true);
+
+        });
+      }
+      if (newpasswordInput) {
+        newpasswordInput.addEventListener('input', (e) => {
+          const requirements = checkPasswordStrengthnewpassword(e.target.value);
+          allValid = Object.values(requirements).every(v => v === true);
+        });
+      }
+
+
+
+      if (!allValid) {
+        document.getElementById('passwordErrornewpass').textContent =
+          'Please meet all password requirements';
+        return;
+      }
+    }
+  } catch (err) {
+    console.log("Error in validating reset password:", err.message);
   }
 });
 // Email Signup Form Handler
@@ -533,11 +707,16 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('authToken', result.token);
             api.setToken(result.token); // Add this line
           }
+          $("#signupName").empty();
+          $("#signupEmail").empty();
+          $("#signupPassword").empty();
+
+          clearsignupform();
 
           // Redirect to profile page after successful verification
           setTimeout(() => {
             window.location.href = '/?page=profile';
-          }, 1500);
+          }, 1000);
         } else {
           // Handle different error cases
           if (result.expired) {
@@ -592,6 +771,44 @@ $(document).on('click', '#resendverification', async function () {
   await resendVerificationCode()
 });
 
+async function checkWalletPendingAdd() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const addtowallet = urlParams.get("redirectToWallet");
+  const pagename = urlParams.get("page");
+  if (pagename === "login" && (addtowallet == 'true' || addtowallet)) {
+    const walletcardid = sessionStorage.getItem('pendingWalletCard');
+    if (walletcardid) {
+      const response = await fetch(`/api/wallet/add/${walletcardid}`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+       
+        showSuccessMessage("Card added to your wallet! You can view it in the Wallet tab.")
+        // Show success message
+        // setTimeout(() => {
+        //     alert("Card added to your wallet! You can view it in the Wallet tab.");
+        // }, 300);
+
+        setTimeout(() => {
+         // Use .prop()
+        }, 1000);
+        window.open('/wallet');
+
+      } else {
+        throw new Error(data.message || "Failed to add card");
+      }
+    } else {
+      window.open('/login');
+    }
+
+  } else {
+
+  }
+}
 async function userLogin() {
   try {
     const email = $('#loginEmail').val().trim();
@@ -608,7 +825,7 @@ async function userLogin() {
       }
 
       showSuccessMessage('Login successful.');
-
+      clearloginform();
       // Now get user data
       const user = await api.getCurrentUser();
       const response = await api.getProfile();
@@ -620,6 +837,7 @@ async function userLogin() {
         updateAuthUI();
         updateAuthUImobilebuttons();
         showPage("display");
+        checkWalletPendingAdd();
       } else {
         showErrorMessage('Issue while getting current user');
       }
@@ -643,100 +861,20 @@ async function userLogin() {
   }
 }
 
-// async function userLogin() {
-//   try {
-//     const email = $('#loginEmail').val().trim();
-//     const password = $('#loginPassword').val().trim();
-
-//     // async login(email, password)
-
-//     const result = await authAPI.login(email, password)
-
-//     if (result.success) {
-//       if (result.token) {
-//         localStorage.setItem('authToken', result.token);
-//         // Update the API client's token
-//         api.setToken(result.token);
-//       }
-
-//       showSuccessMessage('Login successfull.');
-//       const user = await api.getCurrentUser();
-//       const response = await api.getProfile();
-
-//       if (user.success && (response.success && response.profile)) {
-//         setCurrentUser(user.user);
-//         const userProfile = response.profile;
-//         setUserProfile(userProfile);
-//         updateAuthUI();
-//         updateAuthUImobilebuttons();
-//         showPage("display");
-//       } else {
-//         showErrorMessage('Issue while getting current user');
-//       } 
-
-//       // window.location.href = '/?page=profile'
-//     } else {
-//       showErrorMessage(result.message || 'Failed to resend code');
-//     }
-
-//   } catch (error) {
-//     console.error('Resend error:', error.message);
-//     showErrorMessage('Network error. Please try again.');
-//   }
-// }
 
 $(document).on('click', '#signinBtn', async function () {
   await userLogin()
 });
 
+$(document).ready(function () {
+  $('#loginPassword').on('keypress', async function (event) {
+    if (event.which === 13 || event.keyCode === 13) {
+      event.preventDefault();
+      await userLogin()
+    }
+  });
+});
 
-
-// Success/Error Message Functions (add to your existing JS)
-// function showSuccessMessage(message) {
-//   const msg = document.createElement('div');
-//   msg.style.cssText = `
-//     position: fixed;
-//     top: 2rem;
-//     right: 2rem;
-//     background: linear-gradient(135deg, #27ae60, #2ecc71);
-//     color: white;
-//     padding: 1rem 1.5rem;
-//     border-radius: 10px;
-//     z-index: 10001;
-//     font-weight: 600;
-//     box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3);
-//     animation: slideInRight 0.3s ease-out;
-//   `;
-//   msg.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 8px;"></i>${message}`;
-//   document.body.appendChild(msg);
-//   setTimeout(() => {
-//     msg.style.animation = 'slideOutRight 0.3s ease-out';
-//     setTimeout(() => msg.remove(), 300);
-//   }, 4000);
-// }
-
-// function showErrorMessage(message) {
-//   const msg = document.createElement('div');
-//   msg.style.cssText = `
-//     position: fixed;
-//     top: 2rem;
-//     right: 2rem;
-//     background: linear-gradient(135deg, #e74c3c, #c0392b);
-//     color: white;
-//     padding: 1rem 1.5rem;
-//     border-radius: 10px;
-//     z-index: 10001;
-//     font-weight: 600;
-//     box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
-//     animation: slideInRight 0.3s ease-out;
-//   `;
-//   msg.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>${message}`;
-//   document.body.appendChild(msg);
-//   setTimeout(() => {
-//     msg.style.animation = 'slideOutRight 0.3s ease-out';
-//     setTimeout(() => msg.remove(), 300);
-//   }, 4000);
-// }
 
 // Add animations to your CSS if not already present
 const style = document.createElement('style');

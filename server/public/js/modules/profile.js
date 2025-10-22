@@ -99,8 +99,8 @@ export async function handleProfileSave() {
 
 export async function loadProfileData() {
     try {
-        const response = await api.getProfile();
-
+        // const response = await api.getProfile();
+        const response = await api.getUserWithProfile();
         if (response.success && response.profile) {
             const userProfile = response.profile;
             setUserProfile(userProfile);

@@ -74,7 +74,7 @@ class EmailService {
   }
 
   async sendPasswordResetEmail(email, resetToken, name) {
-    const resetUrl = `${process.env.BASE_URL}/reset-password?token=${resetToken}`;
+    const resetUrl = `${process.env.BASE_URL}/reset-password?passresettoken=${resetToken}`;
     
     const mailOptions = {
       from: `"QR My Pro" <${process.env.EMAIL_USER}>`,

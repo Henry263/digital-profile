@@ -157,7 +157,7 @@ function displaypopulateContacts(userprofile) {
 
 export async function updateDisplayPage() {
     const userProfile = getUserProfile();
-    console.log("userprofile: ", userProfile);
+    // console.log("userprofile: ", userProfile);
     if (!userProfile) return;
 
     try {
@@ -262,7 +262,7 @@ export async function updateDisplayPage() {
 
 
             const socialContainer = $("#socialLinksdisplay");
-            console.log("socialContainer: ", socialContainer);
+            // console.log("socialContainer: ", socialContainer);
             socialContainer.empty(); // jQuery method instead of innerHTML = ""
 
             VALID_SOCIAL_FIELDS.forEach((platform) => {
@@ -639,8 +639,14 @@ function createWalletCardHTML(data) {
                 </div>
             </div>
             
-           
+            <div class="digital-card-action-btn-style">
+                <div class="logo">
+                    <img src="./image/app-logo.png" alt="QRprofile Logo" class="card-logo-image-only">
+                </div>
+                <span>PoweredBy:${window.location.href} </span>
+            </div>
         </div>
+        
     `;
 }
 
@@ -669,7 +675,7 @@ async function convertToImageAuto(element) {
         logging: true, // Enable for debugging
         imageTimeout: 15000,
         width: element.offsetWidth, // Explicit dimensions
-        height: element.offsetHeight,
+        height: element.offsetHeight + 20,
         windowWidth: element.offsetWidth,
         windowHeight: element.offsetHeight,
     });

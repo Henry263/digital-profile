@@ -189,7 +189,9 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.redirect('/?page=login');
+  const { redirectToWallet } = req.query; // Get token from URL query parameter
+  console.log("redirectToWallet value: ", redirectToWallet);
+  res.redirect('/?page=login&redirectToWallet=true');
     // Or just send file and read ?page=home from URL in JS
     // res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -215,6 +217,27 @@ app.get("/wallet", (req, res) => {
     // Or just send file and read ?page=home from URL in JS
     // res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+
+app.get('/reset-password', (req, res) => {
+  const { passresettoken } = req.query; // Get token from URL query parameter
+  console.log("Token value: ", passresettoken);
+  if (passresettoken) {
+    // Set the reset token in a cookie
+    res.cookie('passResetToken', passresettoken, {
+      httpOnly: false, // Allow JavaScript to read it (client needs access)
+      secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+      maxAge: 30 * 60 * 1000, // 30 minutes (same as token expiry)
+      sameSite: 'lax',
+      path: '/'
+    });
+  }
+  
+  // Redirect to reset password page
+  res.redirect('/?page=resetPassword');
+});
+
+
 
 app.get("/robots.txt", (req, res) => {
   res.sendFile(path.join(__dirname, "robots.txt"));

@@ -14,6 +14,196 @@ document.addEventListener("DOMContentLoaded", async function () {
         $(".create-profile-btn").show();
     }
 });
+
+// ============================================
+// WALLET MANAGEMENT WITH DUPLICATE PREVENTION
+// ============================================
+
+// Cache to prevent duplicate API calls
+let walletFetchInProgress = false;
+let addToWalletInProgress = false;
+let cachedWallet = null;
+
+// Get auth token from cookie
+function getAuthToken() {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'authToken') {
+            return value;
+        }
+    }
+    return null;
+}
+
+// Check if user is authenticated
+function isAuthenticated() {
+    return !!getAuthToken();
+}
+
+
+// API Request helper
+async function apiRequest(endpoint, options = {}) {
+    const token = getAuthToken();
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        },
+        credentials: 'include', // Important for cookies
+        ...options
+    };
+
+    if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    try {
+        const response = await fetch(endpoint, config);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'API request failed');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('API Request Error:', error);
+        throw error;
+    }
+}
+
+// Fetch wallet with caching and duplicate prevention
+async function fetchWallet(forceRefresh = false) {
+    // Prevent duplicate calls
+    if (walletFetchInProgress) {
+        console.log('⏳ Wallet fetch already in progress...');
+        // Wait for the current fetch to complete
+        await new Promise(resolve => {
+            const checkInterval = setInterval(() => {
+                if (!walletFetchInProgress) {
+                    clearInterval(checkInterval);
+                    resolve();
+                }
+            }, 100);
+        });
+        return cachedWallet;
+    }
+
+    // Return cached wallet if available and not forcing refresh
+    if (cachedWallet && !forceRefresh) {
+        console.log('📦 Returning cached wallet');
+        return cachedWallet;
+    }
+
+    try {
+        walletFetchInProgress = true;
+        console.log('🔄 Fetching wallet from server...');
+
+        const response = await apiRequest('/api/wallet');
+
+        if (response.success) {
+            cachedWallet = response.wallet;
+            console.log(`✅ Wallet fetched: ${cachedWallet.cards.length} cards`);
+            return cachedWallet;
+        }
+
+        throw new Error(response.message || 'Failed to fetch wallet');
+
+    } catch (error) {
+        console.error('❌ Error fetching wallet:', error);
+        throw error;
+    } finally {
+        walletFetchInProgress = false;
+    }
+}
+
+
+// Add card to wallet with duplicate prevention
+async function addCardToWallet(cardIdentifier) {
+    // Prevent duplicate add operations
+    if (addToWalletInProgress) {
+        console.log('⏳ Add to wallet already in progress...');
+        return;
+    }
+
+    try {
+        addToWalletInProgress = true;
+        console.log(`➕ Adding card to wallet: ${cardIdentifier}`);
+
+        const response = await apiRequest(`/api/wallet/add/${cardIdentifier}`, {
+            method: 'POST'
+        });
+
+        if (response.success) {
+            cachedWallet = response.wallet; // Update cache
+            console.log('✅ Card added to wallet successfully');
+            return response;
+        }
+
+        throw new Error(response.message || 'Failed to add card');
+
+    } catch (error) {
+        console.error('❌ Error adding card to wallet:', error);
+        throw error;
+    } finally {
+        addToWalletInProgress = false;
+    }
+}
+
+// Clear wallet cache
+function clearWalletCache() {
+    cachedWallet = null;
+    console.log('🗑️ Wallet cache cleared');
+}
+
+
+// Show success message
+function showSuccessMessage(message) {
+    const msgEl = document.createElement('div');
+    msgEl.style.cssText = `
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: #10b981;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      z-index: 10001;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+      animation: slideIn 0.3s ease-out;
+    `;
+    msgEl.textContent = message;
+    document.body.appendChild(msgEl);
+    setTimeout(() => {
+        msgEl.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(() => msgEl.remove(), 300);
+    }, 3000);
+}
+
+// Show error message
+function showErrorMessage(message) {
+    const msgEl = document.createElement('div');
+    msgEl.style.cssText = `
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: #ef4444;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      z-index: 10001;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+    `;
+    msgEl.textContent = message;
+    document.body.appendChild(msgEl);
+    setTimeout(() => msgEl.remove(), 4000);
+}
+
+
 // Add to Wallet functionality
 // Updated function to work with jQuery object
 async function handleAddToWallet(btnElement) {
@@ -33,7 +223,7 @@ async function handleAddToWallet(btnElement) {
             sessionStorage.setItem("pendingWalletCard", contactData.cardId);
             sessionStorage.setItem("redirectToWallet", "true");
             // Redirect to login
-            window.location.href = "/auth/google";
+            window.location.href = "/login?redirectToWallet=true";
             return;
         }
 
@@ -51,11 +241,11 @@ async function handleAddToWallet(btnElement) {
         if (data.success) {
             $btn.html('<i class="fas fa-check"></i> Added to Wallet!'); // Use .html()
             $btn.css("background", "#28a745"); // Use .css() instead of .style
-
+            showSuccessMessage("Card added to your wallet! You can view it in the Wallet tab.")
             // Show success message
-            setTimeout(() => {
-                alert("Card added to your wallet! You can view it in the Wallet tab.");
-            }, 300);
+            // setTimeout(() => {
+            //     alert("Card added to your wallet! You can view it in the Wallet tab.");
+            // }, 300);
 
             setTimeout(() => {
                 $btn.html(originalText); // Use .html()
@@ -78,6 +268,103 @@ async function handleAddToWallet(btnElement) {
         }, 2000);
     }
 }
+
+
+// Handle "Add to QRWallet" button click
+// Handle "Add to QRWallet" button click (jQuery version)
+// async function handleAddToWallet($button) {
+//     // Store original button content
+//     const originalHTML = $button.html();
+    
+//     try {
+//       // Check authentication
+//       if (!isAuthenticated()) {
+//         showErrorMessage('Please login to add cards to your wallet');
+//         setTimeout(() => {
+//           window.location.href = '/login';
+//         }, 1500);
+//         return;
+//       }
+      
+//       // Check if already in progress
+//       if (addToWalletInProgress) {
+//         console.log('⏳ Already adding to wallet, please wait...');
+//         return;
+//       }
+      
+//       // Disable button during operation
+//       $button.prop('disabled', true);
+//       $button.html('<i class="fas fa-spinner fa-spin"></i> Adding...');
+      
+//       // Get card identifier from URL, data attribute, or button
+//       let cardIdentifier = $button.data('card-id') || 
+//                            $button.attr('data-card-id') ||
+//                            $button.data('slug');
+      
+//       // If not found, try to get from URL
+//       if (!cardIdentifier) {
+//         const pathParts = window.location.pathname.split('/');
+//         cardIdentifier = pathParts[pathParts.length - 1];
+//       }
+      
+//       // Try to get from contact data if available
+//       if (!cardIdentifier && typeof contactData !== 'undefined') {
+//         cardIdentifier = contactData.slug || contactData.cardId;
+//       }
+      
+//       if (!cardIdentifier) {
+//         throw new Error('Card identifier not found');
+//       }
+      
+//       console.log(`🎯 Using card identifier: ${cardIdentifier}`);
+      
+//       // Add card to wallet
+//       const response = await addCardToWallet(cardIdentifier);
+      
+//       if (response.success) {
+//         // Show success message
+//         showSuccessMessage('✅ Card added to your wallet!');
+        
+//         // Update button to show it's added
+//         $button.html('<i class="fas fa-check"></i> Added to Wallet');
+//         $button.css('background', '#10b981');
+        
+//         // Optional: Ask user if they want to view wallet
+//         setTimeout(() => {
+//           if (confirm('Card added successfully! View your wallet now?')) {
+//             window.location.href = '/?page=wallet';
+//           } else {
+//             // Re-enable button after some time if user stays on page
+//             setTimeout(() => {
+//               $button.prop('disabled', false);
+//               $button.html(originalHTML);
+//               $button.css('background', '');
+//             }, 2000);
+//           }
+//         }, 1000);
+//       }
+      
+//     } catch (error) {
+//       console.error('❌ Add to wallet error:', error);
+      
+//       // Show appropriate error message
+//       if (error.message && error.message.includes('already in wallet')) {
+//         showErrorMessage('This card is already in your wallet');
+//         $button.html('<i class="fas fa-check"></i> Already in Wallet');
+//         $button.css('background', '#6b7280');
+//       } else if (error.message && error.message.includes('not found')) {
+//         showErrorMessage('Card not found. Please try again.');
+//         $button.prop('disabled', false);
+//         $button.html(originalHTML);
+//       } else {
+//         showErrorMessage(error.message || 'Failed to add card to wallet');
+//         // Restore button
+//         $button.prop('disabled', false);
+//         $button.html(originalHTML);
+//       }
+//     }
+//   }
+
 
 // Usage:
 // $(".addToWalletBtn").click(function () {
@@ -244,6 +531,13 @@ $(".logo-image").click(function () {
 $(".addToWalletBtn").click(function () {
     handleAddToWallet($(this));
 });
+
+  // Bind the click handler with ONE event listener
+//   $(".addToWalletBtn").on('click', function(e) {
+//     e.preventDefault();
+//     e.stopPropagation();
+//     handleAddToWallet($(this));
+//   });
 
 // Contact data from server - now properly injected as JSON
 // const contactData = {{ contactDataJSON }};

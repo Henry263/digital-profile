@@ -40,6 +40,7 @@ router.get('/google/callback',
   }),
   async (req, res) => {
     try {
+      console.log("req", req.user);
       // Generate JWT token
       const token = jwt.sign(
         {
@@ -778,7 +779,7 @@ router.get('/me', authenticateToken, async (req, res) => {
 
 router.get('/status', (req, res) => {
   const token = req.cookies.authToken || req.headers.authorization?.split(' ')[1];
-console.log("Token: ", token);
+// console.log("Token: ", token);
   if (!token) {
     return res.json({
       success: false,

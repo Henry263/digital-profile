@@ -4,7 +4,7 @@
 // Core imports
 import { api } from './core/api-client.js';
 
-
+import './vertical-navigation.js';
 import {
     setCurrentUser,
     setUserProfile,

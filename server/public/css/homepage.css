@@ -1,6 +1,6 @@
 
 .how-it-works-section {
-    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%);
+    /* background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%); */
     padding: 4rem 1rem;
     margin: 1rem 0;
     border: 1px solid;
@@ -12,7 +12,7 @@
     margin: 0 auto;
 }
 .howto-section-title{
-    color: #6974dc !important;
+    /* color: #6974dc !important; */
     font-size: 1.4rem !important;
 }
 
@@ -34,7 +34,7 @@
 
 .section-subtitle {
     font-size: 1rem;
-    color: #555;
+    color: white;
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.6;
@@ -176,12 +176,25 @@
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     background: #f8f9fa;
 }
-
+@media (max-width: 768px) {
+    .howto-section-title{
+        /* color: #6974dc !important; */
+        font-size: 1.2rem !important;
+    }
+    .step-description{
+        font-size: 0.9rem 
+    }
+    .step-title {
+        font-size: 1rem;
+        
+    }
+    ul.step-features {
+        font-size: 0.8rem;
+    }
+}
 /* Tablet and Desktop */
 @media (min-width: 768px) {
-    .section-title {
-        /* font-size: 3rem; */
-    }
+    
 
     .step-content {
         grid-template-columns: 1fr 1fr;

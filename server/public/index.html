@@ -156,6 +156,7 @@
     <link rel="stylesheet" href="css/form-style.css">
     <link rel="stylesheet" href="css/faq.css">
     <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" href="css/vertical-sidebar-white.css">
     <link rel="stylesheet" href="css/profile-photo-section.css">
     <link rel="stylesheet" href="css/usecases.css">
     <link rel="stylesheet" href="css/wallet.css">
@@ -219,393 +220,237 @@
             <button class="btn btn-primary mobile-menu-btn" id="logoutBtnMobile">Logout</button>
         </div>
     </nav>
-    <div class="container">
-        <!-- Home Page -->
-        <div id="homePage" class="page active">
-            <div class="hero">
-                <h1>Create Your Free Digital Profile. Share Instantly via QR Code</h1>
-                <p>Create and share professional digital business cards instantly</p>
-                <h2>Connect all your links. Instagram,LinkedIn, facebook, website, tiktok, Snapchat, etc. and contact
-                    info — into one digital card, completely free.</h2>
-                <button class="action-btn secondary" id="homepage-signup"
-                    style="font-size: 1.2rem; padding: 1rem 2rem;">Get
-                    Started</button>
+    <!-- Vertical Sidebar Navigation with Icon-Only Mode for Tablet/Mobile -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <!-- <img src="./image/app-logo.png" alt="QRprofile Logo" class="sidebar-logo"> -->
+
+                 <!-- Full logo - shown on desktop and when expanded -->
+                <img src="./image/app-logo.png" alt="QRprofile Logo" class="sidebar-logo full-logo">
+                
+                <!-- Icon logo - shown in collapsed/icon-only mode -->
+                <img src="./image/apple-touch-icon.png" alt="QRprofile Icon" class="sidebar-logo icon-logo">
             </div>
-
-
-            <!-- This is for the how it works section-->
-            <div class="how-it-works-section">
-                <div class="how-it-works-container">
-                    <div class="section-header">
-                        <h2 class="section-title howto-section-title">Create Your Free Digital Profile in 4 Simple Steps
-                        </h2>
-                        <p class="section-subtitle">Join thousands of professionals, businesses, and creators sharing
-                            their complete digital presence with a single QR code - absolutely free!</p>
-                    </div>
-
-                    <div class="steps-container">
-                        <!-- Step 1 -->
-                        <div class="step-card">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <div class="step-image-wrapper">
-                                    <img src="./image/step1.png" alt="Create Profile" class="step-image">
-                                </div>
-                                <div class="step-info">
-                                    <h3 class="step-title">Sign Up & Create Profile</h3>
-                                    <p class="step-description">Register for free and build your all-in-one digital
-                                        business card. Add your contact info, social media links, portfolio, and
-                                        professional details in minutes.</p>
-                                    <ul class="step-features">
-                                        <li>Add unlimited social media links</li>
-                                        <li>Customize your profile theme</li>
-                                        <li>Upload profile photo and branding</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="step-card reverse">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <div class="step-image-wrapper">
-                                    <img src="./image/step2.png" alt="Generate QR Code" class="step-image">
-                                </div>
-                                <div class="step-info">
-                                    <h3 class="step-title">Get Your QR Code & Personalized Link</h3>
-                                    <p class="step-description">Instantly generate your personalized QR code AND unique
-                                        profile link. Share your complete digital presence anywhere - embed on websites,
-                                        email signatures, social media bios, or business cards.</p>
-                                    <ul class="step-features">
-                                        <li>Instant QR code generation</li>
-                                        <li>Custom shareable URL (qrmypro.com/yourname)</li>
-                                        <li>Embed link anywhere online</li>
-                                        <li>Print-ready high resolution QR codes</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="step-card">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <div class="step-image-wrapper">
-                                    <img src="./image/sample-design-card.png" alt="Share Profile" class="step-image">
-                                </div>
-                                <div class="step-info">
-                                    <h3 class="step-title">Share & Connect Instantly</h3>
-                                    <p class="step-description">Share your QR code or profile link via email, social
-                                        media, or in person. Anyone can scan and save your complete contact information
-                                        instantly.</p>
-                                    <ul class="step-features">
-                                        <li>One-tap contact saving</li>
-                                        <li>Works on all devices</li>
-                                        <li>Track profile views & analytics</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="step-card reverse">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <div class="step-image-wrapper">
-                                    <img src="./image/step4.png" alt="User View" class="step-image">
-                                </div>
-                                <div class="step-info">
-                                    <h3 class="step-title">Beautiful Profile View for Visitors</h3>
-                                    <p class="step-description">When someone scans your QR code or clicks your link,
-                                        they see a stunning, mobile-optimized profile with all your contact details,
-                                        social media links, and professional information beautifully organized.</p>
-                                    <ul class="step-features">
-                                        <li>Clean, professional design</li>
-                                        <li>All social links in one place</li>
-                                        <li>Download vCard to save contact</li>
-                                        <li>One-click calling, emailing, messaging</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cta-section" id="footer-cta">
-                        <h3>Ready to Create Your Free Digital Profile?</h3>
-                        <p>Join professionals, businesses, and creators worldwide</p>
-                        <button class="action-btn primary cta-button" id="singup-cta-button">
-                            Start Free Now - No Credit Card Required
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">📱</div>
-                    <h3>Mobile Optimized</h3>
-                    <p>Perfect experience on all devices with easy contact sharing</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🔗</div>
-                    <h3>Social Integration</h3>
-                    <p>Connect all your social media and professional platforms</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">📊</div>
-                    <h3>QR Code Ready</h3>
-                    <p>Generate and upload QR codes for instant contact sharing</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Instant Download</h3>
-                    <p>Download vCard contacts that work with all phones</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Login Page -->
-        <div id="loginPage" class="page">
-            <div style="max-width: 400px; margin: 0 auto; text-align: center;">
-                <h2 style="margin-bottom: 2rem;color: white;font-weight: 400;">Welcome Back</h2>
-                <button class="google-btn" id="googlesignin-button">
-                    <!-- <span>🔍</span> -->
-                    <svg width="18" height="18" viewBox="0 0 24 24">
-                        <path fill="#4285F4"
-                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                        <path fill="#34A853"
-                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                        <path fill="#FBBC05"
-                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                        <path fill="#EA4335"
-                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                    </svg>
-                    Sign in with Google
-                </button>
-                 <!-- EMAIL LOGIN PAGE -->
-            <div id="emailLoginPage" class="" style="">
-                <div class="auth-container">
-                    <div class="auth-card">
-                       
-                        <form id="emailLoginForm" class="auth-form">
-                            <div class="form-group-signin">
-                                <label for="loginEmail">
-                                    <i class="fas fa-envelope"></i> Email
-                                </label>
-                                <input type="email" id="loginEmail" name="email" placeholder="you@example.com"
-                                    required />
-                                <span class="error-message" id="loginEmailError"></span>
-                            </div>
-
-                            <div class="form-group-signin">
-                                <label for="loginPassword">
-                                    <i class="fas fa-lock"></i> Password
-                                </label>
-                                <div class="password-input-wrapper">
-                                    <input type="password" id="loginPassword" name="password"
-                                        placeholder="Enter your password" required />
-                                    <button type="button" class="toggle-password" data-passtype='loginPassword'>
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                                <span class="error-message" id="loginPasswordError"></span>
-                            </div>
-
-                            <div class="form-options-signin">
-                                <!-- <label class="checkbox-label">
-                                    <input type="checkbox" name="remember" />
-                                    <span>Remember me</span>
-                                </label> -->
-                                <a href="javascript:void(0)"  class="forgot-link">
-                                    Forgot password?    
-                                </a>
-                                
-                            </div>
-
-                            <button type="button" class="btn btn-primary" id="signinBtn">
-                                <i class="fas fa-sign-in-alt"></i> Sign In
-                            </button>
-                        </form>
-
-                       
-                    </div>
-                </div>
-            </div>
-                <p style="margin-top: 1rem;color: white;">
-                    Don't have an account?
-                    <a href="javascript:void(0)" class="signupbutton">Sign up
-                        here</a>
-                </p>
-            </div>
-
-
            
         </div>
 
-         <!-- FORGOT PASSWORD PAGE -->
-         <div id="forgotPasswordPage" class="page" >
-            <div class="auth-container">
-                <div class="auth-card">
-                    <div class="auth-header-forgot-password">
-                        <div class="verification-icon">
-                            <i class="fas fa-key"></i>
-                            <h2>Reset Password</h2>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active homebutton" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+                <div class="nav-item-tooltip">Home</div>
+            </a>
+            <a href="#" class="nav-item hidden" id="loginBtnSidebar" data-page="login">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Login</span>
+                <div class="nav-item-tooltip">Login</div>
+            </a>
+            <a href="#" class="nav-item hidden" id="signupBtnSidebar" data-page="signup">
+                <i class="fas fa-user-plus"></i>
+                <span>Sign Up</span>
+                <div class="nav-item-tooltip">Sign Up</div>
+            </a>
+            <a href="#" class="nav-item" id="profileBtnSidebar" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+                <div class="nav-item-tooltip">Profile</div>
+            </a>
+            <a href="#" class="nav-item" id="displayBtnSidebar" data-page="display">
+                <i class="fas fa-id-card"></i>
+                <span>My Card</span>
+                <div class="nav-item-tooltip">My Card</div>
+            </a>
+            <a href="#" class="nav-item" id="walletBtnSidebar" data-page="wallet">
+                <i class="fas fa-wallet"></i>
+                <span>QRWallet</span>
+                <div class="nav-item-tooltip">QRWallet</div>
+            </a>
+            <a href="#" class="nav-item" id="usecaseBtnSidebar" data-page="usecase">
+                <i class="fas fa-lightbulb"></i>
+                <span>Use Cases</span>
+                <div class="nav-item-tooltip">Use Cases</div>
+            </a>
+            <a href="#" class="nav-item" id="faqBtnSidebar" data-page="faq">
+                <i class="fas fa-question-circle"></i>
+                <span>FAQs</span>
+                <div class="nav-item-tooltip">FAQs</div>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile" id="userProfileSection" style="display: none;">
+                <div class="user-avatar">
+                    <span id="sidebarUserInitials">U</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-name" id="sidebarUserName">User Name</div>
+                    <div class="user-email" id="sidebarUserEmail">user@email.com</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutBtnSidebar">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <main class="main-content">
+        <div class="container">
+            <!-- Home Page -->
+            <div id="homePage" class="page active">
+                <div class="hero">
+                    <h1>Create Your Free Digital Profile. Share Instantly via QR Code</h1>
+                    <p>Create and share professional digital business cards instantly</p>
+                    <h2>Connect all your links. Instagram,LinkedIn, facebook, website, tiktok, Snapchat, etc. and contact
+                        info — into one digital card, completely free.</h2>
+                    <button class="action-btn secondary" id="homepage-signup"
+                        style="font-size: 1.2rem; padding: 1rem 2rem;">Get
+                        Started</button>
+                </div>
+
+
+                <!-- This is for the how it works section-->
+                <div class="how-it-works-section">
+                    <div class="how-it-works-container">
+                        <div class="section-header">
+                            <h2 class="section-title howto-section-title">Create Your Free Digital Profile in 4 Simple Steps
+                            </h2>
+                            <p class="section-subtitle">Join thousands of professionals, businesses, and creators sharing
+                                their complete digital presence with a single QR code - absolutely free!</p>
                         </div>
-                        
-                        <p>Enter your email to receive a reset link</p>
+
+                        <div class="steps-container">
+                            <!-- Step 1 -->
+                            <div class="step-card">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <div class="step-image-wrapper">
+                                        <img src="./image/step1.png" alt="Create Profile" class="step-image">
+                                    </div>
+                                    <div class="step-info">
+                                        <h3 class="step-title">Sign Up & Create Profile</h3>
+                                        <p class="step-description">Register for free and build your all-in-one digital
+                                            business card. Add your contact info, social media links, portfolio, and
+                                            professional details in minutes.</p>
+                                        <ul class="step-features">
+                                            <li>Add unlimited social media links</li>
+                                            <li>Customize your profile theme</li>
+                                            <li>Upload profile photo and branding</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div class="step-card reverse">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <div class="step-image-wrapper">
+                                        <img src="./image/step2.png" alt="Generate QR Code" class="step-image">
+                                    </div>
+                                    <div class="step-info">
+                                        <h3 class="step-title">Get Your QR Code & Personalized Link</h3>
+                                        <p class="step-description">Instantly generate your personalized QR code AND unique
+                                            profile link. Share your complete digital presence anywhere - embed on websites,
+                                            email signatures, social media bios, or business cards.</p>
+                                        <ul class="step-features">
+                                            <li>Instant QR code generation</li>
+                                            <li>Custom shareable URL (qrmypro.com/yourname)</li>
+                                            <li>Embed link anywhere online</li>
+                                            <li>Print-ready high resolution QR codes</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div class="step-card">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <div class="step-image-wrapper">
+                                        <img src="./image/sample-design-card.png" alt="Share Profile" class="step-image">
+                                    </div>
+                                    <div class="step-info">
+                                        <h3 class="step-title">Share & Connect Instantly</h3>
+                                        <p class="step-description">Share your QR code or profile link via email, social
+                                            media, or in person. Anyone can scan and save your complete contact information
+                                            instantly.</p>
+                                        <ul class="step-features">
+                                            <li>One-tap contact saving</li>
+                                            <li>Works on all devices</li>
+                                            <li>Track profile views & analytics</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div class="step-card reverse">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <div class="step-image-wrapper">
+                                        <img src="./image/step4.png" alt="User View" class="step-image">
+                                    </div>
+                                    <div class="step-info">
+                                        <h3 class="step-title">Beautiful Profile View for Visitors</h3>
+                                        <p class="step-description">When someone scans your QR code or clicks your link,
+                                            they see a stunning, mobile-optimized profile with all your contact details,
+                                            social media links, and professional information beautifully organized.</p>
+                                        <ul class="step-features">
+                                            <li>Clean, professional design</li>
+                                            <li>All social links in one place</li>
+                                            <li>Download vCard to save contact</li>
+                                            <li>One-click calling, emailing, messaging</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cta-section" id="footer-cta">
+                            <h3>Ready to Create Your Free Digital Profile?</h3>
+                            <p>Join professionals, businesses, and creators worldwide</p>
+                            <button class="action-btn primary cta-button" id="singup-cta-button">
+                                Start Free Now - No Credit Card Required
+                            </button>
+                        </div>
                     </div>
+                </div>
 
-                    <form id="forgotPasswordForm" class="auth-form">
-                        <div class="form-group form-group-forgot-password">
-                            <label for="forgotEmail">
-                                <i class="fas fa-envelope"></i> Email
-                            </label>
-                            <input type="email" id="forgotEmail" name="email" placeholder="you@example.com"
-                                required />
-                            <span class="error-message" id="forgotEmailError"></span>
-                        </div>
-
-                        <button type="button" class="btn-primary" id="forgotBtn">
-                            <i class="fas fa-paper-plane"></i> Send Reset Link
-                        </button>
-                    </form>
-
-                    <div class="auth-footer auth-footer-forgot-password" id="signinbackbtn">
-                        <!-- <a href="#" onclick="showPage('emailLoginPage'); return false;"> -->
-                            <i class="fas fa-arrow-left"></i> Back to Sign In
-                        <!-- </a> -->
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">📱</div>
+                        <h3>Mobile Optimized</h3>
+                        <p>Perfect experience on all devices with easy contact sharing</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🔗</div>
+                        <h3>Social Integration</h3>
+                        <p>Connect all your social media and professional platforms</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📊</div>
+                        <h3>QR Code Ready</h3>
+                        <p>Generate and upload QR codes for instant contact sharing</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Instant Download</h3>
+                        <p>Download vCard contacts that work with all phones</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- RESET PASSWORD PAGE -->
-        <div id="resetPasswordPage" class="page" >
-            <div class="auth-container">
-                <div class="auth-card">
-                    <div class="auth-header">
-                        <h2>Create New Password</h2>
-                        <p>Choose a strong password</p>
-                    </div>
-
-                    <form id="resetPasswordForm" class="auth-form">
-                        <input type="hidden" id="resetToken" name="token" />
-
-                        <div class="form-group">
-                            <label for="newPassword">
-                                <i class="fas fa-lock"></i> New Password
-                            </label>
-                            <div class="password-input-wrapper">
-                                <input type="password" id="newPassword" name="password"
-                                    placeholder="Create a new password" required minlength="8" />
-                                <button type="button" class="toggle-password" data-passtype='newPassword'>
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                            <span class="error-message" id="newPasswordError"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="confirmPassword">
-                                <i class="fas fa-lock"></i> Confirm Password
-                            </label>
-                            <div class="password-input-wrapper">
-                                <input type="password" id="confirmPassword" name="confirmPassword"
-                                    placeholder="Confirm your password" required />
-                                <button type="button" class="toggle-password" data-passtype='confirmPassword'>
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                            <span class="error-message" id="confirmPasswordError"></span>
-                        </div>
-
-                        <button type="button" class="btn-primary" id="resetBtn">
-                            <i class="fas fa-check"></i> Reset Password
-                        </button>
-
-                        <div class="password-strength" id="passwordStrengthnewpass">
-                            <div class="strength-bar-newpass">
-                                <div class="strength-bar-fill-newpass" id="strengthBarFillnewpass"></div>
-                            </div>
-                            <span class="strength-text" id="strengthTextnewpass">Password strength</span>
-                        </div>
-                        <ul class="password-requirements">
-                            <li id="req-newpass-length">
-                                <i class="fas fa-circle"></i> At least 8 characters
-                            </li>
-                            <li id="req-newpass-uppercase">
-                                <i class="fas fa-circle"></i> One uppercase letter
-                            </li>
-                            <li id="req-newpass-lowercase">
-                                <i class="fas fa-circle"></i> One lowercase letter
-                            </li>
-                            <li id="req-newpass-number">
-                                <i class="fas fa-circle"></i> One number
-                            </li>
-                            <li id="req-newpass-special">
-                                <i class="fas fa-circle"></i> One special character (@$!%*?&#)
-                            </li>
-                        </ul>
-                        <span class="error-message" id="passwordErrornewpass"></span>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- EMAIL VERIFICATION PAGE -->
-       
-        <div id="emailVerificationPage" class="page">
-            <div class="auth-container">
-                <div class="auth-card">
-                    <div class="auth-header verifyemail-div">
-                        <div class="verification-icon">
-                            <i class="fas fa-envelope-open-text"></i>
-                            <h2>Verify Your Email</h2>
-                        </div>
-                        <div class="verificaiton-emailid-div">
-                            <p>We've sent a 6-digit code to</p>
-                        <p class="highlight-email" id="verificationEmail"></p>
-                        </div>
-                        
-                    </div>
-
-                    <form id="emailVerificationForm" class="auth-form">
-                        <div class="form-group">
-                            <label for="verificationCode">
-                                <i class="fas fa-key"></i> Verification Code
-                            </label>
-                            <input type="text" id="verificationCode" name="code" placeholder="000000" maxlength="6"
-                                pattern="[0-9]{6}" required class="code-input" />
-                            <span class="error-message" id="codeError"></span>
-                        </div>
-
-                        <button type="submit" class="btn-primary" id="verifyBtn">
-                            <i class="fas fa-check"></i> Verify Email
-                        </button>
-                    </form>
-
-                    <div class="resend-section">
-                        <p>Didn't receive the code?</p>
-                        <button class="btn-link" id="resendverification">
-                            <i class="fas fa-redo"></i> Resend Code
-                        </button>
-                    </div>
-
-                    <div class="auth-footer" id="backsignupbtn">
-                        <!-- <a href="#" onclick="showPage('emailSignupPage'); return false;"> -->
-                            <i class="fas fa-arrow-left"></i> Back to Sign Up
-                        <!-- </a> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Signup Page -->
-        <div id="signupPage" class="page">
-            <div style="max-width: 400px; margin: 0 auto; text-align: center;">
-                <h2 style="margin-bottom: 2rem;color: white;font-weight: 400;">Create Account</h2>
-                <div class="google-signup-div">
-                    <button class="google-btn" id="signupWithGoogle-btn">
+            <!-- Login Page -->
+            <div id="loginPage" class="page">
+                <div style="max-width: 400px; margin: 0 auto; text-align: center;">
+                    <h2 style="margin-bottom: 2rem;color: white;font-weight: 400;">Welcome Back</h2>
+                    <button class="google-btn" id="googlesignin-button">
                         <!-- <span>🔍</span> -->
                         <svg width="18" height="18" viewBox="0 0 24 24">
                             <path fill="#4285F4"
@@ -617,1037 +462,1270 @@
                             <path fill="#EA4335"
                                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                         </svg>
-                        Sign up with Google
+                        Sign in with Google
                     </button>
-                    <p style="margin-top: 1rem;color: white;">
-                        Already have an account?
-                        <a href="javascript:void(0)" class="loginbutton" style="color: #667eea; text-decoration: none;">Login
-                            here</a>
-                    </p>
-                </div>
-                 <!-- EMAIL SIGNUP PAGE -->
-                <div id="emailSignupPage" class="" style="">
+                    <!-- EMAIL LOGIN PAGE -->
+                <div id="emailLoginPage" class="" style="">
                     <div class="auth-container">
                         <div class="auth-card">
-                            <div class="auth-header">
-                              
-                                <p>Sign up with your email</p>
-                            </div>
-
-                            <form id="emailSignupForm" class="auth-form">
-                                <div class="form-group-signup">
-                                    <label for="signupName">
-                                        <i class="fas fa-user"></i> Full Name
-                                    </label>
-                                    <input type="text" id="signupName" name="name" placeholder="John Doe" required
-                                        minlength="2" />
-                                    <span class="error-message" id="nameError"></span>
-                                </div>
-
-                                <div class="form-group-signup">
-                                    <label for="signupEmail">
+                        
+                            <form id="emailLoginForm" class="auth-form">
+                                <div class="form-group-signin">
+                                    <label for="loginEmail">
                                         <i class="fas fa-envelope"></i> Email
                                     </label>
-                                    <input type="email" id="signupEmail" name="email" placeholder="you@example.com"
+                                    <input type="email" id="loginEmail" name="email" placeholder="you@example.com"
                                         required />
-                                    <span class="error-message" id="emailError"></span>
-                                    <span class="info-message">
-                                        <i class="fas fa-info-circle"></i>
-                                        Gmail users will be redirected to Google Sign-In
-                                    </span>
+                                    <span class="error-message" id="loginEmailError"></span>
                                 </div>
 
-                                <div class="form-group-signup">
-                                    <label for="signupPassword">
+                                <div class="form-group-signin">
+                                    <label for="loginPassword">
                                         <i class="fas fa-lock"></i> Password
                                     </label>
                                     <div class="password-input-wrapper">
-                                        <input type="password" id="signupPassword" name="password"
-                                            placeholder="Create a strong password" required minlength="8" />
-                                        <button type="button" class="toggle-password" data-passtype='signupPassword'>
+                                        <input type="password" id="loginPassword" name="password"
+                                            placeholder="Enter your password" required />
+                                        <button type="button" class="toggle-password" data-passtype='loginPassword'>
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
-                                    <div class="password-strength" id="passwordStrength">
-                                        <div class="strength-bar">
-                                            <div class="strength-bar-fill" id="strengthBarFill"></div>
-                                        </div>
-                                        <span class="strength-text" id="strengthText">Password strength</span>
-                                    </div>
-                                    <ul class="password-requirements">
-                                        <li id="req-length">
-                                            <i class="fas fa-circle"></i> At least 8 characters
-                                        </li>
-                                        <li id="req-uppercase">
-                                            <i class="fas fa-circle"></i> One uppercase letter
-                                        </li>
-                                        <li id="req-lowercase">
-                                            <i class="fas fa-circle"></i> One lowercase letter
-                                        </li>
-                                        <li id="req-number">
-                                            <i class="fas fa-circle"></i> One number
-                                        </li>
-                                        <li id="req-special">
-                                            <i class="fas fa-circle"></i> One special character (@$!%*?&#)
-                                        </li>
-                                    </ul>
-                                    <span class="error-message" id="passwordError"></span>
+                                    <span class="error-message" id="loginPasswordError"></span>
                                 </div>
-                                <button type="submit" class="btn-primary" id="createaccountBtn">
-                                    <i class="fas fa-user-plus"></i> Create Account
-                                  </button>
-                               
+
+                                <div class="form-options-signin">
+                                    <!-- <label class="checkbox-label">
+                                        <input type="checkbox" name="remember" />
+                                        <span>Remember me</span>
+                                    </label> -->
+                                    <a href="javascript:void(0)"  class="forgot-link">
+                                        Forgot password?    
+                                    </a>
+                                    
+                                </div>
+
+                                <button type="button" class="btn btn-primary" id="signinBtn">
+                                    <i class="fas fa-sign-in-alt"></i> Sign In
+                                </button>
                             </form>
 
-                           
+                        
+                        </div>
+                    </div>
+                </div>
+                    <p style="margin-top: 1rem;color: white;">
+                        Don't have an account?
+                        <a href="javascript:void(0)" class="signupbutton">Sign up
+                            here</a>
+                    </p>
+                </div>
+
+
+            
+            </div>
+
+            <!-- FORGOT PASSWORD PAGE -->
+            <div id="forgotPasswordPage" class="page" >
+                <div class="auth-container">
+                    <div class="auth-card">
+                        <div class="auth-header-forgot-password">
+                            <div class="verification-icon">
+                                <i class="fas fa-key"></i>
+                                <h2>Reset Password</h2>
+                            </div>
+                            
+                            <p>Enter your email to receive a reset link</p>
+                        </div>
+
+                        <form id="forgotPasswordForm" class="auth-form">
+                            <div class="form-group form-group-forgot-password">
+                                <label for="forgotEmail">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                                <input type="email" id="forgotEmail" name="email" placeholder="you@example.com"
+                                    required />
+                                <span class="error-message" id="forgotEmailError"></span>
+                            </div>
+
+                            <button type="button" class="btn-primary" id="forgotBtn">
+                                <i class="fas fa-paper-plane"></i> Send Reset Link
+                            </button>
+                        </form>
+
+                        <div class="auth-footer auth-footer-forgot-password" id="signinbackbtn">
+                            <!-- <a href="#" onclick="showPage('emailLoginPage'); return false;"> -->
+                                <i class="fas fa-arrow-left"></i> Back to Sign In
+                            <!-- </a> -->
                         </div>
                     </div>
                 </div>
             </div>
-            
 
-          
-            
-        </div>
+            <!-- RESET PASSWORD PAGE -->
+            <div id="resetPasswordPage" class="page" >
+                <div class="auth-container">
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <h2>Create New Password</h2>
+                            <p>Choose a strong password</p>
+                        </div>
 
-        <!-- Profile Page -->
-        <div id="profilePage" class="page">
-            <div class="profile-header">
-                <h2 style="font-weight: 300;letter-spacing: 0.4px;">Edit Your Profile</h2>
-                <button class="save-btn">Save Changes</button>
+                        <form id="resetPasswordForm" class="auth-form">
+                            <input type="hidden" id="resetToken" name="token" />
+
+                            <div class="form-group">
+                                <label for="newPassword">
+                                    <i class="fas fa-lock"></i> New Password
+                                </label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="newPassword" name="password"
+                                        placeholder="Create a new password" required minlength="8" />
+                                    <button type="button" class="toggle-password" data-passtype='newPassword'>
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <span class="error-message" id="newPasswordError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirmPassword">
+                                    <i class="fas fa-lock"></i> Confirm Password
+                                </label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="confirmPassword" name="confirmPassword"
+                                        placeholder="Confirm your password" required />
+                                    <button type="button" class="toggle-password" data-passtype='confirmPassword'>
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <span class="error-message" id="confirmPasswordError"></span>
+                            </div>
+
+                            <button type="button" class="btn-primary" id="resetBtn">
+                                <i class="fas fa-check"></i> Reset Password
+                            </button>
+
+                            <div class="password-strength" id="passwordStrengthnewpass">
+                                <div class="strength-bar-newpass">
+                                    <div class="strength-bar-fill-newpass" id="strengthBarFillnewpass"></div>
+                                </div>
+                                <span class="strength-text" id="strengthTextnewpass">Password strength</span>
+                            </div>
+                            <ul class="password-requirements">
+                                <li id="req-newpass-length">
+                                    <i class="fas fa-circle"></i> At least 8 characters
+                                </li>
+                                <li id="req-newpass-uppercase">
+                                    <i class="fas fa-circle"></i> One uppercase letter
+                                </li>
+                                <li id="req-newpass-lowercase">
+                                    <i class="fas fa-circle"></i> One lowercase letter
+                                </li>
+                                <li id="req-newpass-number">
+                                    <i class="fas fa-circle"></i> One number
+                                </li>
+                                <li id="req-newpass-special">
+                                    <i class="fas fa-circle"></i> One special character (@$!%*?&#)
+                                </li>
+                            </ul>
+                            <span class="error-message" id="passwordErrornewpass"></span>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <form id="profileForm">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <!-- EMAIL VERIFICATION PAGE -->
+        
+            <div id="emailVerificationPage" class="page">
+                <div class="auth-container">
+                    <div class="auth-card">
+                        <div class="auth-header verifyemail-div">
+                            <div class="verification-icon">
+                                <i class="fas fa-envelope-open-text"></i>
+                                <h2>Verify Your Email</h2>
+                            </div>
+                            <div class="verificaiton-emailid-div">
+                                <p>We've sent a 6-digit code to</p>
+                            <p class="highlight-email" id="verificationEmail"></p>
+                            </div>
+                            
+                        </div>
 
-                    <div>
-                        <!-- Profile Photo Section HERE -->
-                        <div class="profile-photo-section">
-                            <!-- ... photo upload UI ... -->
-                            <div class="photo-container">
-                                <div class="photo-preview" id="photoPreview">
-                                    <div class="profile-avatar-large" id="avatarDisplay">
-                                        <span id="avatarInitials">AB</span>
+                        <form id="emailVerificationForm" class="auth-form">
+                            <div class="form-group">
+                                <label for="verificationCode">
+                                    <i class="fas fa-key"></i> Verification Code
+                                </label>
+                                <input type="text" id="verificationCode" name="code" placeholder="000000" maxlength="6"
+                                    pattern="[0-9]{6}" required class="code-input" />
+                                <span class="error-message" id="codeError"></span>
+                            </div>
+
+                            <button type="submit" class="btn-primary" id="verifyBtn">
+                                <i class="fas fa-check"></i> Verify Email
+                            </button>
+                        </form>
+
+                        <div class="resend-section">
+                            <p>Didn't receive the code?</p>
+                            <button class="btn-link" id="resendverification">
+                                <i class="fas fa-redo"></i> Resend Code
+                            </button>
+                        </div>
+
+                        <div class="auth-footer" id="backsignupbtn">
+                            <!-- <a href="#" onclick="showPage('emailSignupPage'); return false;"> -->
+                                <i class="fas fa-arrow-left"></i> Back to Sign Up
+                            <!-- </a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Signup Page -->
+            <div id="signupPage" class="page">
+                <div style="max-width: 400px; margin: 0 auto; text-align: center;">
+                    <h2 style="margin-bottom: 2rem;color: white;font-weight: 400;">Create Account</h2>
+                    <div class="google-signup-div">
+                        <button class="google-btn" id="signupWithGoogle-btn">
+                            <!-- <span>🔍</span> -->
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="#4285F4"
+                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                                <path fill="#34A853"
+                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                <path fill="#FBBC05"
+                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                                <path fill="#EA4335"
+                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                            </svg>
+                            Sign up with Google
+                        </button>
+                        <p style="margin-top: 1rem;color: white;">
+                            Already have an account?
+                            <a href="javascript:void(0)" class="loginbutton" style="color: #667eea; text-decoration: none;">Login
+                                here</a>
+                        </p>
+                    </div>
+                    <!-- EMAIL SIGNUP PAGE -->
+                    <div id="emailSignupPage" class="" style="">
+                        <div class="auth-container">
+                            <div class="auth-card">
+                                <div class="auth-header">
+                                
+                                    <p>Sign up with your email</p>
+                                </div>
+
+                                <form id="emailSignupForm" class="auth-form">
+                                    <div class="form-group-signup">
+                                        <label for="signupName">
+                                            <i class="fas fa-user"></i> Full Name
+                                        </label>
+                                        <input type="text" id="signupName" name="name" placeholder="John Doe" required
+                                            minlength="2" />
+                                        <span class="error-message" id="nameError"></span>
                                     </div>
-                                    <img id="profilePhotoImg" style="display: none;">
-                                </div>
 
-                                <div class="photo-actions">
-                                    <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
-                                    <button type="button" class="btn btn-secondary" id="uploadPhotoBtn">
-                                        <i class="fas fa-upload"></i>
-                                        Upload Photo
+                                    <div class="form-group-signup">
+                                        <label for="signupEmail">
+                                            <i class="fas fa-envelope"></i> Email
+                                        </label>
+                                        <input type="email" id="signupEmail" name="email" placeholder="you@example.com"
+                                            required />
+                                        <span class="error-message" id="emailError"></span>
+                                        <span class="info-message">
+                                            <i class="fas fa-info-circle"></i>
+                                            Gmail users will be redirected to Google Sign-In
+                                        </span>
+                                    </div>
+
+                                    <div class="form-group-signup">
+                                        <label for="signupPassword">
+                                            <i class="fas fa-lock"></i> Password
+                                        </label>
+                                        <div class="password-input-wrapper">
+                                            <input type="password" id="signupPassword" name="password"
+                                                placeholder="Create a strong password" required minlength="8" />
+                                            <button type="button" class="toggle-password" data-passtype='signupPassword'>
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="password-strength" id="passwordStrength">
+                                            <div class="strength-bar">
+                                                <div class="strength-bar-fill" id="strengthBarFill"></div>
+                                            </div>
+                                            <span class="strength-text" id="strengthText">Password strength</span>
+                                        </div>
+                                        <ul class="password-requirements">
+                                            <li id="req-length">
+                                                <i class="fas fa-circle"></i> At least 8 characters
+                                            </li>
+                                            <li id="req-uppercase">
+                                                <i class="fas fa-circle"></i> One uppercase letter
+                                            </li>
+                                            <li id="req-lowercase">
+                                                <i class="fas fa-circle"></i> One lowercase letter
+                                            </li>
+                                            <li id="req-number">
+                                                <i class="fas fa-circle"></i> One number
+                                            </li>
+                                            <li id="req-special">
+                                                <i class="fas fa-circle"></i> One special character (@$!%*?&#)
+                                            </li>
+                                        </ul>
+                                        <span class="error-message" id="passwordError"></span>
+                                    </div>
+                                    <button type="submit" class="btn-primary" id="createaccountBtn">
+                                        <i class="fas fa-user-plus"></i> Create Account
                                     </button>
-                                    <button type="button" class="btn btn-danger" id="deletePhotoBtn"
-                                        style="display: none;">
-                                        <i class="fas fa-trash-alt"></i>
-                                        Remove
-                                    </button>
-                                    <span class="photo-hint">Max size: 5MB (JPG, PNG, GIF)</span>
-                                </div>
+                                
+                                </form>
+
+                            
                             </div>
                         </div>
+                    </div>
+                </div>
+                
 
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="Username" required>
-                        </div>
+            
+                
+            </div>
 
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="ex: 123456789">
-                        </div>
+            <!-- Profile Page -->
+            <div id="profilePage" class="page">
+                <div class="profile-header">
+                    <h2 style="font-weight: 300;letter-spacing: 0.4px;">Edit Your Profile</h2>
+                    <button class="save-btn">Save Changes</button>
+                </div>
 
-                        <div class="form-group">
-                            <label for="mobile">Mobile Number</label>
-                            <input type="tel" id="mobile" name="mobile" placeholder="ex: 123456789">
-                        </div>
+                <form id="profileForm">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
 
-                        <!-- <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="showPhoneNumber" name="showPhoneNumber" checked>
-                                <span>Show phone numbers to visitors</span>
-                            </label>
-                            <small class="form-text text-muted">
-                                Uncheck this if you want to keep your phone numbers private
-                            </small>
-                        </div> -->
-
-                        <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="showPhoneNumber" name="showPhoneNumber" checked>
-                                <span class="toggle"></span>
-                                <span>Show phone numbers to visitors</span>
-                            </label>
-                            <small class="form-text text-muted">
-                                Uncheck this if you want to keep your phone numbers private
-                            </small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" required readonly
-                                style="background-color: #f8f9fa; cursor: not-allowed; color: #6c757d;">
-                            <small class="form-text text-muted">
-                                Email cannot be changed. Contact support if you need to update your email.
-                            </small>
-                        </div>
-
-                        <!-- <div class="form-group">
-                            <label for="address">Country</label>
-                            <input type="text" id="address" name="address" placeholder="Country Name">
-                        </div> -->
-
-                        <div class="form-group" style="position: relative;">
-                            <label for="country">Country</label>
-                            <input type="text" id="country" name="country" placeholder="Start typing country name..."
-                                autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off">
-                            <input type="hidden" id="countryCode" name="countryCode">
-                            <div id="countryDropdown" class="autocomplete-dropdown"></div>
-                        </div>
-
-                        <!-- State Field -->
-                        <div class="form-group" style="position: relative;">
-                            <label for="state">State/Province</label>
-                            <input type="text" id="state" name="state" placeholder="Select country first..."
-                                autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off" disabled>
-                            <input type="hidden" id="stateId" name="stateId">
-                            <input type="hidden" id="stateId" name="stateId">
-                            <input type="hidden" id="stateCode" name="stateCode">
-                            <div id="stateDropdown" class="autocomplete-dropdown"></div>
-                        </div>
-
-                        <!-- City Field -->
-                        <div class="form-group" style="position: relative;">
-                            <label for="city">City</label>
-                            <input type="text" id="city" name="city" placeholder="Select state first..."
-                                autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off" disabled>
-                            <input type="hidden" id="cityId" name="cityId">
-                            <div id="cityDropdown" class="autocomplete-dropdown"></div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="organization">Organization</label>
-                            <input type="text" id="organization" name="organization" placeholder="Your Company">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="title">Role</label>
-                            <input type="text" id="title" name="title" placeholder="Your Role">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="website">Website URL</label>
-                            <input type="url" id="website" name="website" placeholder="Website">
-                        </div>
-                        <div class="form-group">
-
-                            <!-- <div>
-                                <label class="active-label">
-                                    <div class="active-label-div">Make my profile publicly accessible</div>
-                                    <div class="active-profile-chkbox">
-                                        <input type="checkbox" name="isPublic" id="isPublic" checked>
+                        <div>
+                            <!-- Profile Photo Section HERE -->
+                            <div class="profile-photo-section">
+                                <!-- ... photo upload UI ... -->
+                                <div class="photo-container">
+                                    <div class="photo-preview" id="photoPreview">
+                                        <div class="profile-avatar-large" id="avatarDisplay">
+                                            <span id="avatarInitials">AB</span>
+                                        </div>
+                                        <img id="profilePhotoImg" style="display: none;">
                                     </div>
+
+                                    <div class="photo-actions">
+                                        <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
+                                        <button type="button" class="btn btn-secondary" id="uploadPhotoBtn">
+                                            <i class="fas fa-upload"></i>
+                                            Upload Photo
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="deletePhotoBtn"
+                                            style="display: none;">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Remove
+                                        </button>
+                                        <span class="photo-hint">Max size: 5MB (JPG, PNG, GIF)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" placeholder="Username" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="ex: 123456789">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number</label>
+                                <input type="tel" id="mobile" name="mobile" placeholder="ex: 123456789">
+                            </div>
+
+                            <!-- <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="showPhoneNumber" name="showPhoneNumber" checked>
+                                    <span>Show phone numbers to visitors</span>
                                 </label>
-                            </div> 
-                            <small class="form-text text-muted">
-                                When checked, others can view your card using the link or QR code
-                            </small> -->
+                                <small class="form-text text-muted">
+                                    Uncheck this if you want to keep your phone numbers private
+                                </small>
+                            </div> -->
 
                             <div class="form-group">
                                 <label class="checkbox-label">
-                                    <input type="checkbox" id="isPublic" name="isPublic" checked>
+                                    <input type="checkbox" id="showPhoneNumber" name="showPhoneNumber" checked>
                                     <span class="toggle"></span>
-                                    <span>Make my profile publicly accessible</span>
+                                    <span>Show phone numbers to visitors</span>
                                 </label>
                                 <small class="form-text text-muted">
-                                    When checked, others can view your card using the link or QR code
+                                    Uncheck this if you want to keep your phone numbers private
                                 </small>
                             </div>
 
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required readonly
+                                    style="background-color: #f8f9fa; cursor: not-allowed; color: #6c757d;">
+                                <small class="form-text text-muted">
+                                    Email cannot be changed. Contact support if you need to update your email.
+                                </small>
+                            </div>
 
+                            <!-- <div class="form-group">
+                                <label for="address">Country</label>
+                                <input type="text" id="address" name="address" placeholder="Country Name">
+                            </div> -->
+
+                            <div class="form-group" style="position: relative;">
+                                <label for="country">Country</label>
+                                <input type="text" id="country" name="country" placeholder="Start typing country name..."
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off">
+                                <input type="hidden" id="countryCode" name="countryCode">
+                                <div id="countryDropdown" class="autocomplete-dropdown"></div>
+                            </div>
+
+                            <!-- State Field -->
+                            <div class="form-group" style="position: relative;">
+                                <label for="state">State/Province</label>
+                                <input type="text" id="state" name="state" placeholder="Select country first..."
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off" disabled>
+                                <input type="hidden" id="stateId" name="stateId">
+                                <input type="hidden" id="stateId" name="stateId">
+                                <input type="hidden" id="stateCode" name="stateCode">
+                                <div id="stateDropdown" class="autocomplete-dropdown"></div>
+                            </div>
+
+                            <!-- City Field -->
+                            <div class="form-group" style="position: relative;">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" placeholder="Select state first..."
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off" disabled>
+                                <input type="hidden" id="cityId" name="cityId">
+                                <div id="cityDropdown" class="autocomplete-dropdown"></div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="organization">Organization</label>
+                                <input type="text" id="organization" name="organization" placeholder="Your Company">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="title">Role</label>
+                                <input type="text" id="title" name="title" placeholder="Your Role">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="website">Website URL</label>
+                                <input type="url" id="website" name="website" placeholder="Website">
+                            </div>
+                            <div class="form-group">
+
+                                <!-- <div>
+                                    <label class="active-label">
+                                        <div class="active-label-div">Make my profile publicly accessible</div>
+                                        <div class="active-profile-chkbox">
+                                            <input type="checkbox" name="isPublic" id="isPublic" checked>
+                                        </div>
+                                    </label>
+                                </div> 
+                                <small class="form-text text-muted">
+                                    When checked, others can view your card using the link or QR code
+                                </small> -->
+
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="isPublic" name="isPublic" checked>
+                                        <span class="toggle"></span>
+                                        <span>Make my profile publicly accessible</span>
+                                    </label>
+                                    <small class="form-text text-muted">
+                                        When checked, others can view your card using the link or QR code
+                                    </small>
+                                </div>
+
+
+                            </div>
+                            <div class="form-group">
+                                <label for="notes">Notes</label>
+                                <textarea id="notes" name="notes" rows="3"></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="notes">Notes</label>
-                            <textarea id="notes" name="notes" rows="3"></textarea>
+
+                        <div>
+                            <h3 style="margin-bottom: 1rem;font-weight: 300;letter-spacing: 0.4px;">Social Media Links</h3>
+
+                            <div class="social-links-profile">
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fab fa-instagram"></i></div>
+                                        <input type="url" placeholder="Instagram URL" id="instagram" name="instagram"
+                                            placeholder="Instagram Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fab fa-facebook"></i></div>
+                                        <input type="url" placeholder="Facebook URL" id="facebook" name="facebook"
+                                            placeholder="Facebook Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fab fa-twitter"></i></div>
+                                        <input type="url" placeholder="Twitter URL" id="twitter" name="twitter"
+                                            placeholder="Twitter Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fab fa-linkedin"></i></div>
+                                        <input type="url" placeholder="LinkedIn URL" id="linkedin" name="linkedin"
+                                            placeholder="LinkedIN Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fas fa-calendar-alt"></i></div>
+                                        <input type="url" placeholder="Calendly URL" id="calendly" name="calendly"
+                                            placeholder="Calendly Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fas fa-headphones"></i></div>
+                                        <input type="url" placeholder="Zoom URL" id="zoom" name="zoom"
+                                            placeholder="Zoom Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fab fa-snapchat"></i></div>
+                                        <input type="url" placeholder="Snapchat URL" id="snapchat" name="snapchat"
+                                            placeholder="Snapchat Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fab fa-tiktok"></i></div>
+                                        <input type="url" placeholder="TikTok URL" id="tiktok" name="tiktok"
+                                            placeholder="TikTok Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fab fa-youtube"></i></div>
+                                        <input type="url" placeholder="YouTube URL" id="youtube" name="youtube"
+                                            placeholder="Youtube Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
+                                        <input type="url" placeholder="WhatsApp URL" id="whatsapp" name="whatsapp"
+                                            placeholder="Whatsapp Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fa-brands fa-reddit"></i></div>
+                                        <input type="url" placeholder="reddit URL" id="reddit" name="reddit"
+                                            placeholder="reddit Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fa-brands fa-telegram"></i></div>
+                                        <input type="url" placeholder="telegram URL" id="telegram" name="telegram"
+                                            placeholder="telegram Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+                                </div>
+                                <div class="social-item">
+                                    <div class="icon-input">
+                                        <div class="social-icon"><i class="fa-brands fa-pinterest"></i></div>
+                                        <input type="url" placeholder="pinterest URL" id="pinterest" name="pinterest"
+                                            placeholder="pinterest Link">
+                                    </div>
+                                    <div class="input-error">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <h3 style="margin: 2rem 0 1rem 0;">QR Code</h3>
+                            <div class="qr-upload" id="qr-upload-div" >
+                                <input type="file" id="qrUpload" accept="image/*" style="display: none;"
+                                    onchange="handleQRUpload(event)">
+                                <div id="qrUploadText">
+                                    📱 Click to upload QR code<br>
+                                    <small>PNG, JPG or SVG format</small>
+                                </div>
+                                <img id="qrPreview" class="qr-preview hidden">
+                            </div> -->
                         </div>
                     </div>
+                </form>
+            </div>
 
-                    <div>
-                        <h3 style="margin-bottom: 1rem;font-weight: 300;letter-spacing: 0.4px;">Social Media Links</h3>
+            <!-- Display Page (Business Card) -->
 
-                        <div class="social-links-profile">
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fab fa-instagram"></i></div>
-                                    <input type="url" placeholder="Instagram URL" id="instagram" name="instagram"
-                                        placeholder="Instagram Link">
-                                </div>
-                                <div class="input-error">
+            <div id="displayPage" class="page">
+                <div id="wallet-button-container">
+                    <!-- iOS wallet link will be added here -->
+                </div>
+                <div class="modern-card-layout">
+                    <!-- Main Card Content -->
+                    <div class="main-card">
+                        <!-- Header with profile info -->
+                        <div class="card-header ">
+                            <div class="profile-info">
+                                <!-- <h1 id="displayName">John Doe</h1>
+                                <h2 id="displayTitle">Software Engineer</h2>
+                                <p id="displayOrganization">Tech Company Inc.</p> -->
 
-                                </div>
+                                <div class="heading-display-profile">Users will see this profile look on their screen when
+                                    they can this QR code.</div>
+                                <div class=" display-card-container">
 
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fab fa-facebook"></i></div>
-                                    <input type="url" placeholder="Facebook URL" id="facebook" name="facebook"
-                                        placeholder="Facebook Link">
-                                </div>
-                                <div class="input-error">
+                                    <!-- Profile Section -->
+                                    <div class="profile-section">
 
-                                </div>
+                                        <div class="profile-header">
+                                            <div class="app-logo">
+                                                <img id="profile-page-logo" src="/image/app-logo.png" alt="QRprofile Logo"
+                                                    class="logo-image">
+                                                <!-- <span class="logo-text">QRprofile</span> -->
+                                            </div>
+                                            <!-- <div class="profile-avatar">{{initials}}</div> -->
+                                            <!-- Profile Avatar/Photo -->
+                                            <div class="profile-avatar" id="displaycardAvatar">
+                                                <!-- {{#if hasProfilePhoto}}
+                                                <img src="/api/profile/photo/{{profileId}}" alt="{{name}}">
+                                                {{else}}
+                                                <span>{{initials}}</span>
+                                                {{/if}} -->
+                                            </div>
+                                        </div>
+                                        <div class="display-profile-content">
+                                            <!-- <div class="profile-avatar">{{initials}}</div> -->
+                                            <h1 class="display-profile-name"></h1>
+                                            <div class="display-profile-title"></div>
+                                            <div class="display-profile-organization"></div>
+                                            <div class="display-views-counter">
+                                                📊 views
+                                            </div>
+                                        </div>
+                                    </div>
 
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fab fa-twitter"></i></div>
-                                    <input type="url" placeholder="Twitter URL" id="twitter" name="twitter"
-                                        placeholder="Twitter Link">
-                                </div>
-                                <div class="input-error">
+                                    <!-- Action Buttons -->
+                                    <div class="actions-section">
+                                        <a href="javascript:void(0)" class="action-btn">
+                                            <i class="fas fa-save"></i> <span>Save Contact</span>
+                                        </a>
+                                        <!-- <a href="javascript:window.open(window.location.origin, '_blank')" class="action-btn create-profile-btn">
+                                            <i class="fas fa-qrcode"></i> <span>Create my QRProfile</span>
+                                        </a> -->
+                                        <button class="action-btn addToWalletBtn" id="addToWalletBtn">
+                                            <i class="fas fa-wallet"></i> Add to QRWallet
+                                        </button>
+                                    </div>
 
-                                </div>
+                                    <!-- Social Media Links -->
+                                    <div class="social-section" id="socialSection">
+                                        <h3 class="section-title">Connect With Me</h3>
+                                        <div class="social-links" id="socialLinksdisplay">
+                                            <!-- Social links will be populated by JavaScript -->
+                                        </div>
+                                    </div>
 
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fab fa-linkedin"></i></div>
-                                    <input type="url" placeholder="LinkedIn URL" id="linkedin" name="linkedin"
-                                        placeholder="LinkedIN Link">
-                                </div>
-                                <div class="input-error">
+                                    <!-- Contact Information -->
+                                    <div class="contact-section" id="displaycontactSection">
+                                        <!-- Contact items will be populated by JavaScript -->
+                                    </div>
 
-                                </div>
+                                    <!-- Address -->
+                                    <div class="address-section" id="addressSection" style="display: none;">
+                                        <h3 class="section-title">📍 Location</h3>
+                                        <div class="address-text">{{address}}</div>
+                                    </div>
 
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fas fa-calendar-alt"></i></div>
-                                    <input type="url" placeholder="Calendly URL" id="calendly" name="calendly"
-                                        placeholder="Calendly Link">
-                                </div>
-                                <div class="input-error">
+                                    <!-- Action Buttons -->
+                                    <div class="actions-section">
+                                        <a href="javascript:void(0)" class="action-btn">
+                                            <i class="fas fa-save"></i> <span>Save Contact</span>
+                                        </a>
 
-                                </div>
+                                        <!-- <button class="action-btn addToWalletBtn" id="addToWalletBtn_" >
+                                            <i class="fas fa-wallet"></i> Add to QRWallet
+                                        </button> -->
+                                    </div>
 
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fas fa-headphones"></i></div>
-                                    <input type="url" placeholder="Zoom URL" id="zoom" name="zoom"
-                                        placeholder="Zoom Link">
-                                </div>
-                                <div class="input-error">
+                                    <!-- Notes -->
+                                    <div class="notes-section" id="notesSection" style="display: none;">
+                                        <h3 class="section-title">📝 About</h3>
+                                        <div class="notes-text">{{notes}}</div>
+                                    </div>
 
-                                </div>
-
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fab fa-snapchat"></i></div>
-                                    <input type="url" placeholder="Snapchat URL" id="snapchat" name="snapchat"
-                                        placeholder="Snapchat Link">
-                                </div>
-                                <div class="input-error">
-
-                                </div>
-
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fab fa-tiktok"></i></div>
-                                    <input type="url" placeholder="TikTok URL" id="tiktok" name="tiktok"
-                                        placeholder="TikTok Link">
-                                </div>
-                                <div class="input-error">
-
-                                </div>
-
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fab fa-youtube"></i></div>
-                                    <input type="url" placeholder="YouTube URL" id="youtube" name="youtube"
-                                        placeholder="Youtube Link">
-                                </div>
-                                <div class="input-error">
-
-                                </div>
-
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
-                                    <input type="url" placeholder="WhatsApp URL" id="whatsapp" name="whatsapp"
-                                        placeholder="Whatsapp Link">
-                                </div>
-                                <div class="input-error">
-
-                                </div>
-
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fa-brands fa-reddit"></i></div>
-                                    <input type="url" placeholder="reddit URL" id="reddit" name="reddit"
-                                        placeholder="reddit Link">
-                                </div>
-                                <div class="input-error">
-
+                                    <div id="resolution-message"
+                                        style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;">
+                                        <div
+                                            style="background: white; padding: 2rem; border-radius: 20px; text-align: center; max-width: 90%; box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 40px;">
+                                            <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+                                            <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">Screen Too
+                                                Small</h2>
+                                            <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.5;">
+                                                This application requires a minimum screen width of 400px for the best
+                                                experience.
+                                                Please rotate your device or use a larger screen.
+                                            </p>
+                                            <p style="color: #999; font-size: 0.9rem;">
+                                                Current width: 341px | Required: 400px minimum
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fa-brands fa-telegram"></i></div>
-                                    <input type="url" placeholder="telegram URL" id="telegram" name="telegram"
-                                        placeholder="telegram Link">
+                            <div class="qr-container">
+                                <div id="generatedQR" class="qr-display">
+                                    <!-- QR code will be inserted here -->
                                 </div>
-                                <div class="input-error">
-
-                                </div>
-                            </div>
-                            <div class="social-item">
-                                <div class="icon-input">
-                                    <div class="social-icon"><i class="fa-brands fa-pinterest"></i></div>
-                                    <input type="url" placeholder="pinterest URL" id="pinterest" name="pinterest"
-                                        placeholder="pinterest Link">
-                                </div>
-                                <div class="input-error">
-
-                                </div>
+                                <!-- <p class="qr-label">Scan to connect</p> -->
                             </div>
                         </div>
-                        <!-- <h3 style="margin: 2rem 0 1rem 0;">QR Code</h3>
-                        <div class="qr-upload" id="qr-upload-div" >
-                            <input type="file" id="qrUpload" accept="image/*" style="display: none;"
-                                onchange="handleQRUpload(event)">
-                            <div id="qrUploadText">
-                                📱 Click to upload QR code<br>
-                                <small>PNG, JPG or SVG format</small>
+
+                        <!-- Social Media -->
+                        <!-- <div class="social-section">
+                            <h3 class="section-title">Connect on Social</h3>
+                            <div id="socialLinksDisplay" class="social-grid">
+                            Social links will be populated here
                             </div>
-                            <img id="qrPreview" class="qr-preview hidden">
                         </div> -->
+
+                        <!-- Download buttons -->
+                        <!-- <div class="card-actions">
+                            <button class="action-btn secondary" id="downloadVCard-btn">
+                                <i class="fas fa-download"></i>
+                                Save Contact
+                            </button>
+                            <button class="action-btn secondary" id="downloadQRCode-btn">
+                                <i class="fas fa-qrcode"></i>
+                                Download QR Code
+                            </button>
+                            <button class="action-btn secondary hidden" id="addToWallet-btn">
+                                <i class="fas fa-mobile-alt"></i>
+                                Add to Wallet
+                            </button>
+                        </div> -->
+
+                        <!-- Contact Methods -->
+                        <!-- <div class="contact-methods">
+                            <a href="tel:4805820174" class="contact-method" id="displayPhoneLink">
+                                <div class="method-icon"><i class="fas fa-phone"></i></div>
+                                <div class="method-info">
+                                    <span class="method-label">Call</span>
+                                    <span class="method-value" id="displayPhone">4805820174</span>
+                                </div>
+                            </a>
+
+                            <a href="sms:4805820174" class="contact-method" id="displayMessageLink">
+                                <div class="method-icon"><i class="fas fa-sms"></i></div>
+                                <div class="method-info">
+                                    <span class="method-label">Message</span>
+                                    <span class="method-value" id="displayMobile">Text me</span>
+                                </div>
+                            </a>
+
+                            <a href="mailto:john@example.com" class="contact-method" id="displayEmailLink">
+                                <div class="method-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="method-info">
+                                    <span class="method-label">Email</span>
+                                    <span class="method-value" id="displayEmail">john@example.com</span>
+                                </div>
+                            </a>
+
+                            <a href="https://example.com" target="_blank" class="contact-method" id="displayWebsite">
+                                <div class="method-icon"><i class="fas fa-globe"></i></div>
+                                <div class="method-info">
+                                    <span class="method-label">Website</span>
+                                    <span class="method-value" id="displayWebsiteText">example.com</span>
+                                </div>
+                            </a>
+                        </div> -->
+
+                        <!-- Address if available -->
+                        <!-- <div class="address-section" id="addressSection" style="display: none;">
+                            <div class="section-icon">📍</div>
+                            <div class="section-content">
+                                <h3>Location</h3>
+                                <p id="displayAddress">123 Main St, City, State</p>
+                            </div>
+                        </div> -->
+
+
+
+                        <!-- Action Buttons -->
+                        <!-- <div class="card-actions">
+                            <button class="action-btn secondary" id="downloadVCard-btn">
+                                <span class="btn-icon">📥</span>
+                                Save Contact
+                            </button>
+                            <button class="action-btn secondary" id="downloadQRCode-btn">
+                                <span class="btn-icon">🔗</span>
+                                Download QR Code
+                            </button>
+                            <button class="action-btn secondary" id="addToWallet-btn">
+                                <span class="btn-icon">📱</span>
+                                Add to Wallet
+                            </button>
+                        </div> -->
+
                     </div>
                 </div>
-            </form>
-        </div>
-
-        <!-- Display Page (Business Card) -->
-
-        <div id="displayPage" class="page">
-            <div id="wallet-button-container">
-                <!-- iOS wallet link will be added here -->
             </div>
-            <div class="modern-card-layout">
-                <!-- Main Card Content -->
-                <div class="main-card">
-                    <!-- Header with profile info -->
-                    <div class="card-header ">
-                        <div class="profile-info">
-                            <!-- <h1 id="displayName">John Doe</h1>
-                            <h2 id="displayTitle">Software Engineer</h2>
-                            <p id="displayOrganization">Tech Company Inc.</p> -->
 
-                            <div class="heading-display-profile">Users will see this profile look on their screen when
-                                they can this QR code.</div>
-                            <div class=" display-card-container">
+            <!-- Wallet Page -->
+            <div id="walletPage" class="page">
+                <div class="wallet-container">
+                    <div class="wallet-header">
+                        <h1><i class="fas fa-wallet"></i> My Digital Wallet</h1>
+                        <p>Your saved business cards</p>
+                    </div>
 
-                                <!-- Profile Section -->
-                                <div class="profile-section">
+                    <div id="walletCardsContainer" class="wallet-cards-grid">
+                        <!-- Wallet cards will be dynamically loaded here -->
+                    </div>
 
-                                    <div class="profile-header">
-                                        <div class="app-logo">
-                                            <img id="profile-page-logo" src="/image/app-logo.png" alt="QRprofile Logo"
-                                                class="logo-image">
-                                            <!-- <span class="logo-text">QRprofile</span> -->
-                                        </div>
-                                        <!-- <div class="profile-avatar">{{initials}}</div> -->
-                                        <!-- Profile Avatar/Photo -->
-                                        <div class="profile-avatar" id="displaycardAvatar">
-                                            <!-- {{#if hasProfilePhoto}}
-                                            <img src="/api/profile/photo/{{profileId}}" alt="{{name}}">
-                                            {{else}}
-                                            <span>{{initials}}</span>
-                                            {{/if}} -->
-                                        </div>
-                                    </div>
-                                    <div class="display-profile-content">
-                                        <!-- <div class="profile-avatar">{{initials}}</div> -->
-                                        <h1 class="display-profile-name"></h1>
-                                        <div class="display-profile-title"></div>
-                                        <div class="display-profile-organization"></div>
-                                        <div class="display-views-counter">
-                                            📊 views
-                                        </div>
-                                    </div>
-                                </div>
+                    <div id="emptyWalletMessage" class="empty-wallet" style="display: none;">
+                        <i class="fas fa-wallet" style="font-size: 4rem; opacity: 0.3; margin-bottom: 1rem;"></i>
+                        <h3>Your wallet is empty</h3>
+                        <p>Scan QR codes or visit business card links to add cards to your wallet</p>
+                    </div>
+                </div>
+            </div>
 
-                                <!-- Action Buttons -->
-                                <div class="actions-section">
-                                    <a href="javascript:void(0)" class="action-btn">
-                                        <i class="fas fa-save"></i> <span>Save Contact</span>
+            <!-- Standalone Card Page (Hidden by default) -->
+            <div id="standalonePage" class="page standalone-page">
+                <div class="standalone-container">
+                    <div class="standalone-card">
+                        <div class="standalone-header">
+                            <h1 id="standaloneName">Harshil Patel</h1>
+                            <p id="standaloneTitle">Insurance & Financial Planner</p>
+                            <p id="standaloneOrganization">SmartLifeCover Inc.</p>
+                        </div>
+
+                        <div class="standalone-content">
+                            <div class="standalone-contacts">
+                                <h3>Contact Information</h3>
+                                <div class="standalone-contact-grid">
+                                    <a href="tel:+14998936593" class="standalone-contact-item" id="standalonePhone">
+                                        <span class="contact-icon">📞</span>
+                                        <span>+14998936593</span>
                                     </a>
-                                    <!-- <a href="javascript:window.open(window.location.origin, '_blank')" class="action-btn create-profile-btn">
-                                        <i class="fas fa-qrcode"></i> <span>Create my QRProfile</span>
-                                    </a> -->
-                                    <button class="action-btn addToWalletBtn" id="addToWalletBtn">
-                                        <i class="fas fa-wallet"></i> Add to QRWallet
-                                    </button>
-                                </div>
-
-                                <!-- Social Media Links -->
-                                <div class="social-section" id="socialSection">
-                                    <h3 class="section-title">Connect With Me</h3>
-                                    <div class="social-links" id="socialLinksdisplay">
-                                        <!-- Social links will be populated by JavaScript -->
-                                    </div>
-                                </div>
-
-                                <!-- Contact Information -->
-                                <div class="contact-section" id="displaycontactSection">
-                                    <!-- Contact items will be populated by JavaScript -->
-                                </div>
-
-                                <!-- Address -->
-                                <div class="address-section" id="addressSection" style="display: none;">
-                                    <h3 class="section-title">📍 Location</h3>
-                                    <div class="address-text">{{address}}</div>
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="actions-section">
-                                    <a href="javascript:void(0)" class="action-btn">
-                                        <i class="fas fa-save"></i> <span>Save Contact</span>
+                                    <a href="sms:+14908936593" class="standalone-contact-item" id="standaloneMessage">
+                                        <span class="contact-icon">💬</span>
+                                        <span>Message</span>
                                     </a>
-
-                                    <!-- <button class="action-btn addToWalletBtn" id="addToWalletBtn_" >
-                                        <i class="fas fa-wallet"></i> Add to QRWallet
-                                    </button> -->
-                                </div>
-
-                                <!-- Notes -->
-                                <div class="notes-section" id="notesSection" style="display: none;">
-                                    <h3 class="section-title">📝 About</h3>
-                                    <div class="notes-text">{{notes}}</div>
-                                </div>
-
-                                <div id="resolution-message"
-                                    style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;">
-                                    <div
-                                        style="background: white; padding: 2rem; border-radius: 20px; text-align: center; max-width: 90%; box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 40px;">
-                                        <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
-                                        <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">Screen Too
-                                            Small</h2>
-                                        <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.5;">
-                                            This application requires a minimum screen width of 400px for the best
-                                            experience.
-                                            Please rotate your device or use a larger screen.
-                                        </p>
-                                        <p style="color: #999; font-size: 0.9rem;">
-                                            Current width: 341px | Required: 400px minimum
-                                        </p>
+                                    <div class="standalone-contact-item" id="standaloneEmailItem">
+                                        <span class="contact-icon">✉️</span>
+                                        <span id="standaloneEmail">smartlifecover@gmail.com</span>
+                                    </div>
+                                    <a href="https://smartlifecover.com" target="_blank" class="standalone-contact-item"
+                                        id="standaloneWebsiteLink">
+                                        <span class="contact-icon">🌐</span>
+                                        <span id="standaloneWebsite">smartlifecover.com</span>
+                                    </a>
+                                    <div class="standalone-contact-item">
+                                        <span class="contact-icon">📍</span>
+                                        <span id="standaloneAddress">Phoenix, AZ</span>
                                     </div>
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="qr-container">
-                            <div id="generatedQR" class="qr-display">
-                                <!-- QR code will be inserted here -->
-                            </div>
-                            <!-- <p class="qr-label">Scan to connect</p> -->
-                        </div>
-                    </div>
-
-                    <!-- Social Media -->
-                    <!-- <div class="social-section">
-                        <h3 class="section-title">Connect on Social</h3>
-                        <div id="socialLinksDisplay" class="social-grid">
-                           Social links will be populated here
-                        </div>
-                    </div> -->
-
-                    <!-- Download buttons -->
-                    <!-- <div class="card-actions">
-                        <button class="action-btn secondary" id="downloadVCard-btn">
-                            <i class="fas fa-download"></i>
-                            Save Contact
-                        </button>
-                        <button class="action-btn secondary" id="downloadQRCode-btn">
-                            <i class="fas fa-qrcode"></i>
-                            Download QR Code
-                        </button>
-                        <button class="action-btn secondary hidden" id="addToWallet-btn">
-                            <i class="fas fa-mobile-alt"></i>
-                            Add to Wallet
-                        </button>
-                    </div> -->
-
-                    <!-- Contact Methods -->
-                    <!-- <div class="contact-methods">
-                        <a href="tel:4805820174" class="contact-method" id="displayPhoneLink">
-                            <div class="method-icon"><i class="fas fa-phone"></i></div>
-                            <div class="method-info">
-                                <span class="method-label">Call</span>
-                                <span class="method-value" id="displayPhone">4805820174</span>
-                            </div>
-                        </a>
-
-                        <a href="sms:4805820174" class="contact-method" id="displayMessageLink">
-                            <div class="method-icon"><i class="fas fa-sms"></i></div>
-                            <div class="method-info">
-                                <span class="method-label">Message</span>
-                                <span class="method-value" id="displayMobile">Text me</span>
-                            </div>
-                        </a>
-
-                        <a href="mailto:john@example.com" class="contact-method" id="displayEmailLink">
-                            <div class="method-icon"><i class="fas fa-envelope"></i></div>
-                            <div class="method-info">
-                                <span class="method-label">Email</span>
-                                <span class="method-value" id="displayEmail">john@example.com</span>
-                            </div>
-                        </a>
-
-                        <a href="https://example.com" target="_blank" class="contact-method" id="displayWebsite">
-                            <div class="method-icon"><i class="fas fa-globe"></i></div>
-                            <div class="method-info">
-                                <span class="method-label">Website</span>
-                                <span class="method-value" id="displayWebsiteText">example.com</span>
-                            </div>
-                        </a>
-                    </div> -->
-
-                    <!-- Address if available -->
-                    <!-- <div class="address-section" id="addressSection" style="display: none;">
-                        <div class="section-icon">📍</div>
-                        <div class="section-content">
-                            <h3>Location</h3>
-                            <p id="displayAddress">123 Main St, City, State</p>
-                        </div>
-                    </div> -->
-
-
-
-                    <!-- Action Buttons -->
-                    <!-- <div class="card-actions">
-                        <button class="action-btn secondary" id="downloadVCard-btn">
-                            <span class="btn-icon">📥</span>
-                            Save Contact
-                        </button>
-                        <button class="action-btn secondary" id="downloadQRCode-btn">
-                            <span class="btn-icon">🔗</span>
-                            Download QR Code
-                        </button>
-                        <button class="action-btn secondary" id="addToWallet-btn">
-                            <span class="btn-icon">📱</span>
-                            Add to Wallet
-                        </button>
-                    </div> -->
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Wallet Page -->
-        <div id="walletPage" class="page">
-            <div class="wallet-container">
-                <div class="wallet-header">
-                    <h1><i class="fas fa-wallet"></i> My Digital Wallet</h1>
-                    <p>Your saved business cards</p>
-                </div>
-
-                <div id="walletCardsContainer" class="wallet-cards-grid">
-                    <!-- Wallet cards will be dynamically loaded here -->
-                </div>
-
-                <div id="emptyWalletMessage" class="empty-wallet" style="display: none;">
-                    <i class="fas fa-wallet" style="font-size: 4rem; opacity: 0.3; margin-bottom: 1rem;"></i>
-                    <h3>Your wallet is empty</h3>
-                    <p>Scan QR codes or visit business card links to add cards to your wallet</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Standalone Card Page (Hidden by default) -->
-        <div id="standalonePage" class="page standalone-page">
-            <div class="standalone-container">
-                <div class="standalone-card">
-                    <div class="standalone-header">
-                        <h1 id="standaloneName">Harshil Patel</h1>
-                        <p id="standaloneTitle">Insurance & Financial Planner</p>
-                        <p id="standaloneOrganization">SmartLifeCover Inc.</p>
-                    </div>
-
-                    <div class="standalone-content">
-                        <div class="standalone-contacts">
-                            <h3>Contact Information</h3>
-                            <div class="standalone-contact-grid">
-                                <a href="tel:+14998936593" class="standalone-contact-item" id="standalonePhone">
-                                    <span class="contact-icon">📞</span>
-                                    <span>+14998936593</span>
-                                </a>
-                                <a href="sms:+14908936593" class="standalone-contact-item" id="standaloneMessage">
-                                    <span class="contact-icon">💬</span>
-                                    <span>Message</span>
-                                </a>
-                                <div class="standalone-contact-item" id="standaloneEmailItem">
-                                    <span class="contact-icon">✉️</span>
-                                    <span id="standaloneEmail">smartlifecover@gmail.com</span>
-                                </div>
-                                <a href="https://smartlifecover.com" target="_blank" class="standalone-contact-item"
-                                    id="standaloneWebsiteLink">
-                                    <span class="contact-icon">🌐</span>
-                                    <span id="standaloneWebsite">smartlifecover.com</span>
-                                </a>
-                                <div class="standalone-contact-item">
-                                    <span class="contact-icon">📍</span>
-                                    <span id="standaloneAddress">Phoenix, AZ</span>
+                            <div class="standalone-social">
+                                <h3>Follow Me</h3>
+                                <div id="standaloneSocialLinks" class="standalone-social-grid">
+                                    <!-- Social links will be populated here -->
                                 </div>
                             </div>
                         </div>
 
-                        <div class="standalone-social">
-                            <h3>Follow Me</h3>
-                            <div id="standaloneSocialLinks" class="standalone-social-grid">
-                                <!-- Social links will be populated here -->
+                        <div class="standalone-actions">
+                            <button class="standalone-btn" onclick="downloadVCard()">
+                                📥 Save Contact
+                            </button>
+                            <button class="standalone-btn secondary" onclick="shareCard()">
+                                🔗 Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="faqPage" class="page faq-page">
+                <!-- FAQ Section: Paste into your HTML -->
+                <section class="faq-section" aria-label="Frequently Asked Questions">
+                    <div class="container">
+                        <h2>Frequently Asked Questions</h2>
+                        <p class="lead">Answers about how the free QR profile app works, sharing, wallet passes, privacy,
+                            and more.</p>
+
+                        <div class="faq-list">
+                            <details>
+                                <summary>1. What is this app and how does it work?</summary>
+                                <div class="answer">
+                                    This free app creates a sharable profile page from details you enter (name, photo,
+                                    contact, and social links). The app generates a unique QR code, downloadable image,
+                                    Apple Wallet pass, Google Wallet pass, and a shareable link. Scanning the QR or opening
+                                    the link shows your profile instantly.
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>2. Is the app really free?</summary>
+                                <div class="answer">
+                                    Yes — core features (create profile, generate QR, download QR image, save to
+                                    Apple/Google Wallet, share link) are free. Any premium/enterprise features (if offered
+                                    later) will be announced separately.
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>3. Which platforms and devices are supported?</summary>
+                                <div class="answer">
+                                    The QR/profile page is web-based and works on Android, iOS, and desktop browsers. Apple
+                                    Wallet and Google Wallet passes are supported on devices that accept those passes. vCard
+                                    (.vcf) downloads work across iOS and Android for quick contact saving.
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>4. Do recipients need to install an app to view profiles?</summary>
+                                <div class="answer">
+                                    No. Recipients only need a QR scanner or a web browser. Scanning the QR opens the
+                                    profile page instantly — no app install required.
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>5. How do Apple Wallet and Google Wallet passes work?</summary>
+                                <div class="answer">
+                                    After creating your profile you can save the QR as an Apple Wallet pass (.pkpass) or a
+                                    Google Wallet pass. These behave like digital cards in the wallet app for quick access
+                                    and offline presentation.
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>6. Can I edit my profile later?</summary>
+                                <div class="answer">
+                                    Yes. Log into your account, update any field in the admin page, and save. Changes take
+                                    effect immediately.
+                                </div>
+                            </details>
+
+
+
+                            <details>
+                                <summary>7. Is my data private and secure?</summary>
+                                <div class="answer">
+                                    We use standard security practices to protect data. Sensitive cookies are HttpOnly,
+                                    server endpoints require authentication, and tokens are stored securely. Review the
+                                    privacy policy for full details and export/delete options.
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>8. How do I let people save my contact to their phone?</summary>
+                                <div class="answer">
+                                    The profile page offers to save vCard (.vcf) download. On most phones this triggers the
+                                    Contacts app to import the contact or allows one-tap saving.
+                                </div>
+                            </details>
+
+
+                            <details>
+                                <summary>9. What file types are available for download?</summary>
+                                <div class="answer">
+                                    You can download the QR as PNG images, get an Apple Wallet pass, a Google Wallet pass,
+                                    and a vCard (.vcf). Files are optimized for quality and sharing.
+                                </div>
+                            </details>
+
+                            <details>
+                                <summary>10. Can I share a profile link instead of a QR?</summary>
+                                <div class="answer">
+                                    Yes — every profile has a unique, short URL (the QR link page) you can copy and share
+                                    anywhere: email, social bios, chat, or SMS.
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
+
+            <!-- Add this new page section after your faqPage div, inside the container -->
+
+            <!-- Use Cases Page -->
+            <div id="usecasePage" class="page">
+                <div class="usecase-header">
+                    <h1>Real-World Use Cases</h1>
+                    <p class="usecase-subtitle">See how professionals use QRMyPro to grow their network and business</p>
+                </div>
+
+                <div class="usecases-grid">
+
+                    <!-- Use Case 1: Networking Events -->
+                    <div class="usecase-card">
+                        <div class="usecase-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="usecase-title">Networking Events</h3>
+                        <p class="usecase-description">
+                            Stop fumbling with paper cards at conferences and meetups. Share your digital profile
+                            instantly with a QR code scan. Track who scanned your card and follow up effortlessly.
+                        </p>
+                        <div class="usecase-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">5x</div>
+                                <div class="stat-label">Faster Exchange</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Eco-Friendly</div>
+                            </div>
+                        </div>
+                        <div class="usecase-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Instant contact sharing</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>No app required to view</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Analytics on scans</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="standalone-actions">
-                        <button class="standalone-btn" onclick="downloadVCard()">
-                            📥 Save Contact
-                        </button>
-                        <button class="standalone-btn secondary" onclick="shareCard()">
-                            🔗 Share
-                        </button>
+                    <!-- Use Case 2: Real Estate Agents -->
+                    <div class="usecase-card">
+                        <div class="usecase-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="usecase-title">Real Estate Professionals</h3>
+                        <p class="usecase-description">
+                            Add QR codes to property listings, yard signs, and open house materials. Potential buyers
+                            can instantly access your contact info, schedule viewings, and see your listings.
+                        </p>
+                        <div class="usecase-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">40%</div>
+                                <div class="stat-label">More Leads</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">Availability</div>
+                            </div>
+                        </div>
+                        <div class="usecase-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Link to listings</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Virtual tour integration</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Direct scheduling</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Use Case 3: Sales & Marketing -->
+                    <div class="usecase-card">
+                        <div class="usecase-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="usecase-title">Sales & Marketing Teams</h3>
+                        <p class="usecase-description">
+                            Empower your sales team with dynamic digital cards that update in real-time. Track engagement,
+                            measure ROI, and never run out of business cards again.
+                        </p>
+                        <div class="usecase-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">60%</div>
+                                <div class="stat-label">Cost Savings</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">3x</div>
+                                <div class="stat-label">Follow-up Rate</div>
+                            </div>
+                        </div>
+                        <div class="usecase-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Team management</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Analytics dashboard</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>CRM integration ready</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Use Case 4: Freelancers & Creators -->
+                    <div class="usecase-card">
+                        <div class="usecase-icon">
+                            <i class="fas fa-paintbrush"></i>
+                        </div>
+                        <h3 class="usecase-title">Freelancers & Content Creators</h3>
+                        <p class="usecase-description">
+                            Showcase your portfolio, social media, and booking links all in one place. Perfect for
+                            photographers, designers, consultants, and influencers building their personal brand.
+                        </p>
+                        <div class="usecase-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">All-in-1</div>
+                                <div class="stat-label">Link Hub</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">∞</div>
+                                <div class="stat-label">Updates</div>
+                            </div>
+                        </div>
+                        <div class="usecase-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Portfolio showcase</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Social media hub</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Booking calendar link</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add this 5th card to your usecases-grid, after the Freelancers card -->
+
+                    <!-- Use Case 5: Celebrities & Social Media Professionals -->
+                    <div class="usecase-card">
+                        <div class="usecase-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="usecase-title">Celebrities & Social Media Influencers</h3>
+                        <p class="usecase-description">
+                            Centralize all your social platforms, merch stores, and booking links in one scannable QR code.
+                            Perfect for meet & greets, events, merchandise, and connecting with fans instantly.
+                        </p>
+                        <div class="usecase-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">10x</div>
+                                <div class="stat-label">Fan Engagement</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">1M+</div>
+                                <div class="stat-label">Potential Reach</div>
+                            </div>
+                        </div>
+                        <div class="usecase-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>All social links in one place</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Merch & booking integration</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Fan engagement tracking</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Verified profile badge</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- CTA Section -->
+                <div class="usecase-cta" id="singup-cta-button-div-uc">
+                    <h2>Ready to Transform Your Networking?</h2>
+                    <p>Join thousands of professionals already using QRMyPro</p>
+                    <button class="cta-button" id="singup-cta-button-uc">
+                        <i class="fas fa-rocket"></i>
+                        Create Your Digital Card Now
+                    </button>
                 </div>
             </div>
         </div>
-
-        <div id="faqPage" class="page faq-page">
-            <!-- FAQ Section: Paste into your HTML -->
-            <section class="faq-section" aria-label="Frequently Asked Questions">
-                <div class="container">
-                    <h2>Frequently Asked Questions</h2>
-                    <p class="lead">Answers about how the free QR profile app works, sharing, wallet passes, privacy,
-                        and more.</p>
-
-                    <div class="faq-list">
-                        <details>
-                            <summary>1. What is this app and how does it work?</summary>
-                            <div class="answer">
-                                This free app creates a sharable profile page from details you enter (name, photo,
-                                contact, and social links). The app generates a unique QR code, downloadable image,
-                                Apple Wallet pass, Google Wallet pass, and a shareable link. Scanning the QR or opening
-                                the link shows your profile instantly.
-                            </div>
-                        </details>
-
-                        <details>
-                            <summary>2. Is the app really free?</summary>
-                            <div class="answer">
-                                Yes — core features (create profile, generate QR, download QR image, save to
-                                Apple/Google Wallet, share link) are free. Any premium/enterprise features (if offered
-                                later) will be announced separately.
-                            </div>
-                        </details>
-
-                        <details>
-                            <summary>3. Which platforms and devices are supported?</summary>
-                            <div class="answer">
-                                The QR/profile page is web-based and works on Android, iOS, and desktop browsers. Apple
-                                Wallet and Google Wallet passes are supported on devices that accept those passes. vCard
-                                (.vcf) downloads work across iOS and Android for quick contact saving.
-                            </div>
-                        </details>
-
-                        <details>
-                            <summary>4. Do recipients need to install an app to view profiles?</summary>
-                            <div class="answer">
-                                No. Recipients only need a QR scanner or a web browser. Scanning the QR opens the
-                                profile page instantly — no app install required.
-                            </div>
-                        </details>
-
-                        <details>
-                            <summary>5. How do Apple Wallet and Google Wallet passes work?</summary>
-                            <div class="answer">
-                                After creating your profile you can save the QR as an Apple Wallet pass (.pkpass) or a
-                                Google Wallet pass. These behave like digital cards in the wallet app for quick access
-                                and offline presentation.
-                            </div>
-                        </details>
-
-                        <details>
-                            <summary>6. Can I edit my profile later?</summary>
-                            <div class="answer">
-                                Yes. Log into your account, update any field in the admin page, and save. Changes take
-                                effect immediately.
-                            </div>
-                        </details>
-
-
-
-                        <details>
-                            <summary>7. Is my data private and secure?</summary>
-                            <div class="answer">
-                                We use standard security practices to protect data. Sensitive cookies are HttpOnly,
-                                server endpoints require authentication, and tokens are stored securely. Review the
-                                privacy policy for full details and export/delete options.
-                            </div>
-                        </details>
-
-                        <details>
-                            <summary>8. How do I let people save my contact to their phone?</summary>
-                            <div class="answer">
-                                The profile page offers to save vCard (.vcf) download. On most phones this triggers the
-                                Contacts app to import the contact or allows one-tap saving.
-                            </div>
-                        </details>
-
-
-                        <details>
-                            <summary>9. What file types are available for download?</summary>
-                            <div class="answer">
-                                You can download the QR as PNG images, get an Apple Wallet pass, a Google Wallet pass,
-                                and a vCard (.vcf). Files are optimized for quality and sharing.
-                            </div>
-                        </details>
-
-                        <details>
-                            <summary>10. Can I share a profile link instead of a QR?</summary>
-                            <div class="answer">
-                                Yes — every profile has a unique, short URL (the QR link page) you can copy and share
-                                anywhere: email, social bios, chat, or SMS.
-                            </div>
-                        </details>
-                    </div>
-                </div>
-            </section>
-
-
-        </div>
-
-        <!-- Add this new page section after your faqPage div, inside the container -->
-
-        <!-- Use Cases Page -->
-        <div id="usecasePage" class="page">
-            <div class="usecase-header">
-                <h1>Real-World Use Cases</h1>
-                <p class="usecase-subtitle">See how professionals use QRMyPro to grow their network and business</p>
-            </div>
-
-            <div class="usecases-grid">
-
-                <!-- Use Case 1: Networking Events -->
-                <div class="usecase-card">
-                    <div class="usecase-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="usecase-title">Networking Events</h3>
-                    <p class="usecase-description">
-                        Stop fumbling with paper cards at conferences and meetups. Share your digital profile
-                        instantly with a QR code scan. Track who scanned your card and follow up effortlessly.
-                    </p>
-                    <div class="usecase-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">5x</div>
-                            <div class="stat-label">Faster Exchange</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">Eco-Friendly</div>
-                        </div>
-                    </div>
-                    <div class="usecase-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Instant contact sharing</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>No app required to view</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Analytics on scans</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Use Case 2: Real Estate Agents -->
-                <div class="usecase-card">
-                    <div class="usecase-icon">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h3 class="usecase-title">Real Estate Professionals</h3>
-                    <p class="usecase-description">
-                        Add QR codes to property listings, yard signs, and open house materials. Potential buyers
-                        can instantly access your contact info, schedule viewings, and see your listings.
-                    </p>
-                    <div class="usecase-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">40%</div>
-                            <div class="stat-label">More Leads</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Availability</div>
-                        </div>
-                    </div>
-                    <div class="usecase-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Link to listings</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Virtual tour integration</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Direct scheduling</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Use Case 3: Sales & Marketing -->
-                <div class="usecase-card">
-                    <div class="usecase-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="usecase-title">Sales & Marketing Teams</h3>
-                    <p class="usecase-description">
-                        Empower your sales team with dynamic digital cards that update in real-time. Track engagement,
-                        measure ROI, and never run out of business cards again.
-                    </p>
-                    <div class="usecase-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">60%</div>
-                            <div class="stat-label">Cost Savings</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">3x</div>
-                            <div class="stat-label">Follow-up Rate</div>
-                        </div>
-                    </div>
-                    <div class="usecase-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Team management</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Analytics dashboard</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>CRM integration ready</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Use Case 4: Freelancers & Creators -->
-                <div class="usecase-card">
-                    <div class="usecase-icon">
-                        <i class="fas fa-paintbrush"></i>
-                    </div>
-                    <h3 class="usecase-title">Freelancers & Content Creators</h3>
-                    <p class="usecase-description">
-                        Showcase your portfolio, social media, and booking links all in one place. Perfect for
-                        photographers, designers, consultants, and influencers building their personal brand.
-                    </p>
-                    <div class="usecase-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">All-in-1</div>
-                            <div class="stat-label">Link Hub</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">∞</div>
-                            <div class="stat-label">Updates</div>
-                        </div>
-                    </div>
-                    <div class="usecase-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Portfolio showcase</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Social media hub</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Booking calendar link</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add this 5th card to your usecases-grid, after the Freelancers card -->
-
-                <!-- Use Case 5: Celebrities & Social Media Professionals -->
-                <div class="usecase-card">
-                    <div class="usecase-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h3 class="usecase-title">Celebrities & Social Media Influencers</h3>
-                    <p class="usecase-description">
-                        Centralize all your social platforms, merch stores, and booking links in one scannable QR code.
-                        Perfect for meet & greets, events, merchandise, and connecting with fans instantly.
-                    </p>
-                    <div class="usecase-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">10x</div>
-                            <div class="stat-label">Fan Engagement</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">1M+</div>
-                            <div class="stat-label">Potential Reach</div>
-                        </div>
-                    </div>
-                    <div class="usecase-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>All social links in one place</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Merch & booking integration</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Fan engagement tracking</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Verified profile badge</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- CTA Section -->
-            <div class="usecase-cta" id="singup-cta-button-div-uc">
-                <h2>Ready to Transform Your Networking?</h2>
-                <p>Join thousands of professionals already using QRMyPro</p>
-                <button class="cta-button" id="singup-cta-button-uc">
-                    <i class="fas fa-rocket"></i>
-                    Create Your Digital Card Now
-                </button>
-            </div>
-        </div>
-    </div>
-    <!-- Load JS from /js -->
-
-
-    <!-- Footer -->
+           <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-content">
@@ -1700,6 +1778,11 @@
             </div>
         </div>
     </footer>
+    </main>
+    <!-- Load JS from /js -->
+
+
+ 
 
     <!-- Privacy Policy Modal -->
     <div id="privacy-modal" class="modal">
@@ -1915,8 +1998,8 @@
     </div>
     <!-- <script src="/js/main.js"></script> -->
     <!-- <script src="/js/integration.js"></script> -->
-    <script type="module" src="/dist/app.min.js"></script>
-    <!-- <script type="module" src="/js/app.js"></script> -->
+    <!-- <script type="module" src="/dist/app.min.js"></script> -->
+    <script type="module" src="/js/app.js"></script>
 
     <!-- <script src="/js/countries-autocomplete.min.js"></script> -->
     <!-- <script type="module" src="/js/wallet.js"></script> -->

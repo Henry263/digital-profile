@@ -22,7 +22,7 @@ router.get('/', authenticateToken, async (req, res) => {
     const userId = getUserId(req.user);
     const userEmail = req.user.email;
     
-    console.log(`📦 Fetching wallet for userId: ${userId}, email: ${userEmail}`);
+    // console.log(`📦 Fetching wallet for userId: ${userId}, email: ${userEmail}`);
     
     // Use findOneAndUpdate with upsert for atomic operation
     // This prevents race conditions and duplicate key errors
@@ -47,7 +47,7 @@ router.get('/', authenticateToken, async (req, res) => {
       }
     ).populate('cards.profileId', 'name email phone profileImage title organization');
     
-    console.log(`✅ Wallet retrieved successfully, cards count: ${wallet.cards.length}`);
+    // console.log(`✅ Wallet retrieved successfully, cards count: ${wallet.cards.length}`);
     
     const walletObject = wallet.toObject();
     walletObject.cards = walletObject.cards.map(card => {

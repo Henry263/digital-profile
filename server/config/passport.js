@@ -125,6 +125,8 @@ passport.use(new GoogleStrategy({
       lastLogin: new Date(),
       isPublic: true
     });
+    // CRITICAL: Set userId to profile's own _id BEFORE saving
+    newProfile.userId = newProfile._id;
 
     const savedProfile = await newProfile.save();
     console.log('✅ New Google profile created:', savedProfile.email);

@@ -527,7 +527,7 @@ async function downloadWalletCardFixed(cardId, fileName = null) {
 
         // 2. Create HTML with proper sizing
         const html = createWalletCardHTML(cardData);
-
+        // $(".qr-container").append(html);
         // 3. Create temporary container
         const container = document.createElement("div");
         container.style.position = "absolute";
@@ -585,69 +585,53 @@ function createWalletCardHTML(data) {
     if (data.hasProfilePhoto) {
         // Card has a profile photo - show image with fallback to initials on error
         const profilePhotoUrl = `${api.baseURL}/api/profile/photo/c/${data.cardId}`;
-        avatarHTML = `<img src="${profilePhotoUrl}" 
+        avatarHTML = `<div class="wallet-card-avatar-overlap"><img src="${profilePhotoUrl}" 
                            alt="${escapeHtml(data.name)}" 
                            crossorigin="anonymous"
-                           onerror="this.style.display='none'; this.parentElement.innerHTML='<span>${
-            data.initials
-            }</span>';">`;
+                           onerror="this.style.display='none'; this.parentElement.innerHTML='<span>${data.initials}</span>';"></div>`;
     } else {
         // No profile photo - show initials directly
-        avatarHTML = `<span>${data.initials}</span>`;
+        avatarHTML = ` <div class="wallet-card-avatar-download"><span>${data.initials}</span></div>`;
     }
 
-    return `
-        <div class="digital-wallet-card" data-card-id="${escapeHtml(
-        data.slug
-    )}">
+    let cardNametoDisplay = escapeHtml(data.name);
+    if(escapeHtml(data.organization)){
+        cardNametoDisplay = escapeHtml(data.organization);
+    }
+    return `<div class="digital-wallet-card" data-card-id="g0czadibq">
       
             
-            <!-- Colored Header Section -->
-            <div class="wallet-card-header-section">
-                <div class="wallet-card-brand-name">${escapeHtml(
-        data.organization
-    )}</div>
-                <div class="wallet-qr-top-container">
-                    <img src="/card/${escapeHtml(
-        data.slug
-    )}/qr" alt="QR Code for ${escapeHtml(data.name)}">
-                </div>
-                <!-- Overlapping Profile Photo -->
-                <div class="wallet-card-avatar-overlap">
-                    ${avatarHTML}
-                </div>
-            </div>
-            
-            <!-- Content Section -->
-            <div class="wallet-card-content">
-                <div class="empty-div"></div>
-                <div class="actual-content">
-                <div class="wallet-card-name">${escapeHtml(data.name)}</div>
-                ${
-        data.title
-            ? `<div class="wallet-card-title">${escapeHtml(
-                data.title
-            )}</div>`
-            : ""
-        }
-                <div class="wallet-card-email"><a href="mailto:${escapeHtml(
-            data.email
-        )}" class="wallet-display-email" title="Email">${escapeHtml(
-            data.email
-        )}</a></div>
-          
-                </div>
-            </div>
-            
-            <div class="digital-card-action-btn-style">
-                <div class="logo">
-                    <img src="./image/app-logo.png" alt="QRprofile Logo" class="card-logo-image-only">
-                </div>
-                <span>PoweredBy:${window.location.href} </span>
-            </div>
-        </div>
+    <!-- Colored Header Section -->
+    <div class="wallet-card-header-section">
+        <div class="wallet-card-brand-name">${cardNametoDisplay}</div>
+       
+            ${avatarHTML}
+       
+        <!-- Overlapping Profile Photo -->
         
-    `;
+    </div>
+    
+    <!-- Content Section -->
+    <div class="wallet-card-content">
+        <div class="empty-div"><div class="wallet-qr-top-container">
+            <img src="/card/${escapeHtml(data.slug)}/qr" alt="QR Code for ${escapeHtml(data.name)}">
+        </div></div>
+        <div class="actual-content">
+        <div class="wallet-card-name">${escapeHtml(data.name)}</div>
+        
+        <div class="wallet-card-email"><a href="mailto:${escapeHtml(data.email)}" class="wallet-display-email" title="Email">${escapeHtml(data.email)}</a></div>
+  
+        </div>
+    </div>
+    
+    <div class="digital-card-action-btn-style">
+        <div class="logo">
+            <img src="./image/app-logo.png" alt="QRprofile Logo" class="card-logo-image-only">
+        </div>
+        <span>PoweredBy:${window.location.href} </span>
+    </div>
+ </div>`
+
 }
 
 /**

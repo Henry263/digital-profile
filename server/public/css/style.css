@@ -5,6 +5,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+[contenteditable]:focus {
+  outline: none;
+}
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -22,6 +25,27 @@ body {
   min-height: 100vh;
 }
 
+.Login-here-div{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.signup-page-header > h2{
+  margin-bottom: 2rem;
+  color: white;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .signup-page-header > h2{
+    margin-bottom: 1.5rem;
+    color: white;
+    font-weight: 400;
+    font-size: 1.2rem
+19.2px
+;
+  }
+}
 /* Fixed navbar with better mobile handling */
 .navbar {
   background: rgba(255, 255, 255, 0.95);
@@ -193,6 +217,12 @@ body {
     width: 32px;
     height: 32px;
     font-size: 0.85rem;
+  }
+  .social-item input{
+    width: 100% !important;
+  }
+  .social-item{
+    padding: 0.8rem 0.8rem 0rem 0.8rem;
   }
 }
 
@@ -1317,6 +1347,10 @@ div#signinbackbtn {
 }
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+
+  .page#profilePage  {
+    padding: 4px 8px;
+  }
   .navbar {
     padding: 0.75rem;
   }
@@ -1454,7 +1488,7 @@ div#signinbackbtn {
   .form-group-signup input,
   .form-group-signin input,
   .form-group textarea {
-    font-size: 16px;
+    font-size: 12px;
     /* Prevents zoom on iOS */
   }
 }
@@ -1464,6 +1498,11 @@ div#signinbackbtn {
     flex-direction: row;
     gap: 0.5rem;
     padding: 0.5rem;
+  }
+
+  .form-group label{
+    font-size: 12px;
+    font-weight: 400;
   }
 
   .nav-buttons {
@@ -1597,10 +1636,13 @@ div#signinbackbtn {
   .profile-header {
     flex-direction: column;
     text-align: center;
+   
+
   }
+ 
 
   .profile-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -1624,7 +1666,7 @@ div#signinbackbtn {
 @media (max-width: 480px) {
   .save-btn {
     width: 100%;
-    padding: 1rem;
+    padding: 0.6rem;
   }
 }
 
@@ -1711,8 +1753,17 @@ label.active-label {
   display: none;
 }
 
+@media (max-width: 600px) {
+
+  .profile-info {
+    max-width: 100%;
+}
+}
 /* Responsive */
 @media (max-width: 768px) {
+  .heading-display-profile {
+    font-size: 12px;
+}
   .footer-content {
     grid-template-columns: 1fr;
     gap: 30px;

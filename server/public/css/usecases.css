@@ -183,9 +183,9 @@
 }
 
 .usecase-cta h2 {
-    font-size: 2rem;
+    font-size: 1.7rem;
     margin-bottom: 1rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .usecase-cta p {
@@ -305,7 +305,8 @@
     }
 
     .usecase-cta h2 {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: 500;
     }
 
     .usecase-cta p {

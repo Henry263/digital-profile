@@ -92,6 +92,7 @@
     padding: 16px 12px;
     overflow-y: auto;
     overflow-x: hidden;
+    background: white;
 }
 
 .sidebar-nav::-webkit-scrollbar {
@@ -194,6 +195,7 @@
 .sidebar-footer {
     padding: 16px 12px;
     border-top: 1px solid var(--border-color);
+    background: white;
 }
 
 .user-profile {
@@ -299,12 +301,12 @@
 .mobile-menu-toggle {
     display: none;
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    /* bottom: 20px;
+    right: 20px; */
     width: 56px;
     height: 56px;
     background: var(--accent-color);
-    border: none;
+    border: 1px solid;
     border-radius: 50%;
     color: white;
     font-size: 24px;
@@ -314,6 +316,9 @@
     transition: all 0.3s ease;
     align-items: center;
     justify-content: center;
+    top: 5px;
+    right: 5px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .mobile-menu-toggle:hover {
@@ -403,7 +408,9 @@
 .sidebar.collapsed ~ .main-content {
     margin-left: var(--sidebar-collapsed-width);
 }
+@media (min-width: 769px) {
 
+}
 /* ============================================
    TABLET MODE (768px - 1024px)
    Icon-only sidebar, expands on hamburger click
@@ -500,6 +507,7 @@
     .sidebar.mobile-open .nav-item span {
         opacity: 1;
         width: auto;
+        display: block;
     }
 
     .sidebar.mobile-open .nav-item {
@@ -533,7 +541,7 @@
    Icon-only sidebar, expands on hamburger click
    ============================================ */
 @media (max-width: 768px) {
-
+    
     /* Show icon logo, hide full logo */
     .sidebar-logo.full-logo {
         display: none;
@@ -631,6 +639,7 @@
     .sidebar.mobile-open .nav-item span {
         opacity: 1;
         width: auto;
+        display: block;
     }
 
     .sidebar.mobile-open .nav-item {
@@ -687,11 +696,11 @@
 /* Extra Small Devices */
 @media (max-width: 480px) {
     .mobile-menu-toggle {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        bottom: 16px;
-        right: 16px;
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+        top: 5px;
+        right: 5px;
     }
 
     .sidebar.mobile-open {
@@ -719,12 +728,12 @@
 }
 
 .auth-container {
-    min-height: 100vh;
-    display: flex;
+    /* min-height: 100vh; */
+    /* display: flex; */
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px 0px;
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
 }
 
 .wallet-container {
@@ -898,15 +907,16 @@ html {
 
 .page#loginPage .auth-container,
 .page#signupPage .auth-container {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
 }
 
 .page#profilePage {
     /* background: white; */
-    padding: 2rem;
+    /* padding: 2rem; */
 }
 
 .page#displayPage {
     /* background: white; */
-    padding: 2rem;
+    /* padding: 2rem; */
 }
+

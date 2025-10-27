@@ -12,8 +12,10 @@
     margin: 0 auto;
 }
 .howto-section-title{
-    /* color: #6974dc !important; */
+    color: white;
     font-size: 1.4rem !important;
+    font-weight: 500;
+    margin-bottom: 10px;
 }
 
 .section-header {
@@ -29,7 +31,12 @@
     /* -webkit-text-fill-color: transparent; */
     background-clip: text;
     margin-bottom: 1rem;
-    color: white;
+    /* color: white; */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
 }
 
 .section-subtitle {
@@ -177,8 +184,12 @@
     background: #f8f9fa;
 }
 @media (max-width: 768px) {
+
+    .section-title {
+        font-size: 1rem;
+    }
     .howto-section-title{
-        /* color: #6974dc !important; */
+        color: white;
         font-size: 1.2rem !important;
     }
     .step-description{

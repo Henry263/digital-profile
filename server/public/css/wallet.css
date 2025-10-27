@@ -84,9 +84,9 @@
 .wallet-card-header-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     height: 80px;
-    position: relative;
+    /* position: relative; */
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     padding: 4px;
     border-radius: 4px;
@@ -110,12 +110,11 @@
     max-height: 3.4rem;
 }
 
-/* Profile Photo - Overlapping Design */
-.wallet-card-avatar-overlap {
+.wallet-card-avatar-download{
     width: 64px;
         height: 64px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -123,19 +122,41 @@
     font-size: 1.6rem;
     font-weight: 600;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    bottom: -45px;
-    left: 15%;
-    transform: translateX(-50%);
+    /* position: absolute; */
+    /* bottom: -45px;
+    left: 15%; */
+    /* transform: translateX(-50%); */
     border: 2px solid white;
     z-index: 10;
+    gap: 20px;
+}
+/* Profile Photo - Overlapping Design */
+.wallet-card-avatar-overlap {
+    width: 64px;
+        height: 64px;
+    /* border-radius: 50%; */
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* color: white;
+    font-size: 1.6rem;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); */
+    /* position: absolute; */
+    /* bottom: -45px;
+    left: 15%; */
+    /* transform: translateX(-50%); */
+    /* border: 2px solid white; */
+    /* z-index: 10;
+    gap: 20px; */
 }
 
 .wallet-card-avatar-overlap img {
     width: 100%;
-    height: 100%;
+    /* height: 100%;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: cover; */
 }
 
 /* Content Section in wallet section*/
@@ -144,6 +165,7 @@
     text-align: center;
     display: flex;
     flex-direction: row;
+    gap: 8px;
 }
 .empty-div {
     /* border: 1px solid red; */
@@ -322,6 +344,10 @@ a.wallet-display-email {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .empty-wallet h3 {
+        font-size: 1.2rem;
+       font-weight: 500;
+    }
     .wallet-container {
         padding: 1rem;
     }

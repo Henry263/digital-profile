@@ -99,13 +99,13 @@ function getInitials(name) {
 // GET Profile - Read QR codes from DB, generate only if missing
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    console.log(`📋 Getting profile for user: ${req.user.email}`);
-    console.log(`📋 Getting profile for req.user.userId: ${req.user.userId}`);
-    console.log(`📋 Getting profile for req.user._id: ${req.user._id}`);
+    // console.log(`📋 Getting profile for user: ${req.user.email}`);
+    // console.log(`📋 Getting profile for req.user.userId: ${req.user.userId}`);
+    // console.log(`📋 Getting profile for req.user._id: ${req.user._id}`);
 
     // const userId = toObjectId(req.user.userId || req.user._id);
     const userId = req.user.email;
-    console.log(`📋 Getting profile for user: ${userId}`);
+    // console.log(`📋 Getting profile for user: ${userId}`);
 
     let profile = await Profile.findOne({ email: req.user.email });
     //let profile = await Profile.findOne({ "email": req.user.email});

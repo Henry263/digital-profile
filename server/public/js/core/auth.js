@@ -713,6 +713,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
           clearsignupform();
 
+          if (window.verticalNav && window.verticalNav.checkAuth) {
+            await window.verticalNav.checkAuth();
+          }
+          
           // Redirect to profile page after successful verification
           setTimeout(() => {
             window.location.href = '/?page=profile';
@@ -836,6 +840,10 @@ async function userLogin() {
         setUserProfile(userProfile);
         updateAuthUI();
         updateAuthUImobilebuttons();
+        if (window.verticalNav && window.verticalNav.updateAuthUI) {
+          window.verticalNav.updateAuthUI(user.user);
+        }
+
         showPage("display");
         checkWalletPendingAdd();
       } else {

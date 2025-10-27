@@ -302,9 +302,9 @@ if (typeof window !== 'undefined') {
 
 // Auto-initialize when DOM is ready
 if (document.readyState === 'loading') {
-    console.log("True")
+    // console.log("True")
     document.addEventListener('DOMContentLoaded', initVerticalNavigation);
 } else {
-    console.log("false")
+    // console.log("false")
     initVerticalNavigation();
 }

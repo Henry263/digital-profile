@@ -495,7 +495,7 @@ class QRService {
    */
   async generateMultipleFormats(profile) {
     try {
-      console.log(`🔲 Generating multiple QR formats for MongoDB: ${profile.name}`);
+      // console.log(`🔲 Generating multiple QR formats for MongoDB: ${profile.name}`);
       const formats = [];
 
       // Standard QR code (400x400)

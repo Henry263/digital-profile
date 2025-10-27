@@ -300,7 +300,7 @@
    ============================================ */
 .mobile-menu-toggle {
     display: none;
-    position: fixed;
+    /* position: fixed; */
     /* bottom: 20px;
     right: 20px; */
     width: 56px;
@@ -408,15 +408,29 @@
 .sidebar.collapsed ~ .main-content {
     margin-left: var(--sidebar-collapsed-width);
 }
-@media (min-width: 769px) {
-
+@media (max-width: 1024px) {
+    .hamburger-div{
+        display: block !important;
+    }
+    .mobile-menu-toggle {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    .user-profile {
+        display: flex;
+        flex-direction: column;
+    }
+}
+.hamburger-div{
+    display: none;
 }
 /* ============================================
    TABLET MODE (768px - 1024px)
    Icon-only sidebar, expands on hamburger click
    ============================================ */
 @media (max-width: 1024px) and (min-width: 769px) {
-
+   
     /* Show icon logo, hide full logo */
     .sidebar-logo.full-logo {
         display: none;
@@ -462,6 +476,7 @@
         opacity: 0;
         width: 0;
         overflow: hidden;
+        display: none;
     }
 
     .user-profile {
@@ -593,6 +608,7 @@
         opacity: 0;
         width: 0;
         overflow: hidden;
+        display: none;
     }
 
     .user-profile {

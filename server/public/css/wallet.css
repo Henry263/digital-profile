@@ -326,6 +326,7 @@ a.wallet-display-email {
 .empty-wallet h3 {
     font-size: 1.8rem;
     margin-bottom: 1rem;
+    font-weight: 500;
 }
 
 .empty-wallet p {

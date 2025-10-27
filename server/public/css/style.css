@@ -5,6 +5,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+[contenteditable]:focus {
+  outline: none;
+}
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -1633,10 +1636,13 @@ div#signinbackbtn {
   .profile-header {
     flex-direction: column;
     text-align: center;
+   
+
   }
+ 
 
   .profile-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 

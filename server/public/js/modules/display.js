@@ -154,6 +154,26 @@ function displaypopulateContacts(userprofile) {
     contentdivhtml = `<div class='othercontact-div'>${contentdivhtml}</div>`;
     displaycontactSection.innerHTML = phonedivhtml + contentdivhtml;
 }
+async function loadCard(identifier) {
+    const container = document.querySelector('.userprofile-dynamic-html');
+    container.innerHTML = 'Loading...';
+    
+    try {
+        // const response = await fetch(`/api/card-html/${cardId}`);
+        let response = await api.getCardhtmlData(identifier)
+        // console.log("getcardhtmldata",response);
+        const data = await response;
+        
+        if (data.success) {
+            container.innerHTML = data.html;
+        } else {
+            container.innerHTML = 'Error: ' + data.message;
+        }
+    } catch (error) {
+        console.log("error:", error.message);
+        container.innerHTML = 'Failed to load card';
+    }
+}
 
 export async function updateDisplayPage() {
     const userProfile = getUserProfile();
@@ -161,146 +181,34 @@ export async function updateDisplayPage() {
     if (!userProfile) return;
 
     try {
-        renderCardPhoto(userProfile)
-        displaypopulateContacts(userProfile)
-        updateNavbarAvatar(userProfile)
-        // Weare going to replace with actual card
-        // const socialContainer = document.getElementById("socialLinksDisplay");
-        // socialContainer.innerHTML = "";
 
-        // // Update basic info
-        // document.getElementById("displayName").textContent = userProfile.name;
-        // document.getElementById("displayTitle").textContent = userProfile.title;
-        // document.getElementById("displayOrganization").textContent = userProfile.organization;
-
-        // document.getElementById("displayEmail").textContent = userProfile.email;
-        // document.getElementById("displayAddress").textContent = userProfile.address;
-
-        // // Update mobile contact
-        // if (userProfile.mobile) {
-        //     $("#displayPhoneLink").attr("href", `tel:${userProfile.mobile}`).show();
-        //     $("#displayMessageLink").attr("href", `sms:${userProfile.mobile}`).show();
-        //     document
-        //         .getElementById("displayPhoneLink")
-        //         .querySelector(".method-value").textContent = userProfile.mobile;
-        //     document
-        //         .getElementById("displayMessageLink")
-        //         .querySelector(".method-value").textContent = userProfile.mobile;
-        // } else {
-        //     $("#displayPhoneLink").hide();
-        //     $("#displayMessageLink").hide();
-        // }
-
-        // // Update email and website
-        // document.getElementById(
-        //     "displayEmailLink"
-        // ).href = `mailto:${userProfile.email}`;
-        // document.getElementById("displayEmail").textContent = userProfile.email;
-
-        // document.getElementById("displayWebsite").href = userProfile.website;
-        // document
-        //     .getElementById("displayWebsite")
-        //     .querySelector(".method-value").textContent = userProfile.website
-        //         .replace("https://", "")
-        //         .replace("http://", "");
-
-        // // Add social media links
-        // VALID_SOCIAL_FIELDS.forEach((platform) => {
-        //     let url = userProfile.socialMedia && userProfile.socialMedia[platform];
-        //     if (url && typeof url === "string" && url.trim() && url.trim() !== "") {
-        //         const socialItem = document.createElement("div");
-        //         socialItem.className = "contact-detail";
-        //         if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        //             url = "https://" + url;
-        //         }
-
-        //         socialItem.innerHTML = `
-        //             <span>${
-        //             SOCIAL_ICONS[platform] || '<i class="fas fa-link"></i>'
-        //             }</span>
-        //             <a href="${url}" target="_blank" class="contact-link" onclick="trackSocialClick('${platform}')">
-        //                 ${platform.charAt(0).toUpperCase() + platform.slice(1)}
-        //             </a>
-        //         `;
-        //         socialContainer.appendChild(socialItem);
-        //     }
-        // });
-
-        //     let samplesharecrd = `<div class="standalone-url-section" >🔗 Share Your Card</h4>
-        // <div class="url-container" style="display: flex; align-items: center; gap: 0.5rem;">
-        //     <p style="font-size: 0.75rem; color: #666; margin-top: 0.5rem; margin-bottom: 0;">
-        //         ${
-        //           standaloneUrl
-        //             ? `Your personalized URL: ${standaloneUrl}`
-        //             : "Share this link or QR code with others"
-        //         }
-        //     </p>
-        //     <button data-personal-card-url="${standaloneUrl}" class="copy-url-btn"
-        //             style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; width: 100%;">
-        //         📋 Copy
-        //     </button>
-        // </div>
-        // </div>`;
-
+        await loadCard(userProfile.slug );
+        // renderCardPhoto(userProfile)
+        // displaypopulateContacts(userProfile)
+        // updateNavbarAvatar(userProfile)
+        
         // Generate QR code
         if (userProfile.cardId) {
 
-            const displayheader = $(".display-profile-content");
-            // console.log("socialContainer: ", socialContainer);
-            displayheader.empty(); // jQuery method inst
-            
-
-
-            let displayprofilehtml = `<h1 class="display-profile-name">${userProfile.name}</h1>
-            <div class="display-profile-title">${userProfile.title}</div>
-            <div class="display-profile-organization">${userProfile.organization}</div>
-            <div class="display-views-counter">
-                views
-            </div>`;
-
-            displayheader.append(displayprofilehtml);
-
-
-            const socialContainer = $("#socialLinksdisplay");
-            // console.log("socialContainer: ", socialContainer);
-            socialContainer.empty(); // jQuery method instead of innerHTML = ""
-
-            VALID_SOCIAL_FIELDS.forEach((platform) => {
-                let url = userProfile.socialMedia && userProfile.socialMedia[platform];
-                if (url && typeof url === "string" && url.trim() && url.trim() !== "") {
-                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                        url = "https://" + url;
-                    }
-
-                    const socialItemHTML = `
-                    <div class="social-contact-detail">
-                        <span>${SOCIAL_ICONS[platform] || '<i class="fas fa-link"></i>'}</span>
-                        <a href="${url}" target="_blank" class="contact-link" onclick="trackSocialClick('${platform}')">
-                            ${platform.charAt(0).toUpperCase() + platform.slice(1)}
-                        </a>
-                    </div>`;
-                    socialContainer.append(socialItemHTML); // jQuery append
-                }
-            });
             const friendlyIdentifier = userProfile.slug || userProfile.cardId;
             const standaloneUrl = `${window.location.origin}/card/${friendlyIdentifier}`;
             const qrUrl = await api.getQRCode(friendlyIdentifier);
 
             document.getElementById("generatedQR").innerHTML = `
-                <div class="qr-buttons-heading"><h2>QR For Promotion</h2></div>
+                <div class="qr-buttons-heading"><h2>QR For Promotion,Share,Advertise</h2></div>
                 <div class="profile-qrcode-div">
                     <div class="profile-qrcode-image-div">
                         <img src="${qrUrl}" alt="QR Code" class="qr-preview" style="border-radius: 10px;">
-                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Scan to view card</p>
+                        
                     </div>
                     <div class="Download-qrcode-buttons">
                         <button class="profile-card-buttons" id="downloadVCard-btn-dynamic">
-                            <i class="fas fa-download"></i>
+                             <i class="fa-regular fa-floppy-disk"></i>
                             Save Contact
                         </button>
                         <button class="profile-card-buttons" id="downloadQRCode-btn-dynamic">
-                            <i class="fas fa-qrcode"></i>
-                            Download profile QR Code
+                            <i class="fa-regular fa-address-card"></i>
+                            Download Digital Card
                         </button>
                         <button class="profile-card-buttons" id="downloadonlyQRCode-btn-dynamic">
                             <i class="fas fa-qrcode"></i>
@@ -311,7 +219,7 @@ export async function updateDisplayPage() {
                             Add to Wallet
                         </button>
                         <button data-personal-card-url="${standaloneUrl}" class="profile-card-buttons copy-url-btn">
-                            📋 Copy Digital Card URL
+                            <i class="fa-regular fa-copy"></i> Copy Digital Card URL
                         </button>
                     </div>
                 </div>
@@ -324,153 +232,10 @@ export async function updateDisplayPage() {
         $("#navbarAvatarDesktop").show();
         $(".card-actions").appendTo("#Download-qrcode-buttons");
 
-        updateStandalonePage();
+        // updateStandalonePage();
     } catch (error) {
         console.error("Update display error:", error);
     }
-}
-
-export function updateStandalonePage() {
-    const userProfile = getUserProfile();
-    if (!userProfile) return;
-
-    //   const socialContainer = document.getElementById("socialLinksdisplay");
-    //   console.log("socialContaineqqqqr: ", $('#socialLinksdisplay'));
-
-    document.getElementById("standaloneName").textContent = userProfile.name;
-    document.getElementById("standaloneTitle").textContent = userProfile.title;
-    document.getElementById("standaloneOrganization").textContent =
-        userProfile.organization;
-    document.getElementById("standaloneEmail").textContent = userProfile.email;
-    document.getElementById("standaloneAddress").textContent =
-        userProfile.address;
-
-    document.getElementById("standalonePhone").href = `tel:${userProfile.phone}`;
-    document
-        .getElementById("standalonePhone")
-        .querySelector("span:last-child").textContent = userProfile.phone;
-    document.getElementById(
-        "standaloneMessage"
-    ).href = `sms:${userProfile.mobile}`;
-    document.getElementById("standaloneWebsiteLink").href = userProfile.website;
-    document.getElementById(
-        "standaloneWebsite"
-    ).textContent = userProfile.website
-        .replace("https://", "")
-        .replace("http://", "");
-
-    const standaloneSocialContainer = document.getElementById(
-        "standaloneSocialLinks"
-    );
-    standaloneSocialContainer.innerHTML = "";
-
-    const socialIcons = {
-        instagram: "📷",
-        facebook: "📘",
-        twitter: "🦆",
-        calendly: "📅",
-        zoom: "💼",
-        snapchat: "👻",
-        tiktok: "🎵",
-        linkedin: "💼",
-    };
-
-    Object.keys(userProfile.socialMedia || {}).forEach((platform) => {
-        const url = userProfile.socialMedia[platform];
-        if (url) {
-            const socialItem = document.createElement("a");
-            socialItem.className = "standalone-social-item";
-            socialItem.href = url;
-            socialItem.target = "_blank";
-            socialItem.innerHTML = `
-                <span class="social-icon">${socialIcons[platform]}</span>
-                <span>${platform}</span>
-            `;
-            standaloneSocialContainer.appendChild(socialItem);
-        }
-    });
-}
-
-export async function loadStandaloneCard() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const cardId = urlParams.get("card");
-
-    if (cardId) {
-        try {
-            const response = await api.getPublicCard(cardId);
-
-            if (response.success) {
-                updateStandalonePageWithData(response.card);
-                return true;
-            }
-        } catch (error) {
-            console.error("Load standalone card error:", error);
-            document.getElementById("standalonePage").innerHTML = `
-                <div style="text-align: center; padding: 3rem;">
-                    <h2>Card Not Found</h2>
-                    <p>The requested business card could not be found or is not public.</p>
-                    <button onclick="window.location.href='/'" class="standalone-btn">Go Home</button>
-                </div>
-            `;
-        }
-    }
-    return false;
-}
-
-function updateStandalonePageWithData(cardData) {
-    document.getElementById("standaloneName").textContent = cardData.name;
-    document.getElementById("standaloneTitle").textContent = cardData.title;
-    document.getElementById("standaloneOrganization").textContent =
-        cardData.organization;
-    document.getElementById("standaloneEmail").textContent = cardData.email;
-    document.getElementById("standaloneAddress").textContent = cardData.address;
-
-    document.getElementById("standalonePhone").href = `tel:${cardData.phone}`;
-    document
-        .getElementById("standalonePhone")
-        .querySelector("span:last-child").textContent = cardData.phone;
-    document.getElementById("standaloneMessage").href = `sms:${cardData.mobile}`;
-    document.getElementById("standaloneWebsiteLink").href = cardData.website;
-    document.getElementById(
-        "standaloneWebsite"
-    ).textContent = cardData.website
-        .replace("https://", "")
-        .replace("http://", "");
-
-    const standaloneSocialContainer = document.getElementById(
-        "standaloneSocialLinks"
-    );
-    standaloneSocialContainer.innerHTML = "";
-
-    const socialIcons = {
-        instagram: "📷",
-        facebook: "📘",
-        twitter: "🦆",
-        linkedin: "💼",
-        calendly: "📅",
-        zoom: "💼",
-        snapchat: "👻",
-        tiktok: "🎵",
-    };
-
-    Object.keys(cardData.socialMedia || {}).forEach((platform) => {
-        const url = cardData.socialMedia[platform];
-        if (url) {
-            const socialItem = document.createElement("a");
-            socialItem.className = "standalone-social-item";
-            socialItem.href = url;
-            socialItem.target = "_blank";
-            socialItem.onclick = () =>
-                api.trackSocialClick(cardData.cardId, platform);
-            socialItem.innerHTML = `
-                <span class="social-icon">${socialIcons[platform]}</span>
-                <span>${platform}</span>
-            `;
-            standaloneSocialContainer.appendChild(socialItem);
-        }
-    });
-
-    window.currentCardData = cardData;
 }
 
 export async function trackSocialClick(platform) {

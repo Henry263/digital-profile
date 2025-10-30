@@ -30,13 +30,16 @@ const passwordValidation = [
 
 router.get('/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email']
+    scope: ['profile', 'email'],
+    prompt: 'select_account',
+    accessType: 'offline'
   })
 );
 
 router.get('/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/?error=auth_failed'
+    failureRedirect: '/?error=auth_failed',
+    keepSessionInfo: true 
   }),
   async (req, res) => {
     try {
@@ -119,7 +122,7 @@ router.post('/signup', [
           existingProfile.verificationCodeExpires > Date.now();
 
         if (isCodeValid) {
-          console.log('✅ Valid verification code exists, redirecting to verification');
+          // console.log('✅ Valid verification code exists, redirecting to verification');
           return res.status(200).json({
             success: true,
             message: 'Verification email already sent. Please check your email.',
@@ -166,8 +169,8 @@ router.post('/signup', [
 
     // Create new profile
     // const bcryptHash = await bcrypt.hash(password, 12);
-    console.log('📝 Creating new profile for:', normalizedEmail);
-    console.log('📝 Creating new password:', password);
+    // console.log('📝 Creating new profile for:', normalizedEmail);
+    // console.log('📝 Creating new password:', password);
     const profile = new Profile({
       email: normalizedEmail,
       name: name.trim(),
@@ -180,21 +183,21 @@ router.post('/signup', [
     // Generate verification code
     const verificationCode = profile.generateVerificationCode();
 
-    console.log('🔍 Generated code:', verificationCode);
-    console.log('🔍 Profile verificationCode:', profile.verificationCode);
+    // console.log('🔍 Generated code:', verificationCode);
+    // console.log('🔍 Profile verificationCode:', profile.verificationCode);
 
     try {
       profile.userId = profile._id;
       await profile.save();
-      console.log('✅ Profile created successfully');
+      // console.log('✅ Profile created successfully');
 
       // ✅ Set userId to profile's own _id for backward compatibility
 
 
       // Verify it was saved
       const savedProfile = await Profile.findById(profile._id);
-      console.log('🔍 Saved profile verificationCode:', savedProfile.verificationCode);
-      console.log('🔍 Saved profile verificationCodeExpires:', savedProfile.verificationCodeExpires);
+      // console.log('🔍 Saved profile verificationCode:', savedProfile.verificationCode);
+      // console.log('🔍 Saved profile verificationCodeExpires:', savedProfile.verificationCodeExpires);
 
     } catch (saveError) {
       console.error('❌ Profile save error:', saveError);
@@ -289,9 +292,9 @@ router.post('/verify-email', [
     const userCode = String(profile.verificationCode).trim();
     const inputCode = String(code).trim();
 
-    console.log('🔍 Comparing codes:');
-    console.log('   Input:', inputCode);
-    console.log('   Stored:', userCode);
+    // console.log('🔍 Comparing codes:');
+    // console.log('   Input:', inputCode);
+    // console.log('   Stored:', userCode);
 
     if (userCode !== inputCode) {
       return res.status(400).json({
@@ -318,6 +321,9 @@ router.post('/verify-email', [
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
+
+    req.session.userId = profile._id;
+    req.session.email = profile.email;
 
     res.cookie('authToken', token, {
       httpOnly: true,
@@ -405,7 +411,7 @@ router.post('/login', [
   body('password').notEmpty()
 ], async (req, res) => {
   try {
-    console.log("====== inside login: ======= ", req.body);
+    // console.log("====== inside login: ======= ", req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -415,7 +421,7 @@ router.post('/login', [
     }
 
     const { email, password } = req.body;
-    console.log("password", password);
+    // console.log("password", password);
 
   
     // console.log("plainPassword", plainPassword);
@@ -430,7 +436,7 @@ router.post('/login', [
     const profile = await Profile.findOne({
       email: email.toLowerCase()
     }).select('+password');
-    console.log("profile from ongo: ", profile.password);
+    // console.log("profile from ongo: ", profile.password);
 
 
     if (!profile) {
@@ -467,13 +473,14 @@ router.post('/login', [
 
     const isPasswordValid = (password === profile.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password from bcrypt' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
-
-
 
     profile.lastLogin = new Date();
     await profile.save();
+
+    req.session.userId = profile._id;
+    req.session.email = profile.email;
 
     const token = jwt.sign(
       {
@@ -488,7 +495,9 @@ router.post('/login', [
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: 'lax'
+      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      
     });
 
     res.json({
@@ -607,7 +616,23 @@ router.post('/logout', (req, res) => {
     }
 
     res.clearCookie('authToken');
+    // Clear authToken cookie
+    res.clearCookie('authToken', {
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.qrmypro.com' : undefined
+    });
 
+    // IMPORTANT: Clear the session cookie (qrmypro.sid)
+    res.clearCookie('qrmypro.sid', {
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      domain: process.env.NODE_ENV === 'production' ? '.qrmypro.com' : undefined
+    });
     req.session.destroy((err) => {
       if (err) {
         console.error('Session destroy error:', err);

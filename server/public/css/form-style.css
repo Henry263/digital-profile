@@ -1,78 +1,19 @@
+/* ============================================
+   FORM STYLES - Main Form Controls
+   ============================================ */
+
 /* Disable Chrome autofill styling */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #2c3e50 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 
-/* Checkbox styling */
-/* Toggle Switch Checkbox Styles - Replace your existing checkbox-label styles with this */
-
-.form-group .checkbox-label {
-  display: flex !important;
-  align-items: center;
-  cursor: pointer;
-  margin-bottom: 8px;
-  font-weight: 400 !important;
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.form-group .checkbox-label input[type="checkbox"] {
-  display: none;
-}
-
-.form-group .checkbox-label .toggle {
-  width: 50px;
-  height: 26px;
-  background: #ddd;
-  border-radius: 13px;
-  position: relative;
-  margin-right: 12px;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-.form-group .checkbox-label .toggle::after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: white;
-  border-radius: 50%;
-  top: 2px;
-  left: 2px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.form-group .checkbox-label input[type="checkbox"]:checked + .toggle {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.form-group .checkbox-label input[type="checkbox"]:checked + .toggle::after {
-  left: 26px;
-}
-
-.form-group .checkbox-label:hover .toggle {
-  box-shadow: 0 0 10px rgba(118, 75, 162, 0.3);
-}
-
-.form-group .checkbox-label span:not(.toggle) {
-  color: #333;
-  font-size: 16px;
-  user-select: none;
-}
-
-/* For dark backgrounds */
-input:-webkit-autofill {
-  -webkit-text-fill-color: #2c3e50 !important;
-}
 /* ============================================
-   READONLY EMAIL FIELD
+   READONLY FIELDS
    ============================================ */
 
 .form-group input[readonly],
@@ -91,8 +32,69 @@ input:-webkit-autofill {
 }
 
 /* ============================================
-      AUTOCOMPLETE DROPDOWN
-      ============================================ */
+   TOGGLE SWITCH CHECKBOXES
+   ============================================ */
+
+.form-group .checkbox-label {
+  display: flex !important;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  font-weight: 400 !important;
+  background: white;
+  padding: 0.75rem;
+  border-radius: 0.625rem;
+}
+
+.form-group .checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.form-group .checkbox-label .toggle {
+  width: 50px;
+  height: 26px;
+  background: #ddd;
+  border-radius: 13px;
+  position: relative;
+  margin-right: 0.75rem;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.form-group .checkbox-label .toggle::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-group .checkbox-label input[type="checkbox"]:checked + .toggle {
+  background: var(--gradient-primary, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+}
+
+.form-group .checkbox-label input[type="checkbox"]:checked + .toggle::after {
+  left: 26px;
+}
+
+.form-group .checkbox-label:hover .toggle {
+  box-shadow: 0 0 10px rgba(118, 75, 162, 0.3);
+}
+
+.form-group .checkbox-label span:not(.toggle) {
+  color: #333;
+  font-size: 1rem;
+  user-select: none;
+}
+
+/* ============================================
+   ENHANCED AUTOCOMPLETE DROPDOWN
+   ============================================ */
 
 .autocomplete-dropdown {
   position: absolute;
@@ -102,10 +104,10 @@ input:-webkit-autofill {
   max-height: 280px;
   overflow-y: auto;
   background: #ffffff;
-  border: 2px solid #667eea;
+  border: 2px solid var(--primary-color, #667eea);
   border-top: none;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 0.5rem 0.5rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
   z-index: 1000;
   display: none;
   margin-top: 0;
@@ -119,7 +121,7 @@ input:-webkit-autofill {
 @keyframes slideDownAuto {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-0.5rem);
   }
   to {
     opacity: 1;
@@ -128,14 +130,14 @@ input:-webkit-autofill {
 }
 
 /* ============================================
-      AUTOCOMPLETE ITEMS
-      ============================================ */
+   AUTOCOMPLETE ITEMS
+   ============================================ */
 
 .autocomplete-item {
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 0.875rem;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #f0f0f0;
@@ -145,32 +147,32 @@ input:-webkit-autofill {
 
 .autocomplete-item:last-child {
   border-bottom: none;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 0.375rem 0.375rem;
 }
 
 .autocomplete-item:hover,
 .autocomplete-item.selected {
   background: #f0f4ff;
-  color: #667eea;
+  color: var(--primary-color, #667eea);
 }
 
 .autocomplete-item .flag {
-  margin-right: 12px;
-  font-size: 20px;
+  margin-right: 0.75rem;
+  font-size: 1.25rem;
   min-width: 28px;
 }
 
 .autocomplete-no-results {
-  padding: 20px 16px;
+  padding: 1.25rem 1rem;
   color: #95a5a6;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: italic;
 }
 
 /* ============================================
-      SCROLLBAR FOR DROPDOWN
-      ============================================ */
+   SCROLLBAR FOR DROPDOWN
+   ============================================ */
 
 .autocomplete-dropdown::-webkit-scrollbar {
   width: 8px;
@@ -178,12 +180,12 @@ input:-webkit-autofill {
 
 .autocomplete-dropdown::-webkit-scrollbar-track {
   background: #f1f3f4;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .autocomplete-dropdown::-webkit-scrollbar-thumb {
   background: #cbd5e0;
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 .autocomplete-dropdown::-webkit-scrollbar-thumb:hover {
@@ -191,8 +193,8 @@ input:-webkit-autofill {
 }
 
 /* ============================================
-      INPUT DISABLED STATE FOR DROPDOWNS
-      ============================================ */
+   DISABLED DROPDOWN INPUTS
+   ============================================ */
 
 #country:disabled,
 #state:disabled,
@@ -203,8 +205,8 @@ input:-webkit-autofill {
 }
 
 /* ============================================
-      MOBILE RESPONSIVE
-      ============================================ */
+   MOBILE RESPONSIVE
+   ============================================ */
 
 @media (max-width: 768px) {
   .autocomplete-dropdown {
@@ -212,13 +214,13 @@ input:-webkit-autofill {
   }
 
   .autocomplete-item {
-    padding: 11px 14px;
-    font-size: 13px;
+    padding: 0.6875rem 0.875rem;
+    font-size: 0.8125rem;
   }
 
   .autocomplete-item .flag {
-    font-size: 18px;
-    margin-right: 10px;
+    font-size: 1.125rem;
+    margin-right: 0.625rem;
     min-width: 24px;
   }
 }
@@ -229,9 +231,10 @@ input:-webkit-autofill {
   }
 
   .autocomplete-item {
-    padding: 10px 12px;
+    padding: 0.625rem 0.75rem;
   }
+
   .form-group .checkbox-label span:not(.toggle) {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }

@@ -134,7 +134,7 @@ export async function copyStandaloneUrl() {
 
         setTimeout(() => {
             copyBtn.textContent = originalText;
-            copyBtn.style.background = "#667eea";
+            copyBtn.style.background = "transparent";
         }, 2000);
 
         // Import dynamically to avoid circular dependency

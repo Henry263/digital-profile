@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="application/ld+json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="application/ld+json">
         {
           "@context": "https://schema.org",
           "@type": "Organization",
@@ -39,7 +39,7 @@
           }
         }
         </script>
-    <script type="application/ld+json">
+  <script type="application/ld+json">
             {
               "@context": "https://schema.org",
               "@type": "FAQPage",
@@ -60,7 +60,7 @@
               }]
             }
             </script>
-    <script type="application/ld+json">
+  <script type="application/ld+json">
                 {
                   "@context": "https://schema.org",
                   "@type": "WebApplication",
@@ -106,133 +106,125 @@
                 }
                 </script>
 
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
 
-    <!-- Dynamically add canonical tag -->
-    <script>
-        // Create canonical link element
-        const canonical = document.createElement('link');
-        canonical.rel = 'canonical';
-        canonical.href = 'https://www.qrmypro.com' + window.location.pathname;
+  <!-- Dynamically add canonical tag -->
+  <script>
+    // Create canonical link element
+    const canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    canonical.href = 'https://www.qrmypro.com' + window.location.pathname;
 
-        // Add to head
-        document.head.appendChild(canonical);
-    </script>
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" href="/css/card-template/card-template.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <title>{{name}} - Digital Business Card</title>
-   
+    // Add to head
+    document.head.appendChild(canonical);
+  </script>
+  <script src="/js/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="/css/card-template/card-template.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>{{name}} - Digital Business Card</title>
+
 </head>
 
 <body>
   <div class="body-class">
-
- 
-    <div class="newuser-section create-profile-btn">
-        <div class="join-tagline">Create QRProfile for me</div>
-    </div>
     <div class="card-container">
 
-        <!-- Profile Section -->
-        <div class="profile-section">
+      <!-- Profile Section -->
+      <div class="profile-section">
+        <div class="profile-header"></div>
+        
+        <div class="profile-content">
+          <div class="card-main-header">
+            <div class="profile-avatar-wrapper">
+              <div class="profile-avatar" id="cardAvatar">
 
-            <div class="profile-header">
-                <div class="app-logo">
-                    <img id="profile-page-logo" src="/image/app-logo.png" alt="QRprofile Logo" class="logo-image">
-                    <!-- <span class="logo-text">QRprofile</span> -->
-                </div>
-                <!-- <div class="profile-avatar">{{initials}}</div> -->
-                <!-- Profile Avatar/Photo -->
-                <div class="profile-avatar" id="cardAvatar">
-                    <!-- {{#if hasProfilePhoto}}
-                    <img src="/api/profile/photo/{{profileId}}" alt="{{name}}">
-                    {{else}}
-                    <span>{{initials}}</span>
-                    {{/if}} -->
-                </div>
+              </div>
             </div>
-            <div class="profile-content">
-                <!-- <div class="profile-avatar">{{initials}}</div> -->
-                <h1 class="profile-name">{{name}}</h1>
-                <div class="profile-title">{{title}}</div>
-                <div class="profile-organization">{{organization}}</div>
-                <div class="views-counter">
-                    📊 {{views}} views
-                </div>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="actions-section">
-            <a href="/api/card/{{cardId}}/vcard" class="action-btn">
-                <i class="fas fa-save"></i> <span>Save Contact</span>
-            </a>
-            <a href="javascript:window.open(window.location.origin, '_blank')" class="action-btn create-profile-btn">
-                <i class="fas fa-qrcode"></i> <span>Create my QRProfile</span>
-            </a>
-            <button class="action-btn addToWalletBtn" id="addToWalletBtn" >
-                <i class="fas fa-wallet"></i> Add to QRWallet
-            </button>
-        </div>
-
-        <!-- Social Media Links -->
-        <div class="social-section" id="socialSection" style="display: none;">
-            <h3 class="section-title section-title-card">Connect With Me</h3>
-            <div class="social-links" id="socialLinks">
-                <!-- Social links will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Contact Information -->
-        <div class="contact-section" id="contactSection">
-            <!-- Contact items will be populated by JavaScript -->
-        </div>
-
-        <!-- Address -->
-        <div class="address-section" id="addressSection" style="display: none;">
-            <h3 class="section-title">📍 Location</h3>
-            <div class="address-text">{{address}}</div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="actions-section">
-            <a href="/api/card/{{cardId}}/vcard" class="action-btn">
-                <i class="fas fa-save"></i> <span>Save Contact</span>
-            </a>
             
-            <button class="action-btn addToWalletBtn" id="addToWalletBtn_" >
-                <i class="fas fa-wallet"></i> Add to QRWallet
-            </button>
-        </div>
-
-        <!-- Notes -->
-        <div class="notes-section" id="notesSection" style="display: none;">
-            <h3 class="section-title">📝 About</h3>
-            <div class="notes-text">{{notes}}</div>
-        </div>
-
-        <div id="resolution-message"
-            style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;">
-            <div
-                style="background: white; padding: 2rem; border-radius: 20px; text-align: center; max-width: 90%; box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 40px;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
-                <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">Screen Too Small</h2>
-                <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.5;">
-                    This application requires a minimum screen width of 400px for the best experience.
-                    Please rotate your device or use a larger screen.
-                </p>
-                <p style="color: #999; font-size: 0.9rem;">
-                    Current width: 341px | Required: 400px minimum
-                </p>
+            <div class="card-profile-info-header">
+              
+              <div class="views-counter">
+                📊 {{views}} views
+              </div>
             </div>
+          </div>
+          <div class="card-profile-information">
+            <h1 class="profile-name">{{name}}</h1>
+            <div class="profile-title">{{title}}</div>
+            <div class="profile-organization">{{organization}}</div>
+          </div>
         </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="contact-section" id="contactSection">
+        <!-- Contact items will be populated by JavaScript -->
+      </div>
+      <!-- Social Media Links -->
+      <div class="social-section" id="socialSection" style="display: none;">
+        <h3 class="section-title section-title-card">Connect With Me</h3>
+        <div class="social-links" id="socialLinks">
+          <!-- Social links will be populated by JavaScript -->
+        </div>
+      </div>
+
+      
+
+      <!-- Address -->
+      <div class="address-section" id="addressSection" style="display: none;">
+        <h3 class="section-title">📍 Location</h3>
+        <div class="address-text">{{address}}</div>
+      </div>
+
+      <!-- Notes -->
+      <div class="notes-section" id="notesSection" style="display: none;">
+        <h3 class="notes-section-title">📝 About</h3>
+        <div class="notes-text">{{notes}}</div>
+      </div>
+
+      <!-- <div id="resolution-message"
+        style="display:none;position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;">
+        <div
+          style="background: white; padding: 2rem; border-radius: 20px; text-align: center; max-width: 90%; box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 40px;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+          <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">Screen Too Small</h2>
+          <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.5;">
+            This application requires a minimum screen width of 400px for the best experience.
+            Please rotate your device or use a larger screen.
+          </p>
+          <p style="color: #999; font-size: 0.9rem;">
+            Current width: 341px | Required: 400px minimum
+          </p>
+        </div>
+      </div> -->
+      <div class="empty-div-space"></div>
+      
+      <div class="card-navbar-parent">
+        <div class="card-navbar">
+          <div id="add-contact" class="card-navbar-left">
+            <a href="/api/card/{{cardId}}/vcard" class="action-btn">
+              <i class="fas fa-save"></i> <span>Save Contact</span>
+            </a>
+          </div>
+          <div id="ap-icon-div" class="card-navbar-center">
+            <div class="app-logo">
+              <img id="profile-page-logo" src="/image/apple-touch-icon.png" alt="QRprofile Logo" class="logo-image">
+            </div>
+          </div>
+          <div id="add-qrwallet" class="card-navbar-right">
+            <button class="action-btn addToWalletBtn" id="addToWalletBtn_">
+              <i class="fas fa-wallet"></i> Add to QRWallet
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
     <script id="contact-data" type="application/json">
         {{contactDataJSON}}
     </script>

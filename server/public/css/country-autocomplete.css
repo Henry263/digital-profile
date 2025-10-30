@@ -1,28 +1,32 @@
-.autocomplete-wrapper {
+/* ============================================
+   COUNTRY AUTOCOMPLETE - Specialized Styles
+   ============================================ */
+
+   .autocomplete-wrapper {
     position: relative;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
   }
   
   .autocomplete-wrapper label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
     font-weight: 500;
     color: #333;
   }
   
   .autocomplete-wrapper input {
     width: 100%;
-    padding: 10px;
+    padding: 0.75rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.2s;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
   }
   
   .autocomplete-wrapper input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--primary-color, #667eea);
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
   
@@ -37,20 +41,20 @@
     background: white;
     border: 1px solid #ddd;
     border-top: none;
-    border-radius: 0 0 4px 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 0 0 0.5rem 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     z-index: 1000;
     margin-top: -1px;
   }
   
   .dropdown-item {
-    padding: 10px 15px;
+    padding: 0.75rem 1rem;
     cursor: pointer;
     border-bottom: 1px solid #f0f0f0;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
   }
   
   .dropdown-item:hover,
@@ -75,7 +79,7 @@
   }
   
   .country-name {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #333;
   }
   
@@ -90,7 +94,7 @@
   
   .autocomplete-dropdown::-webkit-scrollbar-thumb {
     background: #888;
-    border-radius: 4px;
+    border-radius: 0.25rem;
   }
   
   .autocomplete-dropdown::-webkit-scrollbar-thumb:hover {

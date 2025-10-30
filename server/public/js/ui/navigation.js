@@ -10,10 +10,10 @@ export async function showPage(pageId) {
     const currentUser = getCurrentUser();
 
     // Check for standalone mode
-    const isStandalone = await checkStandaloneMode();
-    if (isStandalone) {
-        return;
-    }
+    // const isStandalone = await checkStandaloneMode();
+    // if (isStandalone) {
+    //     return;
+    // }
 
     // Restrict access to authenticated pages
     if (!currentUser && (pageId === "profile" || pageId === "display" || pageId === "wallet")) {
@@ -45,23 +45,6 @@ export async function showPage(pageId) {
     }
 }
 
-export async function checkStandaloneMode() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const cardParam = urlParams.get("card");
-
-    if (cardParam) {
-        document.querySelector(".navbar").style.display = "none";
-        document.getElementById("standalonePage").style.display = "flex";
-        document.querySelectorAll(".page:not(#standalonePage)").forEach((page) => {
-            page.style.display = "none";
-        });
-
-        const { loadStandaloneCard } = await import('../modules/display.js');
-        const success = await loadStandaloneCard();
-        return success;
-    }
-    return false;
-}
 
 export async function handleURLParams() {
     const urlParams = new URLSearchParams(window.location.search);

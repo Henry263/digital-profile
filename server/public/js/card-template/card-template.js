@@ -275,7 +275,7 @@ async function handleAddToWallet(btnElement) {
 // async function handleAddToWallet($button) {
 //     // Store original button content
 //     const originalHTML = $button.html();
-    
+
 //     try {
 //       // Check authentication
 //       if (!isAuthenticated()) {
@@ -285,50 +285,50 @@ async function handleAddToWallet(btnElement) {
 //         }, 1500);
 //         return;
 //       }
-      
+
 //       // Check if already in progress
 //       if (addToWalletInProgress) {
 //         console.log('⏳ Already adding to wallet, please wait...');
 //         return;
 //       }
-      
+
 //       // Disable button during operation
 //       $button.prop('disabled', true);
 //       $button.html('<i class="fas fa-spinner fa-spin"></i> Adding...');
-      
+
 //       // Get card identifier from URL, data attribute, or button
 //       let cardIdentifier = $button.data('card-id') || 
 //                            $button.attr('data-card-id') ||
 //                            $button.data('slug');
-      
+
 //       // If not found, try to get from URL
 //       if (!cardIdentifier) {
 //         const pathParts = window.location.pathname.split('/');
 //         cardIdentifier = pathParts[pathParts.length - 1];
 //       }
-      
+
 //       // Try to get from contact data if available
 //       if (!cardIdentifier && typeof contactData !== 'undefined') {
 //         cardIdentifier = contactData.slug || contactData.cardId;
 //       }
-      
+
 //       if (!cardIdentifier) {
 //         throw new Error('Card identifier not found');
 //       }
-      
+
 //       console.log(`🎯 Using card identifier: ${cardIdentifier}`);
-      
+
 //       // Add card to wallet
 //       const response = await addCardToWallet(cardIdentifier);
-      
+
 //       if (response.success) {
 //         // Show success message
 //         showSuccessMessage('✅ Card added to your wallet!');
-        
+
 //         // Update button to show it's added
 //         $button.html('<i class="fas fa-check"></i> Added to Wallet');
 //         $button.css('background', '#10b981');
-        
+
 //         // Optional: Ask user if they want to view wallet
 //         setTimeout(() => {
 //           if (confirm('Card added successfully! View your wallet now?')) {
@@ -343,10 +343,10 @@ async function handleAddToWallet(btnElement) {
 //           }
 //         }, 1000);
 //       }
-      
+
 //     } catch (error) {
 //       console.error('❌ Add to wallet error:', error);
-      
+
 //       // Show appropriate error message
 //       if (error.message && error.message.includes('already in wallet')) {
 //         showErrorMessage('This card is already in your wallet');
@@ -532,7 +532,7 @@ $(".addToWalletBtn").click(function () {
     handleAddToWallet($(this));
 });
 
-  // Bind the click handler with ONE event listener
+// Bind the click handler with ONE event listener
 //   $(".addToWalletBtn").on('click', function(e) {
 //     e.preventDefault();
 //     e.stopPropagation();
@@ -563,7 +563,7 @@ function populateContacts() {
         <a href="tel:${contactData.phone}" class="contact-item contact-phone" onclick="trackContact('phone')">
             <div class="contact-icon"><i class="fas fa-phone"></i></div>
             <div class="contact-info">
-                <div class="contact-label">Phone</div>
+                
                 <div class="contact-value">${contactData.phone}</div>
             </div>
         </a>
@@ -575,7 +575,7 @@ function populateContacts() {
         <a href="tel:${contactData.mobile}" class="contact-item contact-phone" onclick="trackContact('mobile')">
             <div class="contact-icon"><i class="fas fa-mobile-alt"></i></div>
             <div class="contact-info">
-                <div class="contact-label">Mobile</div>
+                
                 <div class="contact-value">${contactData.mobile}</div>
             </div>
         </a>
@@ -587,7 +587,7 @@ function populateContacts() {
         <a href="mailto:${contactData.email}" class="contact-item" onclick="trackContact('email')">
             <div class="contact-icon"><i class="fas fa-envelope"></i></div>
             <div class="contact-info">
-                <div class="contact-label">Email</div>
+                
                 <div class="contact-value">${contactData.email}</div>
             </div>
         </a>
@@ -598,14 +598,14 @@ function populateContacts() {
         const normalizedWebsite = normalizeUrl(contactData.website);
 
         contentdivhtml += `
-    <a href="${normalizedWebsite}" target="_blank" class="contact-item" onclick="trackContact('website')">
-        <div class="contact-icon"><i class="fas fa-globe"></i></div>
-        <div class="contact-info">
-            <div class="contact-label">Website</div>
-            <div class="contact-value">${contactData.website}</div>
-        </div>
-    </a>
-`;
+            <a href="${normalizedWebsite}" target="_blank" class="contact-item" onclick="trackContact('website')">
+                <div class="contact-icon"><i class="fas fa-globe"></i></div>
+                <div class="contact-info">
+                
+                    <div class="contact-value">${contactData.website}</div>
+                </div>
+            </a>
+        `;
     }
 
     // Display location only if country exists and has data
@@ -653,7 +653,7 @@ function populateContacts() {
             )}')">
             <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
             <div class="contact-info">
-                <div class="contact-label">Location</div>
+               
                 <div class="contact-value">${locationString}</div>
             </div>
         </div>
@@ -666,7 +666,7 @@ function populateContacts() {
         <a href="${googleMapsUrl}" target="_blank" class="contact-item" onclick="trackContact('location')">
             <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
             <div class="contact-info">
-                <div class="contact-label">Location</div>
+               
                 <div class="contact-value">${locationString}</div>
             </div>
         </a>
@@ -674,9 +674,9 @@ function populateContacts() {
         }
     }
 
-    phonedivhtml = `<div class='contact-div'>${phonedivhtml}</div>`;
-    contentdivhtml = `<div class='othercontact-div'>${contentdivhtml}</div>`;
-    contactSection.innerHTML = phonedivhtml + contentdivhtml;
+    phonedivhtml = `<div class='contact-div'>${phonedivhtml} ${contentdivhtml}</div>`;
+    // contentdivhtml = `<div class='othercontact-div'>${contentdivhtml}</div>`;
+    contactSection.innerHTML = phonedivhtml;
 }
 
 //
@@ -706,7 +706,7 @@ function populateSocialMedia() {
 
     let socialHtml = "";
     let hasAnySocial = false;
-
+    // <span style="font-size: 0.8rem; font-weight: 600;">${name}</span>
     // Check if socialMedia exists and has properties
     if (contactData.socialMedia && typeof contactData.socialMedia === "object") {
         Object.entries(contactData.socialMedia).forEach(([platform, url]) => {
@@ -719,9 +719,9 @@ function populateSocialMedia() {
                     : platform.charAt(0).toUpperCase() + platform.slice(1);
 
                 socialHtml += `
-                <a href="${url}" target="_blank" class="social-link" onclick="trackSocial('${platform}')">
-                    <i class="${icon}" style="font-size: 24px; margin-bottom: 8px;"></i>
-                    <span style="font-size: 0.8rem; font-weight: 600;">${name}</span>
+                <a href="${url}" target="_blank" class="card-icon-design" onclick="trackSocial('${platform}')">
+                    <i class="${icon} card-icon-design" style=""></i>
+                    
                 </a>
             `;
             }
@@ -740,7 +740,9 @@ function renderCardPhoto(cardData) {
     // console.log("contactData.cardId: ", contactData.cardId); photo/c/${data.cardId}
     const photoHtml = contactData.hasProfilePhoto
         ? `<img src="/api/profile/photo/c/${contactData.cardId}" alt="${contactData.initials}">`
-        : `<span>${contactData.initials}</span>`;
+        : `<span class="span-text">${contactData.initials}</span>`;
+
+    // const photoHtml = `<span class="span-text">${contactData.initials}</span>`;
 
     $(".profile-avatar").html(photoHtml);
 }

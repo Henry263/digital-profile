@@ -29,7 +29,7 @@ import { validateForm, initializeFormValidation } from './modules/form-validatio
 import { initializeAvatarHandlers } from './modules/avatar.js';
 
 // UI imports
-import { showPage, checkStandaloneMode, handleURLParams } from './ui/navigation.js';
+import { showPage, handleURLParams } from './ui/navigation.js';
 import { showSuccessMessage, showErrorMessage, scrollToFirstError } from './ui/notifications.js';
 import { initializeModals } from './ui/modals.js';
 
@@ -173,9 +173,9 @@ async function initializeApplication() {
     }
 
     // Check standalone mode first
-    const isStandalone = await checkStandaloneMode();
+    // const isStandalone = await checkStandaloneMode();
 
-    if (!isStandalone) {
+    // if (!isStandalone) {
         try {
             const response = await api.getUserWithProfile();
 
@@ -324,7 +324,7 @@ async function initializeApplication() {
             $("#footer-cta").removeClass("display-none-cta-button");
             $("#singup-cta-button-div-uc").removeClass("display-none-cta-button");
         }
-    }
+    // }
 
     console.log("✅ Application initialized");
 }
@@ -355,15 +355,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 // Modified DOMContentLoaded handler
-document.addEventListener('DOMContentLoaded', async function() {
-    // Check if this is a standalone card view first
-    const isStandalone = await checkStandaloneMode();
+// document.addEventListener('DOMContentLoaded', async function() {
+//     // Check if this is a standalone card view first
+//     const isStandalone = await checkStandaloneMode();
     
-    if (!isStandalone) {
-      // Normal application mode - single initialization call
-      await initializeApplication();
-    }
-  });
+//     if (!isStandalone) {
+//       // Normal application mode - single initialization call
+//       await initializeApplication();
+//     }
+//   });
 
 function checkScreenWidth() {
     const navbar = document.querySelector(".navbar");

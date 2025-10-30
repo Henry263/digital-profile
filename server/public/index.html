@@ -149,7 +149,9 @@
     <script src="/js/jquery-3.2.1.min.js"></script>
     <!-- <link rel="stylesheet" href="/fonts/fonts.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="css/global-variables.css">
     <link rel="stylesheet" href="css/fontawesome/all.min.css">
+
     <link rel="stylesheet" href="css/country-autocomplete.css">
 
     <link rel="stylesheet" href="css/style.css">
@@ -160,7 +162,7 @@
     <link rel="stylesheet" href="css/profile-photo-section.css">
     <link rel="stylesheet" href="css/usecases.css">
     <link rel="stylesheet" href="css/wallet.css">
-    <link rel="stylesheet" href="css/card-template/card-template.css">
+    <!-- <link rel="stylesheet" href="css/card-template/card-template.css"> -->
     <!-- <link rel="stylesheet" href="css/auth.css"> -->
 
 
@@ -797,8 +799,8 @@
 
             <!-- Profile Page -->
             <div id="profilePage" class="page">
-                <div class="profile-header">
-                    <div class="edit-profile-header"><h2 style="font-weight: 300;letter-spacing: 0.4px;">Edit Your Profile</h2></div>
+                <div class="profile-header-edit-div">
+                    <div class="edit-profile-header"><h2>Edit Your Profile</h2></div>
                     
                     <button class="save-btn">Save Changes</button>
                 </div>
@@ -822,7 +824,7 @@
                                         <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
                                         <button type="button" class="btn btn-secondary" id="uploadPhotoBtn">
                                             <i class="fas fa-upload"></i>
-                                            Upload Photo
+                                            Upload Profile Photo
                                         </button>
                                         <button type="button" class="btn btn-danger" id="deletePhotoBtn"
                                             style="display: none;">
@@ -834,17 +836,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
                                 <label for="name">Full Name</label>
                                 <input type="text" id="name" name="name" placeholder="Username" required>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
                                 <label for="phone">Phone Number</label>
                                 <input type="tel" id="phone" name="phone" placeholder="ex: 123456789">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
                                 <label for="mobile">Mobile Number</label>
                                 <input type="tel" id="mobile" name="mobile" placeholder="ex: 123456789">
                             </div>
@@ -859,7 +861,7 @@
                                 </small>
                             </div> -->
 
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
                                 <label class="checkbox-label">
                                     <input type="checkbox" id="showPhoneNumber" name="showPhoneNumber" checked>
                                     <span class="toggle"></span>
@@ -870,11 +872,11 @@
                                 </small>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
                                 <label for="email">Email Address</label>
                                 <input type="email" id="email" name="email" required readonly
                                     style="background-color: #f8f9fa; cursor: not-allowed; color: #6c757d;">
-                                <small class="form-text text-muted">
+                                <small class="form-text form-subtext">
                                     Email cannot be changed. Contact support if you need to update your email.
                                 </small>
                             </div>
@@ -884,7 +886,7 @@
                                 <input type="text" id="address" name="address" placeholder="Country Name">
                             </div> -->
 
-                            <div class="form-group" style="position: relative;">
+                            <div class="form-group form-group-profile" style="position: relative;">
                                 <label for="country">Country</label>
                                 <input type="text" id="country" name="country" placeholder="Start typing country name..."
                                     autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off">
@@ -893,7 +895,7 @@
                             </div>
 
                             <!-- State Field -->
-                            <div class="form-group" style="position: relative;">
+                            <div class="form-group form-group-profile" style="position: relative;">
                                 <label for="state">State/Province</label>
                                 <input type="text" id="state" name="state" placeholder="Select country first..."
                                     autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off" disabled>
@@ -904,7 +906,7 @@
                             </div>
 
                             <!-- City Field -->
-                            <div class="form-group" style="position: relative;">
+                            <div class="form-group form-group-profile" style="position: relative;">
                                 <label for="city">City</label>
                                 <input type="text" id="city" name="city" placeholder="Select state first..."
                                     autocomplete="off" autocorrect="off" autocapitalize="off" autocomplete="off" disabled>
@@ -913,17 +915,17 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
                                 <label for="organization">Organization</label>
                                 <input type="text" id="organization" name="organization" placeholder="Your Company">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
                                 <label for="title">Role</label>
                                 <input type="text" id="title" name="title" placeholder="Your Role">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
                                 <label for="website">Website URL</label>
                                 <input type="url" id="website" name="website" placeholder="Website">
                             </div>
@@ -941,20 +943,21 @@
                                     When checked, others can view your card using the link or QR code
                                 </small> -->
 
-                                <div class="form-group">
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" id="isPublic" name="isPublic" checked>
-                                        <span class="toggle"></span>
-                                        <span>Make my profile publicly accessible</span>
-                                    </label>
-                                    <small class="form-text text-muted">
-                                        When checked, others can view your card using the link or QR code
-                                    </small>
-                                </div>
+                               
 
 
                             </div>
-                            <div class="form-group">
+                            <div class="form-group form-group-profile">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="isPublic" name="isPublic" checked>
+                                    <span class="toggle"></span>
+                                    <span>Make my profile publicly accessible</span>
+                                </label>
+                                <small class="form-text form-subtext">
+                                    When checked, others can view your card using the link or QR code
+                                </small>
+                            </div>
+                            <div class="form-group form-group-profile">
                                 <label for="notes">Notes</label>
                                 <textarea id="notes" name="notes" rows="3"></textarea>
                             </div>
@@ -1124,218 +1127,25 @@
             <!-- Display Page (Business Card) -->
 
             <div id="displayPage" class="page">
-                <div id="wallet-button-container">
-                    <!-- iOS wallet link will be added here -->
-                </div>
-                <div class="modern-card-layout">
-                    <!-- Main Card Content -->
-                    <div class="main-card">
-                        <!-- Header with profile info -->
-                        <div class="card-header ">
-                            <div class="profile-info">
-                                <!-- <h1 id="displayName">John Doe</h1>
-                                <h2 id="displayTitle">Software Engineer</h2>
-                                <p id="displayOrganization">Tech Company Inc.</p> -->
-
-                                <div class="heading-display-profile">Users will see this profile look on their screen when
-                                    they can this QR code.</div>
-                                <div class=" display-card-container">
-
-                                    <!-- Profile Section -->
-                                    <div class="profile-section">
-
-                                        <div class="profile-header">
-                                            <div class="app-logo">
-                                                <img id="profile-page-logo" src="/image/app-logo.png" alt="QRprofile Logo"
-                                                    class="logo-image">
-                                                <!-- <span class="logo-text">QRprofile</span> -->
-                                            </div>
-                                            <!-- <div class="profile-avatar">{{initials}}</div> -->
-                                            <!-- Profile Avatar/Photo -->
-                                            <div class="profile-avatar" id="displaycardAvatar">
-                                                <!-- {{#if hasProfilePhoto}}
-                                                <img src="/api/profile/photo/{{profileId}}" alt="{{name}}">
-                                                {{else}}
-                                                <span>{{initials}}</span>
-                                                {{/if}} -->
-                                            </div>
-                                        </div>
-                                        <div class="display-profile-content">
-                                            <!-- <div class="profile-avatar">{{initials}}</div> -->
-                                            <h1 class="display-profile-name"></h1>
-                                            <div class="display-profile-title"></div>
-                                            <div class="display-profile-organization"></div>
-                                            <div class="display-views-counter">
-                                                📊 views
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Action Buttons -->
-                                    <div class="actions-section">
-                                        <a href="javascript:void(0)" class="action-btn">
-                                            <i class="fas fa-save"></i> <span>Save Contact</span>
-                                        </a>
-                                        <!-- <a href="javascript:window.open(window.location.origin, '_blank')" class="action-btn create-profile-btn">
-                                            <i class="fas fa-qrcode"></i> <span>Create my QRProfile</span>
-                                        </a> -->
-                                        <button class="action-btn addToWalletBtn" id="addToWalletBtn">
-                                            <i class="fas fa-wallet"></i> Add to QRWallet
-                                        </button>
-                                    </div>
-
-                                    <!-- Social Media Links -->
-                                    <div class="social-section" id="socialSection">
-                                        <h3 class="section-title">Connect With Me</h3>
-                                        <div class="social-links" id="socialLinksdisplay">
-                                            <!-- Social links will be populated by JavaScript -->
-                                        </div>
-                                    </div>
-
-                                    <!-- Contact Information -->
-                                    <div class="contact-section" id="displaycontactSection">
-                                        <!-- Contact items will be populated by JavaScript -->
-                                    </div>
-
-                                    <!-- Address -->
-                                    <div class="address-section" id="addressSection" style="display: none;">
-                                        <h3 class="section-title">📍 Location</h3>
-                                        <div class="address-text">{{address}}</div>
-                                    </div>
-
-                                    <!-- Action Buttons -->
-                                    <div class="actions-section">
-                                        <a href="javascript:void(0)" class="action-btn">
-                                            <i class="fas fa-save"></i> <span>Save Contact</span>
-                                        </a>
-
-                                        <!-- <button class="action-btn addToWalletBtn" id="addToWalletBtn_" >
-                                            <i class="fas fa-wallet"></i> Add to QRWallet
-                                        </button> -->
-                                    </div>
-
-                                    <!-- Notes -->
-                                    <div class="notes-section" id="notesSection" style="display: none;">
-                                        <h3 class="section-title">📝 About</h3>
-                                        <div class="notes-text">{{notes}}</div>
-                                    </div>
-
-                                    <div id="resolution-message"
-                                        style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, sans-serif;">
-                                        <div
-                                            style="background: white; padding: 2rem; border-radius: 20px; text-align: center; max-width: 90%; box-shadow: rgba(0, 0, 0, 0.3) 0px 20px 40px;">
-                                            <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
-                                            <h2 style="color: #333; margin-bottom: 1rem; font-size: 1.5rem;">Screen Too
-                                                Small</h2>
-                                            <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.5;">
-                                                This application requires a minimum screen width of 400px for the best
-                                                experience.
-                                                Please rotate your device or use a larger screen.
-                                            </p>
-                                            <p style="color: #999; font-size: 0.9rem;">
-                                                Current width: 341px | Required: 400px minimum
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
+                
+                <div class="qrcode-display-divs">
+                    <div class="owner-qr-code-options">
+                        <div class="qr-container">
+                            <div id="generatedQR" class="qr-display">
+                             
                             </div>
-                            <div class="qr-container">
-                                <div id="generatedQR" class="qr-display">
-                                    <!-- QR code will be inserted here -->
-                                </div>
-                                <!-- <p class="qr-label">Scan to connect</p> -->
-                            </div>
+                           
                         </div>
+                    </div>
+                    <div class="user-facing-profile-look">
+                        <div class="heading-display-profile">Users will see this profile look on their screen when
+                            they can this QR code.</div>
+                            <div class="userprofile-dynamic-html">
 
-                        <!-- Social Media -->
-                        <!-- <div class="social-section">
-                            <h3 class="section-title">Connect on Social</h3>
-                            <div id="socialLinksDisplay" class="social-grid">
-                            Social links will be populated here
                             </div>
-                        </div> -->
-
-                        <!-- Download buttons -->
-                        <!-- <div class="card-actions">
-                            <button class="action-btn secondary" id="downloadVCard-btn">
-                                <i class="fas fa-download"></i>
-                                Save Contact
-                            </button>
-                            <button class="action-btn secondary" id="downloadQRCode-btn">
-                                <i class="fas fa-qrcode"></i>
-                                Download QR Code
-                            </button>
-                            <button class="action-btn secondary hidden" id="addToWallet-btn">
-                                <i class="fas fa-mobile-alt"></i>
-                                Add to Wallet
-                            </button>
-                        </div> -->
-
-                        <!-- Contact Methods -->
-                        <!-- <div class="contact-methods">
-                            <a href="tel:4805820174" class="contact-method" id="displayPhoneLink">
-                                <div class="method-icon"><i class="fas fa-phone"></i></div>
-                                <div class="method-info">
-                                    <span class="method-label">Call</span>
-                                    <span class="method-value" id="displayPhone">4805820174</span>
-                                </div>
-                            </a>
-
-                            <a href="sms:4805820174" class="contact-method" id="displayMessageLink">
-                                <div class="method-icon"><i class="fas fa-sms"></i></div>
-                                <div class="method-info">
-                                    <span class="method-label">Message</span>
-                                    <span class="method-value" id="displayMobile">Text me</span>
-                                </div>
-                            </a>
-
-                            <a href="mailto:john@example.com" class="contact-method" id="displayEmailLink">
-                                <div class="method-icon"><i class="fas fa-envelope"></i></div>
-                                <div class="method-info">
-                                    <span class="method-label">Email</span>
-                                    <span class="method-value" id="displayEmail">john@example.com</span>
-                                </div>
-                            </a>
-
-                            <a href="https://example.com" target="_blank" class="contact-method" id="displayWebsite">
-                                <div class="method-icon"><i class="fas fa-globe"></i></div>
-                                <div class="method-info">
-                                    <span class="method-label">Website</span>
-                                    <span class="method-value" id="displayWebsiteText">example.com</span>
-                                </div>
-                            </a>
-                        </div> -->
-
-                        <!-- Address if available -->
-                        <!-- <div class="address-section" id="addressSection" style="display: none;">
-                            <div class="section-icon">📍</div>
-                            <div class="section-content">
-                                <h3>Location</h3>
-                                <p id="displayAddress">123 Main St, City, State</p>
-                            </div>
-                        </div> -->
-
-
-
-                        <!-- Action Buttons -->
-                        <!-- <div class="card-actions">
-                            <button class="action-btn secondary" id="downloadVCard-btn">
-                                <span class="btn-icon">📥</span>
-                                Save Contact
-                            </button>
-                            <button class="action-btn secondary" id="downloadQRCode-btn">
-                                <span class="btn-icon">🔗</span>
-                                Download QR Code
-                            </button>
-                            <button class="action-btn secondary" id="addToWallet-btn">
-                                <span class="btn-icon">📱</span>
-                                Add to Wallet
-                            </button>
-                        </div> -->
-
                     </div>
                 </div>
+                
             </div>
 
             <!-- Wallet Page -->
@@ -1358,64 +1168,7 @@
                 </div>
             </div>
 
-            <!-- Standalone Card Page (Hidden by default) -->
-            <div id="standalonePage" class="page standalone-page">
-                <div class="standalone-container">
-                    <div class="standalone-card">
-                        <div class="standalone-header">
-                            <h1 id="standaloneName">Harshil Patel</h1>
-                            <p id="standaloneTitle">Insurance & Financial Planner</p>
-                            <p id="standaloneOrganization">SmartLifeCover Inc.</p>
-                        </div>
-
-                        <div class="standalone-content">
-                            <div class="standalone-contacts">
-                                <h3>Contact Information</h3>
-                                <div class="standalone-contact-grid">
-                                    <a href="tel:+14998936593" class="standalone-contact-item" id="standalonePhone">
-                                        <span class="contact-icon">📞</span>
-                                        <span>+14998936593</span>
-                                    </a>
-                                    <a href="sms:+14908936593" class="standalone-contact-item" id="standaloneMessage">
-                                        <span class="contact-icon">💬</span>
-                                        <span>Message</span>
-                                    </a>
-                                    <div class="standalone-contact-item" id="standaloneEmailItem">
-                                        <span class="contact-icon">✉️</span>
-                                        <span id="standaloneEmail">smartlifecover@gmail.com</span>
-                                    </div>
-                                    <a href="https://smartlifecover.com" target="_blank" class="standalone-contact-item"
-                                        id="standaloneWebsiteLink">
-                                        <span class="contact-icon">🌐</span>
-                                        <span id="standaloneWebsite">smartlifecover.com</span>
-                                    </a>
-                                    <div class="standalone-contact-item">
-                                        <span class="contact-icon">📍</span>
-                                        <span id="standaloneAddress">Phoenix, AZ</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="standalone-social">
-                                <h3>Follow Me</h3>
-                                <div id="standaloneSocialLinks" class="standalone-social-grid">
-                                    <!-- Social links will be populated here -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="standalone-actions">
-                            <button class="standalone-btn" onclick="downloadVCard()">
-                                📥 Save Contact
-                            </button>
-                            <button class="standalone-btn secondary" onclick="shareCard()">
-                                🔗 Share
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+           
             <div id="faqPage" class="page faq-page">
                 <!-- FAQ Section: Paste into your HTML -->
                 <section class="faq-section" aria-label="Frequently Asked Questions">
@@ -2006,7 +1759,7 @@
     <!-- <script type="module" src="/dist/app.min.js"></script> -->
     <script type="module" src="/js/app.js"></script>
 
-    <!-- <script src="/js/countries-autocomplete.min.js"></script> -->
+    <!-- <script src="/js/card-template/card-template.js"></script> -->
     <!-- <script type="module" src="/js/wallet.js"></script> -->
 
 

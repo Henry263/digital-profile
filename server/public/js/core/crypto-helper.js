@@ -15,7 +15,7 @@ const CryptoHelper = {
   
       try {
         if (typeof CryptoJS !== 'undefined') {
-          console.log('🔐 Using CryptoJS for password hashing');
+          // console.log('🔐 Using CryptoJS for password hashing');
           
           const hash = CryptoJS.PBKDF2(password, this.CLIENT_SALT, {
             keySize: this.KEY_SIZE / 32,

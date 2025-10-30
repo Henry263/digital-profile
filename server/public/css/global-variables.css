@@ -1,0 +1,177 @@
+/* ============================================
+   GLOBAL CSS VARIABLES
+   Use this file for consistent theming across all pages
+   Include this before other CSS files
+   ============================================ */
+
+   :root {
+    /* ===== PRIMARY COLORS ===== */
+    --primary-color: #667eea;
+    --primary-dark: #764ba2;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* ===== SECONDARY COLORS ===== */
+    --accent-color: #0ea5a4;
+    --accent-dark: #6574da;
+    
+    /* ===== NEUTRAL COLORS ===== */
+    --white: #ffffff;
+    --black: #000000;
+    --gray-50: #f8f9fa;
+    --gray-100: #f1f3f4;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #cbd5e0;
+    --gray-500: #95a5a6;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    
+    /* ===== TEXT COLORS ===== */
+    --text-primary: #2c3e50;
+    --text-secondary: #4a5568;
+    --text-muted: #6b7280;
+    --text-light: #718096;
+    
+    /* ===== BACKGROUND COLORS ===== */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f0f2ff;
+    
+    /* ===== BORDER COLORS ===== */
+    --border-color: #e6eef2;
+    --border-light: #f0f0f0;
+    --border-dark: #ddd;
+    
+    /* ===== STATUS COLORS ===== */
+    --success-color: #4caf50;
+    --success-light: #e8f5e9;
+    --danger-color: #dc3545;
+    --danger-light: #f8d7da;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    
+    /* ===== SPACING ===== */
+    --spacing-xs: 0.25rem;    /* 4px */
+    --spacing-sm: 0.5rem;     /* 8px */
+    --spacing-md: 1rem;       /* 16px */
+    --spacing-lg: 1.5rem;     /* 24px */
+    --spacing-xl: 2rem;       /* 32px */
+    --spacing-2xl: 3rem;      /* 48px */
+    --spacing-3xl: 4rem;      /* 64px */
+    
+    /* ===== BORDER RADIUS ===== */
+    --radius-sm: 0.25rem;     /* 4px */
+    --radius-md: 0.5rem;      /* 8px */
+    --radius-lg: 0.75rem;     /* 12px */
+    --radius-xl: 1rem;        /* 16px */
+    --radius-2xl: 1.25rem;    /* 20px */
+    --radius-full: 50%;
+    
+    /* ===== SHADOWS ===== */
+    --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --shadow-md: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.2);
+    --shadow-primary: 0 0.25rem 0.9375rem rgba(102, 126, 234, 0.3);
+    
+    /* ===== TYPOGRAPHY ===== */
+    --font-family-primary: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-base: 1rem;     /* 16px */
+    --font-size-lg: 1.125rem;   /* 18px */
+    --font-size-xl: 1.25rem;    /* 20px */
+    --font-size-2xl: 1.5rem;    /* 24px */
+    --font-size-3xl: 1.875rem;  /* 30px */
+    --font-size-4xl: 2.25rem;   /* 36px */
+    
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    
+    /* ===== TRANSITIONS ===== */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* ===== Z-INDEX ===== */
+    --z-dropdown: 1000;
+    --z-modal: 1050;
+    --z-tooltip: 1060;
+    --z-fixed: 1070;
+  }
+  
+  /* ===== DARK MODE SUPPORT (Optional) ===== */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Uncomment and customize for dark mode */
+      /* --bg-primary: #1a202c; */
+      /* --text-primary: #f7fafc; */
+      /* --border-color: #2d3748; */
+    }
+  }
+  
+  /* ===== GLOBAL UTILITY CLASSES ===== */
+  
+  /* Spacing Utilities */
+  .m-0 { margin: 0; }
+  .mt-1 { margin-top: var(--spacing-sm); }
+  .mb-1 { margin-bottom: var(--spacing-sm); }
+  .mt-2 { margin-top: var(--spacing-md); }
+  .mb-2 { margin-bottom: var(--spacing-md); }
+  .mt-3 { margin-top: var(--spacing-lg); }
+  .mb-3 { margin-bottom: var(--spacing-lg); }
+  
+  .p-0 { padding: 0; }
+  .pt-1 { padding-top: var(--spacing-sm); }
+  .pb-1 { padding-bottom: var(--spacing-sm); }
+  .pt-2 { padding-top: var(--spacing-md); }
+  .pb-2 { padding-bottom: var(--spacing-md); }
+  
+  /* Text Utilities */
+  .text-center { text-align: center; }
+  .text-left { text-align: left; }
+  .text-right { text-align: right; }
+  
+  .text-primary { color: var(--primary-color); }
+  .text-secondary { color: var(--text-secondary); }
+  .text-muted { color: var(--text-muted); }
+  .text-white { color: var(--white); }
+  
+  .font-normal { font-weight: var(--font-weight-normal); }
+  .font-medium { font-weight: var(--font-weight-medium); }
+  .font-semibold { font-weight: var(--font-weight-semibold); }
+  .font-bold { font-weight: var(--font-weight-bold); }
+  
+  /* Display Utilities */
+  .d-none { display: none !important; }
+  .d-block { display: block !important; }
+  .d-flex { display: flex !important; }
+  .d-inline { display: inline !important; }
+  .d-inline-block { display: inline-block !important; }
+  
+  /* Flex Utilities */
+  .flex-row { flex-direction: row; }
+  .flex-column { flex-direction: column; }
+  .justify-center { justify-content: center; }
+  .align-center { align-items: center; }
+  .gap-1 { gap: var(--spacing-sm); }
+  .gap-2 { gap: var(--spacing-md); }
+  .gap-3 { gap: var(--spacing-lg); }
+  
+  /* Border Radius */
+  .rounded { border-radius: var(--radius-md); }
+  .rounded-lg { border-radius: var(--radius-lg); }
+  .rounded-full { border-radius: var(--radius-full); }
+  
+  /* Shadow */
+  .shadow-sm { box-shadow: var(--shadow-sm); }
+  .shadow-md { box-shadow: var(--shadow-md); }
+  .shadow-lg { box-shadow: var(--shadow-lg); }

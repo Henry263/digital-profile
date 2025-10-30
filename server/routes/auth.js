@@ -30,13 +30,16 @@ const passwordValidation = [
 
 router.get('/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email']
+    scope: ['profile', 'email'],
+    prompt: 'select_account',
+    accessType: 'offline'
   })
 );
 
 router.get('/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/?error=auth_failed'
+    failureRedirect: '/?error=auth_failed',
+    keepSessionInfo: true 
   }),
   async (req, res) => {
     try {
@@ -119,7 +122,7 @@ router.post('/signup', [
           existingProfile.verificationCodeExpires > Date.now();
 
         if (isCodeValid) {
-          console.log('✅ Valid verification code exists, redirecting to verification');
+          // console.log('✅ Valid verification code exists, redirecting to verification');
           return res.status(200).json({
             success: true,
             message: 'Verification email already sent. Please check your email.',
@@ -166,8 +169,8 @@ router.post('/signup', [
 
     // Create new profile
     // const bcryptHash = await bcrypt.hash(password, 12);
-    console.log('📝 Creating new profile for:', normalizedEmail);
-    console.log('📝 Creating new password:', password);
+    // console.log('📝 Creating new profile for:', normalizedEmail);
+    // console.log('📝 Creating new password:', password);
     const profile = new Profile({
       email: normalizedEmail,
       name: name.trim(),
@@ -186,7 +189,7 @@ router.post('/signup', [
     try {
       profile.userId = profile._id;
       await profile.save();
-      console.log('✅ Profile created successfully');
+      // console.log('✅ Profile created successfully');
 
       // ✅ Set userId to profile's own _id for backward compatibility
 

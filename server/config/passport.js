@@ -15,7 +15,8 @@ const GOOGLE_CALLBACK_URL = envVariables.GOOGLE_CALLBACK_URL;
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: GOOGLE_CALLBACK_URL
+  callbackURL: GOOGLE_CALLBACK_URL,
+  proxy: true
 }, async (accessToken, refreshToken, googleProfile, done) => {
   try {
     // console.log('🔐 Google OAuth callback for:', googleProfile.emails[0].value);
@@ -36,7 +37,7 @@ passport.use(new GoogleStrategy({
     });
 
     if (existingProfile) {
-      console.log('✅ Email exists, linking Google account');
+      // console.log('✅ Email exists, linking Google account');
       // Link Google account to existing email/password profile
       existingProfile.googleId = googleProfile.id;
       existingProfile.authProvider = 'google';

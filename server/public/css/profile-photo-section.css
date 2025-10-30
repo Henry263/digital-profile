@@ -1,73 +1,76 @@
-/* Profile Photo Section */
-.profile-photo-section {
+/* ============================================
+   PROFILE PHOTO & AVATAR STYLES
+   ============================================ */
+
+   :root {
+    --avatar-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  /* ============================================
+     PROFILE PHOTO SECTION
+     ============================================ */
+  
+  .profile-photo-section {
     margin-bottom: 2rem;
     padding: 2rem;
     background: #f8f9fa;
-    border-radius: 15px;
-}
-
-.photo-container {
+    border-radius: 0.9375rem;
+  }
+  
+  .photo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-}
-
-.photo-preview {
+  }
+  
+  .photo-preview {
     position: relative;
     width: 150px;
     height: 150px;
-}
-
-.profile-avatar-large {
+  }
+  
+  /* ============================================
+     AVATAR SIZES
+     ============================================ */
+  
+  /* Large Avatar (Profile Photo Section) */
+  .profile-avatar-large {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--avatar-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
     font-weight: 600;
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-#profilePhotoImg {
-    width: 150px;
-    height: 150px;
+    box-shadow: 0 0.25rem 0.9375rem rgba(102, 126, 234, 0.3);
+  }
+  
+  /* Medium Avatar (Card Template) */
+  .profile-avatar {
+    /* width: 80px;
+    height: 80px;
     border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.photo-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.photo-actions button {
-    min-width: 150px;
+    background: var(--avatar-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-}
-
-.photo-hint {
-    font-size: 0.85rem;
-    color: #6c757d;
-    text-align: center;
-}
-
-/* Navbar Avatar Styles */
-.navbar-avatar {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    box-shadow: 0 0.25rem 0.75rem rgba(102, 126, 234, 0.3);
+    margin: 0 auto 1.5rem; */
+  }
+  
+  /* Small Avatar (Navbar) */
+  .navbar-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--avatar-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,76 +79,92 @@
     font-size: 1rem;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-}
-
-.navbar-avatar:hover {
+    box-shadow: 0 0.125rem 0.5rem rgba(102, 126, 234, 0.3);
+  }
+  
+  .navbar-avatar:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
-}
-
-.navbar-avatar img {
+    box-shadow: 0 0.25rem 0.75rem rgba(102, 126, 234, 0.5);
+  }
+  
+  /* Avatar Images */
+  .profile-avatar img,
+  .navbar-avatar img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-}
-
-.nav-buttons {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-@media (max-width: 765px) {
-    .nav-buttons {
-       
-        gap: 0.4rem;
-       
-    }  
-}
-/* Card Template Avatar/Photo */
-.profile-avatar {
-    width: 80px;
-    height: 80px;
+  }
+  
+  #profilePhotoImg {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    object-fit: cover;
+    box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2);
+  }
+  
+  /* ============================================
+     PHOTO ACTIONS
+     ============================================ */
+  
+  .photo-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .photo-actions button {
+    min-width: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 2rem;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    margin: 0 auto 1.5rem;
-}
-
-.profile-avatar img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
+    gap: 0.5rem;
+  }
+  
+  .photo-hint {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: center;
+  }
+  
+  /* ============================================
+     NAVIGATION BUTTONS
+     ============================================ */
+  
+  .nav-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  
+  @media (max-width: 768px) {
     .profile-photo-section {
-        padding: 1.5rem;
+      padding: 1.5rem;
     }
-    
+  
     .photo-preview,
     .profile-avatar-large,
     #profilePhotoImg {
-        width: 120px;
-        height: 120px;
+      width: 120px;
+      height: 120px;
     }
-    
+  
     .profile-avatar-large {
-        font-size: 2.5rem;
+      font-size: 2.5rem;
     }
-    
+  
     .photo-actions button {
-        min-width: 130px;
-        font-size: 0.9rem;
+      min-width: 130px;
+      font-size: 0.9rem;
     }
-}
+  
+    .nav-buttons {
+      gap: 0.4rem;
+    }
+  }

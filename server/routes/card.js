@@ -2002,6 +2002,763 @@ router.post('/admin/generate-short-urls', async (req, res) => {
   }
 });
 
+
+// Add this route to your server/routes/card.js file
+// FIXED VERSION - Add this to your server/routes/card.js
+
+/**
+ * GET /api/card-html/:identifier
+ * Returns complete HTML with embedded CSS and filled data (JSON response)
+ */
+
+function normalizeUrl(url) {
+  if (!url || url.trim() === "") return "";
+
+  url = url.trim();
+
+  // If URL already has protocol, return as is
+  if (/^https?:\/\//i.test(url)) {
+      return url;
+  }
+
+  // Add https:// if missing
+  return "https://" + url;
+}
+function showMapOptions(encodedLocation, locationString) {
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocation}`;
+  const appleMapsUrl = `https://maps.apple.com/?q=${encodedLocation}`;
+
+  // Create modal for map selection
+  const modalHTML = `
+  <div id="mapModal" class="map-modal">
+      <div class="map-modal-content">
+          <h3>Open Location in:</h3>
+          <p class="location-text">${locationString}</p>
+          <div class="map-options">
+              <a href="${appleMapsUrl}" class="map-option-btn apple-maps" onclick="trackContact('apple_maps')">
+                  <i class="fas fa-map"></i>
+                  <span>Apple Maps</span>
+              </a>
+              <a href="${googleMapsUrl}" target="_blank" class="map-option-btn google-maps" onclick="trackContact('google_maps')">
+                  <i class="fab fa-google"></i>
+                  <span>Google Maps</span>
+              </a>
+          </div>
+          <button class="close-modal-btn" onclick="closeMapModal()">Cancel</button>
+      </div>
+  </div>
+`;
+
+  // Remove existing modal if present
+  const existingModal = document.getElementById("mapModal");
+  if (existingModal) {
+      existingModal.remove();
+  }
+
+  // Add modal to body
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+  // Show modal with animation
+  setTimeout(() => {
+      document.getElementById("mapModal").classList.add("active");
+  }, 10);
+}
+
+
+router.get('/card-html/:identifier', async (req, res) => {
+  try {
+    const { identifier } = req.params;
+    
+    // Find profile by slug or cardId (reusing existing logic)
+    const profile = await findProfileBySlugOrCardId(identifier);
+    
+    if (!profile) {
+      return res.status(404).json({
+        success: false,
+        message: 'Card not found'
+      });
+    }
+
+    if (!profile.isPublic) {
+      return res.status(403).json({
+        success: false,
+        message: 'Card is not public'
+      });
+    }
+
+    // Track analytics (using 'view' instead of 'api_view' to match enum)
+    // Wrapped in try-catch to make it non-blocking
+    try {
+      await AnalyticsHelper.trackEvent(
+        profile._id, 
+        'view',  // ✅ FIXED: Using 'view' which is in the allowed enum
+        {
+          ref: req.query.ref || 'api',
+          cardId: profile.cardId,
+          method: 'api_access',
+          accessedVia: identifier === profile.slug ? 'slug' : 'cardId'
+        }, 
+        req
+      );
+    } catch (analyticsError) {
+      console.error('Analytics tracking failed (non-critical):', analyticsError.message);
+      // Continue execution even if analytics fails
+    }
+
+    // Increment profile views (wrapped in try-catch)
+    // try {
+    //   await profile.incrementViews();
+    // } catch (viewError) {
+    //   console.error('View increment failed (non-critical):', viewError.message);
+    // }
+
+    // Read HTML template
+    const templatePath = path.join(__dirname, '../templates/card-template.html');
+    
+    // ✅ FIXED: Try multiple CSS file paths
+    const cssPaths = [
+      path.join(__dirname, '../../public/css/card-template/card-template.css'),
+      path.join(__dirname, '../public/css/card-template/card-template.css'),
+      path.join(__dirname, '../css/card-template/card-template.css')
+    ];
+    
+    let htmlTemplate;
+    let cssContent = '';
+
+    // Read HTML template
+    try {
+      htmlTemplate = await fs.readFile(templatePath, 'utf8');
+    } catch (error) {
+      console.error('Error reading HTML template:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Error reading HTML template',
+        error: error.message
+      });
+    }
+
+    // Try to read CSS from multiple possible locations
+    let cssFound = false;
+    for (const cssPath of cssPaths) {
+      try {
+        cssContent = await fs.readFile(cssPath, 'utf8');
+        cssFound = true;
+        // console.log('CSS loaded from:', cssPath);
+        break;
+      } catch (error) {
+        // Try next path
+        continue;
+      }
+    }
+
+    if (!cssFound) {
+      console.warn('CSS file not found in any expected location. Using inline fallback.');
+      // Use minimal fallback CSS
+      cssContent = `
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .card-container { max-width: 500px; margin: 0 auto; padding: 20px; }
+      `;
+    }
+
+    // Prepare template data (reusing existing logic)
+    const plainSocialMedia = profile.socialMedia?.toObject ? 
+      profile.socialMedia.toObject() : profile.socialMedia;
+
+    const cleanSocialMediaData = (socialMedia) => {
+      const cleaned = {};
+      if (socialMedia && typeof socialMedia === 'object') {
+        Object.keys(socialMedia).forEach(key => {
+          const value = socialMedia[key];
+          if (value && typeof value === 'string' && value.trim() !== '') {
+            cleaned[key] = value.trim();
+          }
+        });
+      }
+      return cleaned;
+    };
+
+   
+
+    // console.log("profile data: ", profile)
+    const templateData = {
+      name: profile.name || '',
+      title: profile.title || '',
+      organization: profile.organization || '',
+      views: profile.views || 0,
+      phone: profile.showPhoneNumber !== false ? (profile.phone || '') : '',
+      mobile: profile.showPhoneNumber !== false ? (profile.mobile || '') : '',
+      email: profile.email || '',
+      website: profile.website || '',
+      address: profile.address || '',
+      notes: profile.notes || '',
+      cardId: profile.cardId,
+      profileId: profile._id,
+      country: profile.country || { name: '', code: '' },
+      state: profile.state || { name: '', id: '', code: '' },
+      city: profile.city || { name: '', id: '' },
+      socialMedia: cleanSocialMediaData(plainSocialMedia),
+      hasProfilePhoto: profile.hasProfilePhoto ? profile.hasProfilePhoto() : false,
+      initials: profile.getInitials ? profile.getInitials() : 
+        (profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'NA'),
+      contactDataJSON: JSON.stringify({
+        name: profile.name || '',
+        title: profile.title || '',
+        organization: profile.organization || '',
+        views: profile.views || 0,
+        phone: profile.showPhoneNumber !== false ? (profile.phone || '') : '',
+        mobile: profile.showPhoneNumber !== false ? (profile.mobile || '') : '',
+        email: profile.email || '',
+        website: profile.website || '',
+        address: profile.address || '',
+        notes: profile.notes || '',
+        cardId: profile.cardId,
+        country: profile.country || { name: '', code: '' },
+        state: profile.state || { name: '', id: '', code: '' },
+        city: profile.city || { name: '', id: '' },
+        socialMedia: cleanSocialMediaData(plainSocialMedia),
+        hasProfilePhoto: profile.hasProfilePhoto ? profile.hasProfilePhoto() : false,
+        initials: profile.getInitials ? profile.getInitials() : 
+          (profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'NA')
+      })
+    };
+
+    // Replace template variables
+    // let renderedHtml = htmlTemplate;
+    // Object.keys(templateData).forEach(key => {
+    //   const value = templateData[key];
+    //   if (typeof value === 'object' && value !== null && key !== 'contactDataJSON') {
+    //     Object.keys(value).forEach(subKey => {
+    //       const regex = new RegExp(`{{${key}\\.${subKey}}}`, 'g');
+    //       renderedHtml = renderedHtml.replace(regex, value[subKey] || '');
+    //     });
+    //   } else {
+    //     const regex = new RegExp(`{{${key}}}`, 'g');
+    //     renderedHtml = renderedHtml.replace(regex, value || '');
+    //   }
+    // });
+
+    /**
+     * Rendering the contact data section
+     */
+    let phonedivhtml = "";
+    let contentdivhtml = "";
+    if (templateData.phone && templateData.phone.trim()) {
+        phonedivhtml += `
+        <a href="tel:${templateData.phone}" class="contact-item contact-phone" onclick="trackContact('phone')">
+            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+            <div class="contact-info">
+                
+                <div class="contact-value">${templateData.phone}</div>
+            </div>
+        </a>
+    `;
+    }
+
+    if (templateData.mobile && templateData.mobile.trim()) {
+        phonedivhtml += `
+        <a href="tel:${templateData.mobile}" class="contact-item contact-phone" onclick="trackContact('mobile')">
+            <div class="contact-icon"><i class="fas fa-mobile-alt"></i></div>
+            <div class="contact-info">
+                
+                <div class="contact-value">${templateData.mobile}</div>
+            </div>
+        </a>
+    `;
+    }
+
+    if (templateData.email && templateData.email.trim()) {
+        contentdivhtml += `
+        <a href="mailto:${templateData.email}" class="contact-item" onclick="trackContact('email')">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-info">
+                
+                <div class="contact-value">${templateData.email}</div>
+            </div>
+        </a>
+    `;
+    }
+
+    if (templateData.website && templateData.website.trim()) {
+        const normalizedWebsite = normalizeUrl(templateData.website);
+
+        contentdivhtml += `
+            <a href="${normalizedWebsite}" target="_blank" class="contact-item" onclick="trackContact('website')">
+                <div class="contact-icon"><i class="fas fa-globe"></i></div>
+                <div class="contact-info">
+                
+                    <div class="contact-value">${templateData.website}</div>
+                </div>
+            </a>
+        `;
+    }
+
+    if (
+      templateData.country &&
+      templateData.country.name &&
+      templateData.country.name.trim()
+  ) {
+      // Build location string
+      let locationParts = [];
+
+      if (
+        templateData.city &&
+        templateData.city.name &&
+        templateData.city.name.trim()
+      ) {
+          locationParts.push(templateData.city.name);
+      }
+
+      if (
+        templateData.state &&
+        templateData.state.name &&
+        templateData.state.name.trim()
+      ) {
+          locationParts.push(templateData.state.name);
+      }
+
+      locationParts.push(templateData.country.name);
+
+      const locationString = locationParts.join(", ");
+      const encodedLocation = encodeURIComponent(locationString);
+
+      // Detect device type
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+      const isAndroid = /android/i.test(userAgent);
+
+      if (isIOS) {
+          // For iOS - show both options
+          contentdivhtml += `
+                <div class="contact-item location-item" onclick="showMapOptions('${encodedLocation}', '${locationString.replace(
+                        /'/g,
+                        "\\'"
+                    )}')">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-info">
+                      
+                        <div class="contact-value">${locationString}</div>
+                    </div>
+                </div>
+            `;
+          } else {
+              // For Android and other devices - direct Google Maps link
+              const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocation}`;
+
+              contentdivhtml += `
+                  <a href="${googleMapsUrl}" target="_blank" class="contact-item" onclick="trackContact('location')">
+                      <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                      <div class="contact-info">
+                        
+                          <div class="contact-value">${locationString}</div>
+                      </div>
+                  </a>
+              `;
+          }
+      }
+
+      phonedivhtml = `<div class='contact-div'>${phonedivhtml} ${contentdivhtml}</div>`;
+
+
+      /**
+       * Rendering the Social media section.
+       */
+
+     
+      // EXPANDED social platforms list with Font Awesome icons
+      const socialPlatforms = {
+          instagram: { icon: "fab fa-instagram", name: "Instagram" },
+          facebook: { icon: "fab fa-facebook", name: "Facebook" },
+          twitter: { icon: "fab fa-twitter", name: "Twitter" },
+          linkedin: { icon: "fab fa-linkedin", name: "LinkedIn" },
+          github: { icon: "fab fa-github", name: "GitHub" },
+          youtube: { icon: "fab fa-youtube", name: "YouTube" },
+          tiktok: { icon: "fab fa-tiktok", name: "TikTok" },
+          snapchat: { icon: "fab fa-snapchat", name: "Snapchat" },
+          whatsapp: { icon: "fab fa-whatsapp", name: "WhatsApp" },
+          calendly: { icon: "fas fa-calendar-alt", name: "Calendly" },
+          zoom: { icon: "fas fa-headphones", name: "Zoom" },
+          discord: { icon: "fab fa-discord", name: "Discord" },
+          telegram: { icon: "fa-brands fa-telegram", name: "Telegram" },
+          pinterest: { icon: "fa-brands fa-pinterest", name: "Pinterest" },
+          reddit: { icon: "fa-brands fa-reddit", name: "Reddit" },
+      };
+  
+      let socialHtml = "";
+      let hasAnySocial = false;
+      // <span style="font-size: 0.8rem; font-weight: 600;">${name}</span>
+      // Check if socialMedia exists and has properties
+      if (templateData.socialMedia && typeof templateData.socialMedia === "object") {
+          Object.entries(templateData.socialMedia).forEach(([platform, url]) => {
+              if (url && url.trim() && url !== "") {
+                  hasAnySocial = true;
+                  const platformData = socialPlatforms[platform];
+                  const icon = platformData ? platformData.icon : "fas fa-link";
+                  const name = platformData
+                      ? platformData.name
+                      : platform.charAt(0).toUpperCase() + platform.slice(1);
+  
+                  socialHtml += `
+                  <a href="${url}" target="_blank" class="card-icon-design" onclick="trackSocial('${platform}')">
+                      <i class="${icon} card-icon-design" style=""></i>
+                      
+                  </a>
+              `;
+              }
+          });
+      }
+      let socialsection = `<div class="social-section" id="socialSection" style="display: none;"></div>`;
+      if (hasAnySocial) {
+        socialsection = `<div class="social-section" id="socialSection" style="display: block;">
+        <h3 class="section-title section-title-card">Connect With Me</h3>
+        <div class="social-links" id="socialLinks">
+               ${socialHtml}
+            </div>
+      </div>`;
+      } else {
+          socialsection = `<div class="social-section" id="socialSection" style="display: none;"></div>`;
+      }
+
+      /**
+       * To render the notes
+       */
+
+    
+      let notesSection = `<div class="notes-section" id="notesSection" style="display: none;">
+        <h3 class="notes-section-title">📝 About</h3>
+        <div class="notes-text">Desi Dance Class about desi studio.</div>
+      </div>`
+      if (templateData.notes && templateData.notes.trim()) {
+        notesSection = `<div class="notes-section" id="notesSection" style="display: block;">
+          <h3 class="notes-section-title">📝 About</h3>
+          <div class="notes-text">${templateData.notes}</div>
+        </div>`
+      }
+
+    const photoHtml = templateData.hasProfilePhoto
+        ? `<img src="/api/profile/photo/c/${templateData.cardId}" alt="${templateData.initials}">`
+        : `<span class="span-text">${templateData.initials}</span>`;
+
+    // $(".profile-avatar").html(photoHtml);
+
+      /**
+       * Main div for entire card HTML
+       */
+    let customhtml = `<style>${cssContent}</style>` + `<div class="_body-class"><div class="card-container" style="display: block;">
+
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <div class="profile-header"></div>
+      
+      <div class="profile-content">
+        <div class="card-main-header">
+          <div class="profile-avatar-wrapper">
+            <div class="profile-avatar" id="cardAvatar">${photoHtml}</div>
+          </div>
+          
+          <div class="card-profile-info-header">
+            
+            <div class="views-counter">
+              📊 ${templateData.views} views
+            </div>
+          </div>
+        </div>
+        <div class="card-profile-information">
+          <h1 class="profile-name">${templateData.name}</h1>
+          <div class="profile-title">${templateData.title}</div>
+          <div class="profile-organization">${templateData.organization}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="contact-section" id="contactSection">
+      ${phonedivhtml}
+    </div>
+    <!-- Social Media Links -->
+    ${socialsection}
+
+  
+    <!-- Address -->
+    <div class="address-section" id="addressSection" style="display: none;">
+      <h3 class="section-title">📍 Location</h3>
+      <div class="address-text"></div>
+    </div>
+
+    <!-- Notes -->
+    ${notesSection}
+
+   
+    <div class="empty-div-space"></div>
+    
+    <div class="card-navbar-parent">
+      <div class="card-navbar">
+        <div id="add-contact" class="card-navbar-left">
+         
+        </div>
+        <div id="ap-icon-div" class="card-navbar-center">
+          <div class="app-logo">
+            <img id="profile-page-logo" src="/image/apple-touch-icon.png" alt="QRprofile Logo" class="logo-image">
+          </div>
+        </div>
+        <div id="add-qrwallet" class="card-navbar-right">
+          
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+
+    // Embed CSS into HTML
+    // Remove external CSS link and add inline style
+    renderedHtml = htmlTemplate.replace(
+      /<link rel="stylesheet" href="\/css\/card-template\/card-template\.css">/g,
+      `<style>${cssContent}</style>`
+    );
+
+    // Return as JSON with HTML content
+    res.json({
+      success: true,
+      html: customhtml,
+      cardId: profile.cardId,
+      name: profile.name,
+      isPublic: profile.isPublic
+    });
+
+  } catch (error) {
+    console.error('Get card HTML error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error generating card HTML',
+      error: error.message
+    });
+  }
+});
+
+/**
+ * Alternative endpoint: Returns raw HTML (not JSON wrapped)
+ * GET /api/card-html-raw/:identifier
+ */
+router.get('/card-html-raw/:identifier', async (req, res) => {
+  try {
+    const { identifier } = req.params;
+    
+    const profile = await findProfileBySlugOrCardId(identifier);
+    
+    if (!profile) {
+      return res.status(404).send(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Card Not Found</title></head>
+        <body>
+            <h1>Card Not Found</h1>
+            <p>This business card is not available or has been set to private.</p>
+        </body>
+        </html>
+      `);
+    }
+
+    if (!profile.isPublic) {
+      return res.status(403).send(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>Access Denied</title></head>
+        <body>
+            <h1>Access Denied</h1>
+            <p>This card is private.</p>
+        </body>
+        </html>
+      `);
+    }
+
+    // Track analytics (using 'view' instead of 'api_view')
+    try {
+      await AnalyticsHelper.trackEvent(
+        profile._id, 
+        'view',  // ✅ FIXED: Using 'view' which is in the allowed enum
+        {
+          ref: req.query.ref || 'api',
+          cardId: profile.cardId,
+          method: 'api_raw_access'
+        }, 
+        req
+      );
+      await profile.incrementViews();
+    } catch (error) {
+      console.error('Analytics error (non-critical):', error.message);
+    }
+
+    // Read template files
+    const templatePath = path.join(__dirname, '../templates/card-template.html');
+    
+    // Try multiple CSS paths
+    const cssPaths = [
+      path.join(__dirname, '../../public/css/card-template/card-template.css'),
+      path.join(__dirname, '../public/css/card-template/card-template.css'),
+      path.join(__dirname, '../css/card-template/card-template.css')
+    ];
+    
+    const htmlTemplate = await fs.readFile(templatePath, 'utf8');
+    
+    let cssContent = '';
+    let cssFound = false;
+    for (const cssPath of cssPaths) {
+      try {
+        cssContent = await fs.readFile(cssPath, 'utf8');
+        cssFound = true;
+        break;
+      } catch (error) {
+        continue;
+      }
+    }
+
+    if (!cssFound) {
+      console.warn('CSS file not found. Using minimal fallback.');
+      cssContent = `
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      `;
+    }
+
+    // Prepare data
+    const plainSocialMedia = profile.socialMedia?.toObject ? 
+      profile.socialMedia.toObject() : profile.socialMedia;
+
+    const cleanSocialMediaData = (socialMedia) => {
+      const cleaned = {};
+      if (socialMedia && typeof socialMedia === 'object') {
+        Object.keys(socialMedia).forEach(key => {
+          const value = socialMedia[key];
+          if (value && typeof value === 'string' && value.trim() !== '') {
+            cleaned[key] = value.trim();
+          }
+        });
+      }
+      return cleaned;
+    };
+
+    // 3. Replace all placeholders with actual values
+    const replacements = {
+      '{{name}}': profile.name || '',
+      '{{title}}': profile.title || '',
+      '{{company}}': profile.company || '',
+      '{{email}}': profile.email || '',
+      '{{phone}}': profile.phone || '',
+      '{{website}}': profile.website || '',
+      '{{location}}': profile.location || '',
+      '{{bio}}': profile.bio || '',
+      '{{profilePhoto}}': profile.profilePhoto || '',
+      '{{initials}}': profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase() : '',
+      '{{linkedin}}': profile.socialMedia?.linkedin || '',
+      '{{twitter}}': profile.socialMedia?.twitter || '',
+      '{{github}}': profile.socialMedia?.github || '',
+      '{{instagram}}': profile.socialMedia?.instagram || '',
+      '{{customFields}}': profile.customFields ? JSON.stringify(profile.customFields) : '[]'
+    };
+
+    // Replace all placeholders
+    Object.keys(replacements).forEach(placeholder => {
+      const regex = new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+      htmlTemplate = htmlTemplate.replace(regex, replacements[placeholder]);
+    });
+
+    // 4. Embed CSS inline (so no external CSS file needed)
+    htmlTemplate = htmlTemplate.replace(
+      '</head>',
+      `<style>${cssContent}</style></head>`
+    );
+
+    // 5. Remove any <script> tags (since we're doing SSR)
+    htmlTemplate = htmlTemplate.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
+    // 6. Track analytics (optional)
+    await AnalyticsHelper.trackEvent(profile._id, 'html_view', {
+      ref: req.query.ref || 'direct',
+      cardId: profile.cardId
+    });
+
+    // 7. Return complete HTML
+    res.setHeader('Content-Type', 'text/html');
+    res.send(htmlTemplate);
+
+    // const templateData = {
+    //   name: profile.name || '',
+    //   title: profile.title || '',
+    //   organization: profile.organization || '',
+    //   views: profile.views || 0,
+    //   phone: profile.showPhoneNumber !== false ? (profile.phone || '') : '',
+    //   mobile: profile.showPhoneNumber !== false ? (profile.mobile || '') : '',
+    //   email: profile.email || '',
+    //   website: profile.website || '',
+    //   address: profile.address || '',
+    //   notes: profile.notes || '',
+    //   cardId: profile.cardId,
+    //   profileId: profile._id,
+    //   country: profile.country || { name: '', code: '' },
+    //   state: profile.state || { name: '', id: '', code: '' },
+    //   city: profile.city || { name: '', id: '' },
+    //   socialMedia: cleanSocialMediaData(plainSocialMedia),
+    //   hasProfilePhoto: profile.hasProfilePhoto ? profile.hasProfilePhoto() : false,
+    //   initials: profile.getInitials ? profile.getInitials() : 
+    //     (profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'NA'),
+    //   contactDataJSON: JSON.stringify({
+    //     name: profile.name || '',
+    //     title: profile.title || '',
+    //     organization: profile.organization || '',
+    //     views: profile.views || 0,
+    //     phone: profile.showPhoneNumber !== false ? (profile.phone || '') : '',
+    //     mobile: profile.showPhoneNumber !== false ? (profile.mobile || '') : '',
+    //     email: profile.email || '',
+    //     website: profile.website || '',
+    //     address: profile.address || '',
+    //     notes: profile.notes || '',
+    //     cardId: profile.cardId,
+    //     country: profile.country || { name: '', code: '' },
+    //     state: profile.state || { name: '', id: '', code: '' },
+    //     city: profile.city || { name: '', id: '' },
+    //     socialMedia: cleanSocialMediaData(plainSocialMedia),
+    //     hasProfilePhoto: profile.hasProfilePhoto ? profile.hasProfilePhoto() : false,
+    //     initials: profile.getInitials ? profile.getInitials() : 
+    //       (profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'NA')
+    //   })
+    // };
+
+    // // Replace template variables
+    // let renderedHtml = htmlTemplate;
+    // Object.keys(templateData).forEach(key => {
+    //   const value = templateData[key];
+    //   if (typeof value === 'object' && value !== null && key !== 'contactDataJSON') {
+    //     Object.keys(value).forEach(subKey => {
+    //       const regex = new RegExp(`{{${key}\\.${subKey}}}`, 'g');
+    //       renderedHtml = renderedHtml.replace(regex, value[subKey] || '');
+    //     });
+    //   } else {
+    //     const regex = new RegExp(`{{${key}}}`, 'g');
+    //     renderedHtml = renderedHtml.replace(regex, value || '');
+    //   }
+    // });
+
+    // // Embed CSS
+    // renderedHtml = renderedHtml.replace(
+    //   /<link rel="stylesheet" href="\/css\/card-template\/card-template\.css">/g,
+    //   `<style>${cssContent}</style>`
+    // );
+
+    // // Set content type and send
+    // res.set('Content-Type', 'text/html');
+    // res.send(renderedHtml);
+
+  } catch (error) {
+    console.error('Get card HTML raw error:', error);
+    res.status(500).send(`
+      <html>
+      <body style="font-family: Arial; text-align: center; padding: 50px;">
+        <h2 style="color: #e74c3c;">Server Error</h2>
+        <p>Unable to load the business card. Please try again later.</p>
+      </body>
+      </html>
+    `);
+  }
+});
 module.exports = router;
 
 

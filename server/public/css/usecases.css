@@ -1,126 +1,137 @@
-/* ===================================
-   USE CASES PAGE STYLES
-   =================================== */
+/* ============================================
+   USE CASES PAGE
+   ============================================ */
 
-   #usecasePage {
-    /* background: white; */
+   :root {
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  #usecasePage {
     padding: 3rem 2rem;
-    border-radius: 20px;
-}
-
-.usecase-header {
+    border-radius: 1.25rem;
+  }
+  
+  /* ============================================
+     HEADER
+     ============================================ */
+  
+  .usecase-header {
     text-align: center;
     margin-bottom: 3rem;
     animation: fadeInDown 0.6s ease-out;
-}
-
-.usecase-header h1 {
+  }
+  
+  .usecase-header h1 {
     font-size: 1.6rem;
-    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-    /* -webkit-background-clip: text; */
-    /* -webkit-text-fill-color: transparent; */
-    /* background-clip: text; */
     margin-bottom: 1rem;
     font-weight: 500;
     color: white;
-}
-
-.usecase-subtitle {
+  }
+  
+  .usecase-subtitle {
     font-size: 1.2rem;
     color: white;
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.6;
-}
-
-/* Use Cases Grid */
-.usecases-grid {
+  }
+  
+  /* ============================================
+     USE CASES GRID
+     ============================================ */
+  
+  .usecases-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     margin-bottom: 4rem;
-}
-
-/* Use Case Card */
-.usecase-card {
+  }
+  
+  /* ============================================
+     USE CASE CARDS
+     ============================================ */
+  
+  .usecase-card {
     background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
-    border-radius: 20px;
+    border-radius: 1.25rem;
     padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
     animation: fadeInUp 0.6s ease-out;
     animation-fill-mode: both;
-}
-
-.usecase-card:nth-child(1) { animation-delay: 0.1s; }
-.usecase-card:nth-child(2) { animation-delay: 0.2s; }
-.usecase-card:nth-child(3) { animation-delay: 0.3s; }
-.usecase-card:nth-child(4) { animation-delay: 0.4s; }
-
-.usecase-card::before {
+  }
+  
+  .usecase-card:nth-child(1) { animation-delay: 0.1s; }
+  .usecase-card:nth-child(2) { animation-delay: 0.2s; }
+  .usecase-card:nth-child(3) { animation-delay: 0.3s; }
+  .usecase-card:nth-child(4) { animation-delay: 0.4s; }
+  
+  .usecase-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     transform: scaleX(0);
     transition: transform 0.3s ease;
-}
-
-.usecase-card:hover::before {
+  }
+  
+  .usecase-card:hover::before {
     transform: scaleX(1);
-}
-
-.usecase-card:hover {
+  }
+  
+  .usecase-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
-}
-
-/* Use Case Icon */
-.usecase-icon {
+    box-shadow: 0 1.25rem 2.5rem rgba(102, 126, 234, 0.2);
+  }
+  
+  /* Icon */
+  .usecase-icon {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 16px;
+    background: var(--gradient-primary);
+    border-radius: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 0.25rem 0.9375rem rgba(102, 126, 234, 0.3);
     transition: transform 0.3s ease;
-}
-
-.usecase-card:hover .usecase-icon {
+  }
+  
+  .usecase-card:hover .usecase-icon {
     transform: rotate(5deg) scale(1.1);
-}
-
-.usecase-icon i {
+  }
+  
+  .usecase-icon i {
     font-size: 2rem;
     color: white;
-}
-
-/* Use Case Title */
-.usecase-title {
+  }
+  
+  /* Content */
+  .usecase-title {
     font-size: 1.5rem;
     color: #2d3748;
     margin-bottom: 1rem;
     font-weight: 600;
-}
-
-/* Use Case Description */
-.usecase-description {
+  }
+  
+  .usecase-description {
     color: #4a5568;
     line-height: 1.7;
     margin-bottom: 1.5rem;
     font-size: 1rem;
-}
-
-/* Stats Section */
-.usecase-stats {
+  }
+  
+  /* ============================================
+     STATS
+     ============================================ */
+  
+  .usecase-stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
@@ -128,73 +139,82 @@
     padding: 1rem 0;
     border-top: 1px solid rgba(102, 126, 234, 0.2);
     border-bottom: 1px solid rgba(102, 126, 234, 0.2);
-}
-
-.stat-item {
+  }
+  
+  .stat-item {
     text-align: center;
-}
-
-.stat-number {
+  }
+  
+  .stat-number {
     font-size: 1.8rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 0.25rem;
-}
-
-.stat-label {
+  }
+  
+  .stat-label {
     font-size: 0.85rem;
     color: #718096;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-}
-
-/* Features List */
-.usecase-features {
+  }
+  
+  /* ============================================
+     FEATURES LIST
+     ============================================ */
+  
+  .usecase-features {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-}
-
-.feature-item {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .feature-item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     color: #4a5568;
     font-size: 0.95rem;
-}
-
-.feature-item i {
+  }
+  
+  .feature-item i {
     color: #667eea;
     font-size: 1rem;
     flex-shrink: 0;
-}
-
-/* CTA Section */
-.usecase-cta {
+  }
+  
+  /* ============================================
+     CTA SECTION
+     ============================================ */
+  
+  .usecase-cta {
     text-align: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 20px;
+    background: var(--gradient-primary);
+    border-radius: 1.25rem;
     padding: 3rem 2rem;
     color: white;
     animation: fadeIn 0.8s ease-out 0.5s both;
-}
-
-.usecase-cta h2 {
+  }
+  
+  .usecase-cta h2 {
     font-size: 1.7rem;
     margin-bottom: 1rem;
     font-weight: 600;
-}
-
-.usecase-cta p {
+  }
+  
+  .usecase-cta p {
     font-size: 1.1rem;
     margin-bottom: 2rem;
     opacity: 0.9;
-}
-
-.cta-button {
+  }
+  
+  .cta-button {
     background: white;
     color: #667eea;
     border: none;
@@ -207,124 +227,130 @@
     align-items: center;
     gap: 0.75rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.cta-button:hover {
+    box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2);
+  }
+  
+  .cta-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0.5rem 1.5625rem rgba(0, 0, 0, 0.3);
     background: #f8f9ff;
-}
-
-.cta-button i {
+  }
+  
+  .cta-button i {
     font-size: 1.2rem;
-}
-
-/* Animations */
-@keyframes fadeInDown {
+  }
+  
+  /* ============================================
+     ANIMATIONS
+     ============================================ */
+  
+  @keyframes fadeInDown {
     from {
-        opacity: 0;
-        transform: translateY(-30px);
+      opacity: 0;
+      transform: translateY(-30px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-@keyframes fadeInUp {
+  }
+  
+  @keyframes fadeInUp {
     from {
-        opacity: 0;
-        transform: translateY(30px);
+      opacity: 0;
+      transform: translateY(30px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-@keyframes fadeIn {
+  }
+  
+  @keyframes fadeIn {
     from {
-        opacity: 0;
+      opacity: 0;
     }
     to {
-        opacity: 1;
+      opacity: 1;
     }
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
+  }
+  
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  
+  @media (max-width: 768px) {
     #usecasePage {
-        padding: 2rem 1rem;
+      padding: 2rem 1rem;
     }
-
+  
     .usecase-header h1 {
-        font-size: 1.2rem;
+      font-size: 1.2rem;
     }
-
+  
     .usecase-subtitle {
-        font-size: 1rem;
+      font-size: 1rem;
     }
-
+  
     .usecases-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
-
+  
     .usecase-card {
-        padding: 1.5rem;
+      padding: 1.5rem;
     }
-
+  
     .usecase-icon {
-        width: 60px;
-        height: 60px;
+      width: 60px;
+      height: 60px;
     }
-
+  
     .usecase-icon i {
-        font-size: 1.5rem;
+      font-size: 1.5rem;
     }
-
+  
     .usecase-title {
-        font-size: 1.3rem;
+      font-size: 1.3rem;
     }
-
+  
     .usecase-description {
-        font-size: 0.95rem;
+      font-size: 0.95rem;
     }
-
+  
     .stat-number {
-        font-size: 1.5rem;
+      font-size: 1.5rem;
     }
-
+  
     .stat-label {
-        font-size: 0.75rem;
+      font-size: 0.75rem;
     }
-
+  
     .usecase-cta {
-        padding: 2rem 1.5rem;
+      padding: 2rem 1.5rem;
     }
-
+  
     .usecase-cta h2 {
-        font-size: 1.2rem;
-        font-weight: 500;
+      font-size: 1.2rem;
+      font-weight: 500;
     }
-
+  
     .usecase-cta p {
-        font-size: 1rem;
+      font-size: 1rem;
     }
-
+  
     .cta-button {
-        padding: 0.875rem 2rem;
-        font-size: 1rem;
+      padding: 0.875rem 2rem;
+      font-size: 1rem;
     }
-}
-
-@media (max-width: 480px) {
+  }
+  
+  @media (max-width: 480px) {
     .usecase-stats {
-        grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
     }
-
+  
     .feature-item {
-        font-size: 0.9rem;
+      font-size: 0.9rem;
     }
-}
+  }

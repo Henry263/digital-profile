@@ -161,6 +161,10 @@ export class SmartLifeCoverAPI {
         return this.apiRequest(`/api/card/${cardId}`);
     }
 
+    async getCardhtmlData(identifier) {
+        return this.apiRequest(`/api/card/card-html/${identifier}`);
+    }
+
     async downloadVCard(identifier) {
         const url = `${this.baseURL}/api/card/${identifier}/vcard`;
         window.open(url, "_blank");

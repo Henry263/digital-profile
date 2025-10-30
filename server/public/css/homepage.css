@@ -1,80 +1,90 @@
+/* ============================================
+   HOW IT WORKS SECTION
+   ============================================ */
 
-.how-it-works-section {
-    /* background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%); */
+   :root {
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .how-it-works-section {
     padding: 4rem 1rem;
     margin: 1rem 0;
     border: 1px solid;
-    border-radius: 10px;
-}
-
-.how-it-works-container {
+    border-radius: 0.625rem;
+  }
+  
+  .how-it-works-container {
     max-width: 1200px;
     margin: 0 auto;
-}
-.howto-section-title{
-    color: white;
-    font-size: 1.4rem !important;
-    font-weight: 500;
-    margin-bottom: 10px;
-}
-
-.section-header {
+  }
+  
+  /* ============================================
+     SECTION HEADER
+     ============================================ */
+  
+  .section-header {
     text-align: center;
     margin-bottom: 3rem;
-}
-
-.section-title {
+  }
+  
+  .section-title {
     font-size: 1.5rem;
     font-weight: 400;
-    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-    -webkit-background-clip: text;
-    /* -webkit-text-fill-color: transparent; */
-    background-clip: text;
-    margin-bottom: 1rem;
-    /* color: white; */
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    color: transparent;
-}
-
-.section-subtitle {
+    margin-bottom: 1rem;
+  }
+  
+  .howto-section-title {
+    color: white;
+    font-size: 1.4rem !important;
+    font-weight: 500;
+    margin-bottom: 0.625rem;
+  }
+  
+  .section-subtitle {
     font-size: 1rem;
     color: white;
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.6;
-}
-
-.steps-container {
+  }
+  
+  /* ============================================
+     STEPS CONTAINER
+     ============================================ */
+  
+  .steps-container {
     display: flex;
     flex-direction: column;
     gap: 3rem;
     margin-bottom: 4rem;
-}
-
-.step-card {
+  }
+  
+  /* Step Cards */
+  .step-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.1);
     position: relative;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.step-card:hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .step-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
-}
-
-.step-number {
+    box-shadow: 0 0.9375rem 2.5rem rgba(102, 126, 234, 0.2);
+  }
+  
+  .step-number {
     position: absolute;
     top: -20px;
     left: 2rem;
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -82,90 +92,98 @@
     justify-content: center;
     font-size: 1.5rem;
     font-weight: bold;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.step-content {
+    box-shadow: 0 0.25rem 0.9375rem rgba(102, 126, 234, 0.4);
+  }
+  
+  /* Step Content */
+  .step-content {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
     align-items: center;
-}
-
-.step-image-wrapper {
+  }
+  
+  .step-image-wrapper {
     width: 50%;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-}
-
-.step-image {
+    box-shadow: 0 0.3125rem 1.25rem rgba(0, 0, 0, 0.1);
+  }
+  
+  .step-image {
     width: 100%;
     height: auto;
     display: block;
-}
-
-.step-title {
+  }
+  
+  .step-title {
     font-size: 1.3rem;
     color: #6974dc;
     margin-bottom: 1rem;
     font-weight: 500;
-}
-
-.step-description {
+  }
+  
+  .step-description {
     font-size: 1.1rem;
     color: #666;
     line-height: 1.6;
     margin-bottom: 1.5rem;
-}
-
-.step-features {
+  }
+  
+  /* Step Features */
+  .step-features {
     list-style: none;
     padding: 0;
-}
-
-.step-features li {
+    margin: 0;
+  }
+  
+  .step-features li {
     padding: 0.5rem 0;
     color: #555;
     position: relative;
     padding-left: 2rem;
-}
-
-.step-features li:before {
+  }
+  
+  .step-features li:before {
     content: "✓";
     position: absolute;
     left: 0;
     color: #667eea;
     font-weight: bold;
     font-size: 1.2rem;
-}
-
-.cta-section {
+  }
+  
+  /* ============================================
+     CTA SECTION
+     ============================================ */
+  
+  .cta-section {
     text-align: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     padding: 3rem 2rem;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     color: white;
     display: flex;
     flex-direction: column;
-}
-
-.cta-section h3 {
+  }
+  
+  .cta-section h3 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     font-weight: 400;
-}
-
-.cta-section p {
+  }
+  
+  .cta-section p {
     font-size: 1.1rem;
     margin-bottom: 2rem;
     opacity: 0.9;
-}
-
-.display-none-cta-button{
+  }
+  
+  .display-none-cta-button {
     display: none !important;
-}
-.cta-button {
+  }
+  
+  .cta-button {
     background: white;
     color: #667eea;
     font-size: 1.2rem;
@@ -174,70 +192,74 @@
     border-radius: 50px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.cta-button:hover {
+    transition: all 0.3s ease;
+    box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2);
+  }
+  
+  .cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 0.375rem 1.25rem rgba(0, 0, 0, 0.3);
     background: #f8f9fa;
-}
-@media (max-width: 768px) {
-
+  }
+  
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  
+  @media (max-width: 768px) {
     .section-title {
-        font-size: 1rem;
+      font-size: 1rem;
     }
-    .howto-section-title{
-        color: white;
-        font-size: 1.2rem !important;
+  
+    .howto-section-title {
+      font-size: 1.2rem !important;
     }
-    .step-description{
-        font-size: 0.9rem 
-    }
-    .step-title {
-        font-size: 1rem;
-        
-    }
-    ul.step-features {
-        font-size: 0.8rem;
-    }
-}
-/* Tablet and Desktop */
-@media (min-width: 768px) {
-    
-
-    .step-content {
-        grid-template-columns: 1fr 1fr;
-        /* gap: 3rem; */
-    }
-
-    .step-card.reverse .step-content {
-        direction: rtl;
-    }
-
-    .step-card.reverse .step-info {
-        direction: ltr;
-    }
-
-    .step-number {
-        left: 3rem;
-        width: 60px;
-        height: 60px;
-        font-size: 1.8rem;
-    }
-}
-
-@media (min-width: 1024px) {
-    .how-it-works-section {
-        padding: 3rem 2rem;
-    }
-
-    .step-title {
-        font-size: 1.6rem;
-    }
-
+  
     .step-description {
-        font-size: 1.15rem;
+      font-size: 0.9rem;
     }
-}
+  
+    .step-title {
+      font-size: 1rem;
+    }
+  
+    .step-features {
+      font-size: 0.8rem;
+    }
+  }
+  
+  /* Tablet and Desktop */
+  @media (min-width: 768px) {
+    .step-content {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .step-card.reverse .step-content {
+      direction: rtl;
+    }
+  
+    .step-card.reverse .step-info {
+      direction: ltr;
+    }
+  
+    .step-number {
+      left: 3rem;
+      width: 60px;
+      height: 60px;
+      font-size: 1.8rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .how-it-works-section {
+      padding: 3rem 2rem;
+    }
+  
+    .step-title {
+      font-size: 1.6rem;
+    }
+  
+    .step-description {
+      font-size: 1.15rem;
+    }
+  }
